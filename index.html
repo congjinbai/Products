@@ -1,154 +1,39 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Элитный Магазин - Каталог</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui; background: #f5f7fb; padding: 16px; }
-        .app-container { max-width: 600px; margin: 0 auto; background: white; border-radius: 32px; overflow: hidden; }
-        .shop-header { background: linear-gradient(135deg, #1e3a4d, #2b5f8a); padding: 20px 16px; text-align: center; }
-        .shop-name { font-size: 1.8rem; font-weight: 800; color: white; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        /* 主页卡片 */
-        .product-card { cursor: pointer; padding: 16px; border-bottom: 1px solid #eee; display: flex; gap: 16px; align-items: center; background: white; transition: 0.1s; }
-        .product-card:active { background: #f0f0f0; transform: scale(0.99); }
-        .thumb-img { width: 100px; height: 100px; object-fit: cover; border-radius: 16px; background: #e9edf2; flex-shrink: 0; }
-        .product-info { flex: 1; }
-        .product-name { font-weight: 700; font-size: 1rem; line-height: 1.3; margin-bottom: 6px; color: #1a2c3e; white-space: pre-line; }
-        .product-highlight { font-size: 0.75rem; color: #e67e22; margin-bottom: 6px; white-space: pre-line; line-height: 1.3; }
-        .product-price-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-        .product-price { font-size: 1.4rem; font-weight: 800; color: #2c5f8a; letter-spacing: -0.5px; }
-        .product-price-currency { font-size: 0.75rem; font-weight: 400; color: #5a6e7c; }
-        .wholesale-badge { background: #ff6b35; color: white; font-size: 0.65rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; display: inline-block; }
-        /* 详情页 */
-        .detail-page { padding: 20px; }
-        .back-home-btn { display: inline-block; background: #eef2f9; padding: 6px 16px; border-radius: 40px; margin-bottom: 16px; font-size: 14px; cursor: pointer; width: fit-content; }
-        .back-home-btn:active { transform: scale(0.96); }
-        .product-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
-        .product-nav-arrow { font-size: 32px; width: 44px; height: 44px; background: #eef2f9; border-radius: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #2c4e6e; flex-shrink: 0; }
-        .product-nav-arrow:active { transform: scale(0.92); }
-        .product-thumb-container { flex: 1; overflow-x: auto; white-space: nowrap; text-align: center; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
-        .product-thumb-strip { display: inline-flex; gap: 12px; }
-        .product-thumb-item { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 3px solid transparent; transition: 0.2s; background: #e9edf2; }
-        .product-thumb-item.active { border-color: #ff6b35; box-shadow: 0 0 0 2px rgba(255,107,53,0.3); transform: scale(1.05); }
-        .main-media-wrapper { background: #000; border-radius: 20px; min-height: 300px; position: relative; display: flex; align-items: center; justify-content: center; margin: 10px 0; }
-        .video-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(0,0,0,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; cursor: pointer; z-index: 10; }
-        .video-poster { width: 100%; cursor: pointer; }
-        .video-iframe { width: 100%; height: 300px; border: none; display: none; }
-        .media-thumb-wrapper { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 15px 0; }
-        .media-thumb-arrow { width: 40px; height: 40px; background: #eef2f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; flex-shrink: 0; color: #2c4e6e; }
-        .media-thumb-arrow:active { transform: scale(0.92); }
-        .media-thumb-scroll { flex: 1; overflow-x: auto; white-space: nowrap; text-align: center; }
-        .media-thumb-strip { display: inline-flex; gap: 12px; }
-        .media-thumb-item { width: 70px; height: 70px; object-fit: cover; border-radius: 12px; cursor: pointer; border: 2px solid transparent; background: #e9edf2; }
-        .media-thumb-item.active { border-color: #0077ff; transform: scale(1.02); }
-        .info-block { background: #f8f9fc; border-radius: 24px; padding: 16px; margin-top: 16px; }
-        .accessory-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-top: 8px; }
-        .accessory-list li { background: white; padding: 6px 14px; border-radius: 30px; font-size: 13px; }
-        h2 { margin: 16px 0 8px; white-space: pre-line; }
-        .contact-fab { position: fixed; bottom: 20px; right: 20px; background: #1e2f3f; width: 52px; height: 52px; border-radius: 30px; display: flex; align-items: center; justify-content: center; color: white; font-size: 26px; cursor: pointer; z-index: 99; }
-        .contact-fab:active { transform: scale(0.92); }
-    </style>
-</head>
-<body>
-<div id="app"></div>
-<div class="contact-fab" id="contactFab">📞</div>
-<script>
-    const products = [{"id":1,"name":"djfajflajdalfjdalfd\n高端款大家放大放大放大啦","highlight":"🔥 防水等级 IP67\n✨ 3种按摩模式","price":3422.23,"thumb":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg","mediaItems":[{"type":"video","url":"https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"},{"type":"image","url":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg"},{"type":"image","url":"https://s.snappable.media/7346c08718df7d082b357124e07055dc.jpg"},{"type":"image","url":"https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg"},{"type":"image","url":"https://s.snappable.media/c1678882619f1dd814225975c226e592.jpg"},{"type":"image","url":"https://s.snappable.media/105772f790e6662acf122508de1ebf8d.jpg"},{"type":"image","url":"https://s.snappable.media/15263eca6f64689395fa60b89bbd8246.jpg"},{"type":"image","url":"https://s.snappable.media/8db519caa75f968e03d2f013655b76f3.jpg"}],"description":"✅ 视频不会自动播放，点击 ▶ 开始播放。","accessories":["Руководство","Гарантийный талон"]},{"id":2,"name":"овлдаовлдаовдфаов","highlight":"⭐ 经典设计лавлфоаф владовыф\n📦 全套配件","price":1899.99,"thumb":"https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg","mediaItems":[{"type":"image","url":"https://i.ibb.co/4K7zC2N/sample.jpg"}],"description":"第二个产品的描述。овафдавф\nалвлаовлдфаовф\nафвдаовфлаовфлда \nваовфдлаовф","accessories":["Аксессуар Aаваоф  оалфа  Аксессуар B","ваовдлфоавдлфа"]},{"id":1780446772015,"name":"Новый товарвоадвофалвфоавдф","highlight":"✨ Новинка\n🔥 Хит продаж","price":122,"thumb":"https://s.snappable.media/105772f790e6662acf122508de1ebf8d.jpg","mediaItems":[{"type":"image","url":"https://s.snappable.media/105772f790e6662acf122508de1ebf8d.jpg"},{"type":"image","url":"https://s.snappable.media/15263eca6f64689395fa60b89bbd8246.jpg"},{"type":"image","url":"https://s.snappable.media/8db519caa75f968e03d2f013655b76f3.jpg"}],"description":"https://s.snappable.media/105772f790e6662acf122508de1ebf8d.jpg\nвадфвоавлдфоавлаовфы","accessories":["Аксессуар 1"]}];
-    let currentProductIndex = 0, currentMediaList = [], currentMediaIndex = 0, currentCleanup = null;
-    const app = document.getElementById('app');
-    const contactBtn = document.getElementById('contactFab');
-    if (contactBtn) contactBtn.addEventListener('click', () => window.location.href = 'tel:+79999123829');
-
-    function formatPrice(p) { return (p || 0).toFixed(2); }
-
-    function renderHome() {
-        let html = '<div class="app-container"><div class="shop-header"><div class="shop-name">Элитный Магазин</div></div>';
-        for (let p of products) {
-            let nameHtml = (p.name || '').replace(/\n/g, '<br>');
-            let highlightHtml = (p.highlight || '').replace(/\n/g, '<br>');
-            html += '<div class="product-card" data-id="' + p.id + '">';
-            html += '<img class="thumb-img" src="' + (p.thumb || 'https://i.ibb.co/4K7zC2N/sample.jpg') + '">';
-            html += '<div class="product-info">';
-            html += '<div class="product-name">' + nameHtml + '</div>';
-            if (p.highlight) html += '<div class="product-highlight">' + highlightHtml + '</div>';
-            html += '<div class="product-price-row">';
-            html += '<span class="product-price">' + formatPrice(p.price) + '</span>';
-            html += '<span class="product-price-currency">₽</span>';
-            html += '<span class="wholesale-badge">📦 Опт / 🛒 Розница</span>';
-            html += '</div></div></div>';
-        }
-        html += '</div>';
-        app.innerHTML = html;
-        document.querySelectorAll('.product-card').forEach(c => c.addEventListener('click', () => { const idx = products.findIndex(p => p.id === parseInt(c.dataset.id)); if (idx !== -1) showDetail(idx); }));
-    }
-
-    function createVideoPlayer(container, videoSrc) {
-        container.innerHTML = '';
-        const poster = document.createElement('img'); poster.className = 'video-poster'; poster.src = 'https://i.ibb.co/4K7zC2N/sample.jpg'; poster.style.width = '100%';
-        const playBtn = document.createElement('div'); playBtn.className = 'video-play-btn'; playBtn.innerHTML = '▶';
-        const iframe = document.createElement('iframe'); iframe.className = 'video-iframe'; iframe.src = videoSrc; iframe.setAttribute('allow', 'autoplay; fullscreen'); iframe.setAttribute('allowFullScreen', true);
-        container.appendChild(poster); container.appendChild(playBtn); container.appendChild(iframe);
-        const startPlay = () => { poster.style.display = 'none'; playBtn.style.display = 'none'; iframe.style.display = 'block'; };
-        playBtn.addEventListener('click', startPlay); poster.addEventListener('click', startPlay);
-        return () => { iframe.style.display = 'none'; poster.style.display = 'block'; playBtn.style.display = 'flex'; iframe.src = videoSrc; };
-    }
-
-    function loadMedia(index) {
-        const container = document.getElementById('mainMedia');
-        if (!container) return;
-        if (currentCleanup) currentCleanup();
-        const media = currentMediaList[index];
-        if (media.type === 'video') currentCleanup = createVideoPlayer(container, media.url);
-        else { container.innerHTML = ''; const img = document.createElement('img'); img.src = media.url; img.style.width = '100%'; img.style.borderRadius = '20px'; container.appendChild(img); currentCleanup = null; }
-    }
-
-    function buildMediaThumbnails(activeIdx) {
-        const container = document.querySelector('.media-thumb-strip');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let i = 0; i < currentMediaList.length; i++) {
-            let item = currentMediaList[i];
-            let src = (item.type === 'image' && item.url) ? item.url : 'https://i.ibb.co/4K7zC2N/sample.jpg';
-            let thumb = document.createElement('img');
-            thumb.className = 'media-thumb-item' + (i === activeIdx ? ' active' : '');
-            thumb.src = src; thumb.dataset.idx = i;
-            thumb.addEventListener('click', () => { currentMediaIndex = parseInt(thumb.dataset.idx); loadMedia(currentMediaIndex); document.querySelectorAll('.media-thumb-item').forEach((t, ti) => t.classList.toggle('active', ti === currentMediaIndex)); });
-            container.appendChild(thumb);
-        }
-        const activeThumb = document.querySelector('.media-thumb-item.active');
-        if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-
-    function showDetail(productIdx) {
-        const product = products[productIdx];
-        if (!product) return;
-        currentProductIndex = productIdx; currentMediaList = product.mediaItems || []; currentMediaIndex = 0;
-        let productThumbHtml = '<div class="product-thumb-container"><div class="product-thumb-strip">';
-        for (let i = 0; i < products.length; i++) {
-            let p = products[i];
-            let thumbSrc = p.thumb || 'https://i.ibb.co/4K7zC2N/sample.jpg';
-            productThumbHtml += '<img class="product-thumb-item' + (i === productIdx ? ' active' : '') + '" data-pidx="' + i + '" src="' + thumbSrc + '">';
-        }
-        productThumbHtml += '</div></div>';
-        let mediaThumbHtml = '<div class="media-thumb-wrapper"><div class="media-thumb-arrow" id="prevMediaBtn">◀</div><div class="media-thumb-scroll"><div class="media-thumb-strip"></div></div><div class="media-thumb-arrow" id="nextMediaBtn">▶</div></div>';
-        let accHtml = '<ul class="accessory-list">' + (product.accessories || []).map(a => '<li>' + a + '</li>').join('') + '</ul>';
-        let nameHtml = (product.name || '').replace(/\n/g, '<br>');
-        let html = '<div class="detail-page"><div class="back-home-btn" id="backHomeBtn">← На главную</div>' +
-            '<div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>' + productThumbHtml + '<div class="product-nav-arrow" id="nextProductBtn">›</div></div>' +
-            '<h2>' + nameHtml + '</h2><div id="mainMedia" class="main-media-wrapper"></div>' + mediaThumbHtml +
-            '<div class="info-block"><div>' + (product.description || '') + '</div><div style="margin-top:12px"><strong>Комплектация:</strong></div>' + accHtml + '</div></div>';
-        app.innerHTML = html;
-        loadMedia(0); buildMediaThumbnails(0);
-        document.getElementById('backHomeBtn')?.addEventListener('click', renderHome);
-        document.getElementById('prevProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex - 1 + products.length) % products.length));
-        document.getElementById('nextProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex + 1) % products.length));
-        document.querySelectorAll('.product-thumb-item').forEach(thumb => thumb.addEventListener('click', () => showDetail(parseInt(thumb.dataset.pidx))));
-        document.getElementById('prevMediaBtn')?.addEventListener('click', () => { if (currentMediaList.length > 1) { currentMediaIndex = (currentMediaIndex - 1 + currentMediaList.length) % currentMediaList.length; loadMedia(currentMediaIndex); document.querySelectorAll('.media-thumb-item').forEach((t, ti) => t.classList.toggle('active', ti === currentMediaIndex)); document.querySelector('.media-thumb-item.active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } });
-        document.getElementById('nextMediaBtn')?.addEventListener('click', () => { if (currentMediaList.length > 1) { currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length; loadMedia(currentMediaIndex); document.querySelectorAll('.media-thumb-item').forEach((t, ti) => t.classList.toggle('active', ti === currentMediaIndex)); document.querySelector('.media-thumb-item.active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } });
-    }
-    renderHome();
-</script>
-</body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"><title>Каталог  - Каталог</title><style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:#f5f7fb;padding:16px}.app-container{max-width:600px;margin:0 auto;background:#fff;border-radius:32px;overflow:hidden}
+.shop-header{background:linear-gradient(135deg,#1e3a4d,#2b5f8a);padding:28px 20px;text-align:center}.shop-name{font-size:2rem;font-weight:800;color:#fff}.shop-slogan{font-size:.75rem;color:rgba(255,255,255,0.8);margin-top:6px}
+.category-nav{display:flex;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid #eee;overflow-x:auto}.category-item{padding:6px 16px;background:#f0f2f5;border-radius:30px;font-size:.8rem;font-weight:500;color:#1e3a4d;cursor:pointer;transition:0.2s}.category-item.active{background:#2b5f8a;color:#fff}.category-item:active{transform:scale(0.96)}
+.banner-carousel{position:relative;margin:16px;border-radius:20px;overflow:hidden;background:#e9edf2;aspect-ratio:3/1;cursor:pointer}.banner-image{width:100%;height:100%;object-fit:cover}.banner-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:8px}.banner-dot{width:6px;height:6px;background:rgba(255,255,255,0.5);border-radius:3px;transition:0.2s}.banner-dot.active{width:20px;background:#fff}
+.product-card{cursor:pointer;padding:16px;border-bottom:1px solid #eee;display:flex;gap:16px;align-items:center;background:#fff;transition:0.1s}.product-card:active{background:#f0f0f0;transform:scale(0.99)}.thumb-img{width:100px;height:100px;object-fit:cover;border-radius:16px;background:#e9edf2;flex-shrink:0}.product-info{flex:1}.product-name{font-weight:700;font-size:1rem;line-height:1.3;margin-bottom:6px;color:#1a2c3e;white-space:pre-line}.product-highlight{font-size:.75rem;color:#e67e22;margin-bottom:6px;white-space:pre-line}.product-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-top:6px}.product-price{font-size:1.5rem;font-weight:800;color:#c0392b}.wholesale-badge{background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff;font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:20px}
+.footer-info{background:#f8f9fc;padding:24px 20px;text-align:center;border-top:1px solid #eee;margin-top:20px}.footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px}.footer-link{font-size:.75rem;color:#5a6e7c;text-decoration:none;cursor:pointer;transition:0.1s}.footer-link:active{opacity:0.7}.footer-copyright{font-size:.7rem;color:#9aafc2}
+.detail-page{padding:20px}.back-home-btn{display:inline-block;background:#eef2f9;padding:6px 16px;border-radius:40px;margin-bottom:16px;font-size:14px;cursor:pointer;width:fit-content;transition:0.1s}.back-home-btn:active{transform:scale(0.96)}.detail-header{text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #eef2f9}.detail-header h1{font-size:1.6rem;font-weight:700;color:#1e3a4d;margin-bottom:6px}.detail-header p{font-size:.85rem;color:#5a6e7c}.product-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.product-nav-arrow{font-size:32px;width:44px;height:44px;background:#eef2f9;border-radius:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#2c4e6e;flex-shrink:0;transition:0.1s}.product-nav-arrow:active{transform:scale(0.92)}.product-thumb-container{flex:1;overflow-x:auto;white-space:nowrap;text-align:center;scrollbar-width:thin}.product-thumb-strip{display:inline-flex;gap:12px}.product-thumb-item{width:50px;height:50px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;background:#e9edf2;transition:0.2s}.product-thumb-item.active{border-color:#ff6b35;transform:scale(1.05)}.main-media-wrapper{background:#000;border-radius:20px;min-height:300px;position:relative;display:flex;align-items:center;justify-content:center;margin:10px 0}.video-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(0,0,0,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;cursor:pointer;z-index:10}.video-poster{width:100%;cursor:pointer}.video-iframe{width:100%;height:300px;border:none;display:none}
+.media-thumb-wrapper{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0}.media-thumb-arrow{width:40px;height:40px;background:#eef2f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0;color:#2c4e6e;transition:0.1s}.media-thumb-arrow:active{transform:scale(0.92)}.media-thumb-scroll{flex:1;overflow-x:auto;white-space:nowrap;text-align:center}.media-thumb-strip{display:inline-flex;gap:12px}.media-thumb-item{width:70px;height:70px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid transparent;background:#e9edf2;transition:0.2s}.media-thumb-item.active{border-color:#0077ff;transform:scale(1.02)}
+.info-block{background:#f8f9fc;border-radius:24px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}.accessory-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:8px}.accessory-list li{background:#fff;padding:6px 14px;border-radius:30px;font-size:13px;box-shadow:0 1px 2px rgba(0,0,0,0.05)}h2{font-size:1rem;color:#5a6e7c;margin-bottom:8px}
+.contact-chat{position:fixed;bottom:20px;right:20px;background:#1e2f3f;width:52px;height:52px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;cursor:pointer;z-index:99;transition:0.1s;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.15)}.contact-chat:active{transform:scale(0.92)}.page-content-inner{padding:20px;line-height:1.6}.page-content-inner h3{margin-bottom:16px;color:#1e3a4d}.page-content-inner p{margin-bottom:12px;color:#333}.page-content-inner a{color:#2b5f8a;text-decoration:none}
+</style></head>
+<body><div id="app"></div><a id="chatBtn" class="contact-chat" href="#" target="_blank">💬</a><script>
+const siteConfig={"shopName":"Каталог ","shopSlogan":"Качество, забота и безопасность","detailTitle":"Наши товары","detailSubtitle":"Для магазинов. Для бизнеса. Для роста.","contactPhone":"+7 (912) 891-58-82","contactWhatsApp":"https://wa.me/79999123829","contactEmail":"89128915882@mail.ru","contactAddress":"Москва","bannerSpeed":4,"banners":["https://via.placeholder.com/600x200?text=Баннер+1","https://via.placeholder.com/600x200?text=Баннер+2","https://via.placeholder.com/600x200?text=Баннер+3"],"categories":["Все товары","Новинки 🔥","Хиты продаж ⭐","Аксессуары 📦"],"pages":{"about":{"title":"О нас","content":"<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>"},"delivery":{"title":"Доставка","content":"<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>"},"contacts":{"title":"Контакты","content":"<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>"},"privacy":{"title":"Политика","content":"<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>"}},"footerLinks":[],"copyright":"© 2026 Элитный Магазин"};const products=[{"id":1,"name":"Эректор с цифровым дисплеем","highlight":"🔥 防水等级 IP67\n✨ 3种按摩模式","price":3422.23,"categories":["Новинки 🔥"],"thumb":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg","mediaItems":[{"type":"video","url":"https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"},{"type":"image","url":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg"}],"description":"","accessories":["Руководство","Гарантийный талон"]},{"id":2,"name":"产品二\n标准款","highlight":"⭐ 经典设计\n📦 全套配件","price":1899.99,"categories":["Хиты продаж ⭐"],"thumb":"https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg","mediaItems":[{"type":"image","url":"https://i.ibb.co/4K7zC2N/sample.jpg"}],"description":"第二个产品的描述。","accessories":["Аксессуар A","Аксессуар B"]}];const pagesContent={"about":{"title":"О нас","content":"<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>"},"delivery":{"title":"Доставка","content":"<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>"},"contacts":{"title":"Контакты","content":"<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>"},"privacy":{"title":"Политика","content":"<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>"}};
+let currentProductIndex=0,currentMediaList=[],currentMediaIndex=0,currentCleanup=null;
+let currentPage=null;let currentCategory=siteConfig.categories[0]||"Все товары";
+const app=document.getElementById('app');const chatBtn=document.getElementById('chatBtn');
+if(chatBtn)chatBtn.href=siteConfig.contactWhatsApp||'https://wa.me/'+siteConfig.contactPhone.replace(/[^0-9]/g,'');
+function formatPrice(p){return (p||0).toFixed(2);}
+function renderHome(){
+let filtered=currentCategory==="Все товары"?products:products.filter(p=>p.categories&&p.categories.includes(currentCategory));
+let categoryHtml='<div class="category-nav">'+siteConfig.categories.map(cat=>'<div class="category-item '+(currentCategory===cat?'active':'')+'" data-cat="'+cat+'">'+cat+'</div>').join('')+'</div>';
+let bannerHtml=siteConfig.banners.length?'<div class="banner-carousel" id="bannerCarousel"><img class="banner-image" id="bannerImage" src="'+siteConfig.banners[0]+'"><div class="banner-dots" id="bannerDots">'+siteConfig.banners.map((_,i)=>'<div class="banner-dot '+(i===0?'active':'')+'"></div>').join('')+'</div></div>':'';
+let productHtml=filtered.map(p=>'<div class="product-card" data-id="'+p.id+'"><img class="thumb-img" src="'+(p.thumb||'https://i.ibb.co/4K7zC2N/sample.jpg')+'"><div class="product-info"><div class="product-name">'+(p.name||'').replace(/\n/g,'<br>')+'</div>'+(p.highlight?'<div class="product-highlight">'+p.highlight.replace(/\n/g,'<br>')+'</div>':'')+'<div class="product-price-row"><span class="product-price">'+formatPrice(p.price)+'</span><span>₽</span><span class="wholesale-badge">📦 Опт / 🛒 Розница</span></div></div></div>').join('');
+let footerHtml='<div class="footer-info"><div class="footer-links"><a class="footer-link" data-page="about">О нас</a><a class="footer-link" data-page="delivery">Доставка</a><a class="footer-link" data-page="contacts">Контакты</a><a class="footer-link" data-page="privacy">Политика</a>'+(siteConfig.footerLinks||[]).map(l=>'<a href="'+l.url+'" class="footer-link">'+l.name+'</a>').join('')+'</div><div class="footer-copyright">'+siteConfig.copyright+'</div></div>';
+app.innerHTML='<div class="app-container"><div class="shop-header"><div class="shop-name">'+siteConfig.shopName+'</div><div class="shop-slogan">'+siteConfig.shopSlogan+'</div></div>'+categoryHtml+bannerHtml+productHtml+footerHtml+'</div>';
+document.querySelectorAll('.product-card').forEach(c=>c.addEventListener('click',()=>{let idx=products.findIndex(p=>p.id===parseInt(c.dataset.id));if(idx!==-1)showDetail(idx);}));
+document.querySelectorAll('.category-item').forEach(cat=>cat.addEventListener('click',()=>{currentCategory=cat.dataset.cat;renderHome();}));
+document.querySelectorAll('.footer-link[data-page]').forEach(link=>link.addEventListener('click',()=>showPage(link.dataset.page)));
+if(siteConfig.banners.length>1){let idx=0,imgs=siteConfig.banners;setInterval(()=>{idx=(idx+1)%imgs.length;if(document.getElementById('bannerImage'))document.getElementById('bannerImage').src=imgs[idx];document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));},siteConfig.bannerSpeed*1000);}}
+function showPage(pageKey){let page=pagesContent[pageKey];if(!page)return;let backBtn='<div style="padding:16px 16px 0 16px;"><div class="back-home-btn" id="backToHomeBtn">← На главную</div></div>';app.innerHTML='<div class="app-container"><div class="shop-header"><div class="shop-name">'+siteConfig.shopName+'</div></div>'+backBtn+'<div class="page-content-inner">'+page.content+'</div><div class="footer-info"><div class="footer-links"><a class="footer-link" data-page="about">О нас</a><a class="footer-link" data-page="delivery">Доставка</a><a class="footer-link" data-page="contacts">Контакты</a><a class="footer-link" data-page="privacy">Политика</a>'+(siteConfig.footerLinks||[]).map(l=>'<a href="'+l.url+'" class="footer-link">'+l.name+'</a>').join('')+'</div><div class="footer-copyright">'+siteConfig.copyright+'</div></div></div>';document.getElementById('backToHomeBtn')?.addEventListener('click',renderHome);document.querySelectorAll('.footer-link[data-page]').forEach(link=>link.addEventListener('click',()=>showPage(link.dataset.page)));}
+function createVideoPlayer(c,s){c.innerHTML='';let p=document.createElement('img');p.className='video-poster';p.src='https://i.ibb.co/4K7zC2N/sample.jpg';p.style.width='100%';let b=document.createElement('div');b.className='video-play-btn';b.innerHTML='▶';let i=document.createElement('iframe');i.className='video-iframe';i.src=s;i.setAttribute('allow','autoplay; fullscreen');i.setAttribute('allowFullScreen',true);c.appendChild(p);c.appendChild(b);c.appendChild(i);let start=()=>{p.style.display='none';b.style.display='none';i.style.display='block';};b.addEventListener('click',start);p.addEventListener('click',start);return()=>{i.style.display='none';p.style.display='block';b.style.display='flex';i.src=s;};}
+function loadMedia(i){let c=document.getElementById('mainMedia');if(!c)return;if(currentCleanup)currentCleanup();let m=currentMediaList[i];if(m.type==='video')currentCleanup=createVideoPlayer(c,m.url);else{c.innerHTML='';let img=document.createElement('img');img.src=m.url;img.style.width='100%';img.style.borderRadius='20px';c.appendChild(img);currentCleanup=null;}}
+function buildMediaThumbnails(active){let c=document.querySelector('.media-thumb-strip');if(!c)return;c.innerHTML='';currentMediaList.forEach((item,i)=>{let src=item.type==='image'?item.url:'https://i.ibb.co/4K7zC2N/sample.jpg';let t=document.createElement('img');t.className='media-thumb-item'+(i===active?' active':'');t.src=src;t.dataset.idx=i;t.addEventListener('click',()=>{currentMediaIndex=parseInt(t.dataset.idx);loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));});c.appendChild(t);});document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+function showDetail(idx){let p=products[idx];if(!p)return;currentProductIndex=idx;currentMediaList=p.mediaItems||[];currentMediaIndex=0;let thumbHtml='<div class="product-thumb-container"><div class="product-thumb-strip">'+products.map((pp,i)=>'<img class="product-thumb-item '+(i===idx?'active':'')+'" data-pidx="'+i+'" src="'+(pp.thumb||'https://i.ibb.co/4K7zC2N/sample.jpg')+'">').join('')+'</div></div>';let mediaHtml='<div class="media-thumb-wrapper"><div class="media-thumb-arrow" id="prevMediaBtn">◀</div><div class="media-thumb-scroll"><div class="media-thumb-strip"></div></div><div class="media-thumb-arrow" id="nextMediaBtn">▶</div></div>';let accHtml='<ul class="accessory-list">'+(p.accessories||[]).map(a=>'<li>'+a+'</li>').join('')+'</ul>';let nameHtml=(p.name||'').replace(/\n/g,'<br>');let html='<div class="detail-page"><div class="back-home-btn" id="backHomeBtn">← На главную</div><div class="detail-header"><h1>'+(siteConfig.detailTitle||'Наши товары')+'</h1><p>'+(siteConfig.detailSubtitle||'Выберите идеальный вариант для себя')+'</p></div><div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>'+thumbHtml+'<div class="product-nav-arrow" id="nextProductBtn">›</div></div><h2>'+nameHtml+'</h2><div id="mainMedia" class="main-media-wrapper"></div>'+mediaHtml+'<div class="info-block"><div>'+(p.description||'')+'</div><div style="margin-top:12px"><strong>Комплектация:</strong></div>'+accHtml+'</div></div>';app.innerHTML=html;loadMedia(0);buildMediaThumbnails(0);document.getElementById('backHomeBtn')?.addEventListener('click',renderHome);document.getElementById('prevProductBtn')?.addEventListener('click',()=>showDetail((currentProductIndex-1+products.length)%products.length));document.getElementById('nextProductBtn')?.addEventListener('click',()=>showDetail((currentProductIndex+1)%products.length));document.querySelectorAll('.product-thumb-item').forEach(t=>t.addEventListener('click',()=>showDetail(parseInt(t.dataset.pidx))));document.getElementById('prevMediaBtn')?.addEventListener('click',()=>{if(currentMediaList.length>1){currentMediaIndex=(currentMediaIndex-1+currentMediaList.length)%currentMediaList.length;loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}});document.getElementById('nextMediaBtn')?.addEventListener('click',()=>{if(currentMediaList.length>1){currentMediaIndex=(currentMediaIndex+1)%currentMediaList.length;loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}});}
+renderHome();
+</script></body></html>
