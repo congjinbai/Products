@@ -1,197 +1,4 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>产品管理后台 - 完整商业版</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; padding: 20px; max-width: 1400px; margin: 0 auto; }
-        .header { background: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .lock-area { display: flex; gap: 10px; align-items: center; }
-        input, textarea, select { border: 1px solid #ddd; border-radius: 12px; padding: 8px 12px; font-size: 14px; font-family: inherit; }
-        textarea { resize: vertical; }
-        button { background: #1e2f3f; color: white; border: none; padding: 8px 18px; border-radius: 40px; cursor: pointer; font-weight: 500; }
-        button.primary { background: #2b5f8a; }
-        button.success { background: #27ae60; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 20px; margin-top: 20px; }
-        .product-card { background: white; border-radius: 28px; padding: 18px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid #eef2f8; }
-        .product-card h3 { margin-bottom: 12px; display: flex; justify-content: space-between; }
-        .field { margin-bottom: 12px; }
-        .field label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 4px; color: #555; }
-        .field input, .field textarea { width: 100%; }
-        .media-list { background: #f8f9fc; border-radius: 16px; padding: 10px; margin-top: 10px; }
-        .media-item { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; background: white; padding: 6px 10px; border-radius: 40px; }
-        .media-item input { flex: 1; }
-        .add-media { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
-        .batch-add-btn { background: #6c5ce7; color: white; border: none; padding: 6px 12px; border-radius: 40px; cursor: pointer; font-size: 12px; }
-        .btn-icon { background: #eef2f9; color: #333; padding: 4px 12px; font-size: 12px; cursor: pointer; border-radius: 40px; border: none; }
-        .save-bar { position: sticky; bottom: 20px; background: white; padding: 15px 20px; border-radius: 60px; margin-top: 30px; display: flex; justify-content: center; gap: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
-        .preview-img { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; margin-top: 5px; background: #e9edf2; }
-        .tip { background: #fff7e0; padding: 12px; border-radius: 20px; font-size: 13px; margin-bottom: 20px; }
-        .hidden { display: none; }
-        .modal-mask { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-container { background: white; border-radius: 28px; padding: 24px; width: 90%; max-width: 500px; }
-        .modal-container textarea { width: 100%; height: 200px; margin: 15px 0; }
-        .modal-buttons { display: flex; gap: 12px; justify-content: flex-end; }
-    </style>
-</head>
-<body>
-<div class="header">
-    <h2>📦 产品管理后台 (完整商业版)</h2>
-    <div class="lock-area">
-        <input type="password" id="adminPassword" placeholder="密码" value="admin123">
-        <button id="unlockBtn" class="primary">🔓 解锁编辑</button>
-    </div>
-</div>
-<div id="lockedMessage" class="tip">⚠️ 只读模式。请输入密码 <strong>admin123</strong> 点击「解锁编辑」</div>
-<div id="editorArea" class="hidden">
-    <div class="tip">💡 <strong>说明</strong><br>• 产品名称支持多行，自动换行<br>• 亮点项：简短描述，显示在主页产品名称下方<br>• 价格：数字格式，自动保留2位小数<br>• 可批发/可订购：自动显示吸引批发客户</div>
-    <div id="productGrid" class="product-grid"></div>
-    <div class="save-bar">
-        <button id="addNewProductBtn" class="primary">➕ 添加产品</button>
-        <button id="saveHtmlBtn" class="success">💾 保存并生成</button>
-    </div>
-</div>
-<script>
-    let productsData = [
-        {
-            id: 1,
-            name: "产品一\n高端款",
-            highlight: "🔥 防水等级 IP67\n✨ 3种按摩模式",
-            price: 3422.23,
-            thumb: "https://i.ibb.co/4K7zC2N/sample.jpg",
-            mediaItems: [
-                { type: "video", url: "https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg" },
-                { type: "image", url: "https://i.ibb.co/4K7zC2N/sample.jpg" }
-            ],
-            description: "✅ 视频不会自动播放，点击 ▶ 开始播放。",
-            accessories: ["Руководство", "Гарантийный талон"]
-        },
-        {
-            id: 2,
-            name: "产品二\n标准款",
-            highlight: "⭐ 经典设计\n📦 全套配件",
-            price: 1899.99,
-            thumb: "https://i.ibb.co/4K7zC2N/sample.jpg",
-            mediaItems: [
-                { type: "image", url: "https://i.ibb.co/4K7zC2N/sample.jpg" }
-            ],
-            description: "第二个产品的描述。",
-            accessories: ["Аксессуар A", "Аксессуар B"]
-        }
-    ];
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
-    }
-
-    function formatPrice(price) {
-        if (price === undefined || price === null) return '0.00';
-        return Number(price).toFixed(2);
-    }
-
-    function renderEditor() {
-        const container = document.getElementById('productGrid');
-        if (!container) return;
-        container.innerHTML = '';
-        productsData.forEach((product) => {
-            const accessoriesText = product.accessories.join('\n');
-            let mediaHtml = '';
-            product.mediaItems.forEach((item, mIdx) => {
-                mediaHtml += `<div class="media-item"><input class="media-url" value="${escapeHtml(item.url)}" data-pid="${product.id}" data-midx="${mIdx}" style="flex:2"><select class="media-type" data-pid="${product.id}" data-midx="${mIdx}"><option value="image" ${item.type === 'image' ? 'selected' : ''}>图片</option><option value="video" ${item.type === 'video' ? 'selected' : ''}>视频(RuTube)</option></select><button class="btn-icon remove-media" data-pid="${product.id}" data-midx="${mIdx}">✖</button></div>`;
-            });
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <h3>📦 ${escapeHtml(product.name.split('\n')[0])} <button class="btn-icon delete-product" data-id="${product.id}" style="background:#fee2e2;">删除</button></h3>
-                <div class="field"><label>产品名称 (多行用回车换行)</label><textarea class="prod-name" data-id="${product.id}" rows="2" style="font-weight:600;">${escapeHtml(product.name)}</textarea></div>
-                <div class="field"><label>亮点项 (多行用回车换行，显示在主页)</label><textarea class="prod-highlight" data-id="${product.id}" rows="2" placeholder="例如：🔥 IP67防水&#10;✨ 3种模式">${escapeHtml(product.highlight || '')}</textarea></div>
-                <div class="field"><label>价格 (卢布)</label><input class="prod-price" type="number" step="0.01" value="${product.price !== undefined ? product.price : ''}" data-id="${product.id}" style="font-size:16px;"></div>
-                <div class="field"><label>缩略图URL</label><input class="prod-thumb" value="${escapeHtml(product.thumb)}" data-id="${product.id}"><div><img class="preview-img" src="${escapeHtml(product.thumb)}" onerror="this.style.display='none'"></div></div>
-                <div class="field"><label>描述 (详情页)</label><textarea class="prod-desc" data-id="${product.id}" rows="2">${escapeHtml(product.description)}</textarea></div>
-                <div class="field"><label>配件 (每行一个)</label><textarea class="prod-accessories" data-id="${product.id}" rows="3">${escapeHtml(accessoriesText)}</textarea></div>
-                <div class="media-list"><strong>媒体列表</strong><div id="media-list-${product.id}">${mediaHtml}</div>
-                <div class="add-media">
-                    <input type="text" id="newMediaUrl-${product.id}" placeholder="单个URL" style="flex:1">
-                    <select id="newMediaType-${product.id}"><option value="image">图片</option><option value="video">视频</option></select>
-                    <button class="btn-icon add-media-btn" data-id="${product.id}">添加</button>
-                    <button class="batch-add-btn" data-id="${product.id}">📦 批量添加</button>
-                </div></div>
-            `;
-            container.appendChild(card);
-        });
-        bindEvents();
-    }
-
-    function bindEvents() {
-        document.querySelectorAll('.prod-name').forEach(ta => ta.onchange = () => { let p = productsData.find(p => p.id == parseInt(ta.dataset.id)); if (p) p.name = ta.value; });
-        document.querySelectorAll('.prod-highlight').forEach(ta => ta.onchange = () => { let p = productsData.find(p => p.id == parseInt(ta.dataset.id)); if (p) p.highlight = ta.value; });
-        document.querySelectorAll('.prod-price').forEach(inp => inp.onchange = () => { let p = productsData.find(p => p.id == parseInt(inp.dataset.id)); if (p) p.price = parseFloat(inp.value) || 0; });
-        document.querySelectorAll('.prod-thumb').forEach(inp => inp.onchange = () => { let p = productsData.find(p => p.id == parseInt(inp.dataset.id)); if (p) p.thumb = inp.value; const preview = inp.parentElement.querySelector('.preview-img'); if (preview) preview.src = inp.value; });
-        document.querySelectorAll('.prod-desc').forEach(ta => ta.onchange = () => { let p = productsData.find(p => p.id == parseInt(ta.dataset.id)); if (p) p.description = ta.value; });
-        document.querySelectorAll('.prod-accessories').forEach(ta => ta.onchange = () => { let p = productsData.find(p => p.id == parseInt(ta.dataset.id)); if (p) p.accessories = ta.value.split('\n').filter(l => l.trim()); });
-        document.querySelectorAll('.media-url').forEach(inp => inp.onchange = () => { let p = productsData.find(p => p.id == parseInt(inp.dataset.pid)); if (p && p.mediaItems[parseInt(inp.dataset.midx)]) p.mediaItems[parseInt(inp.dataset.midx)].url = inp.value; });
-        document.querySelectorAll('.media-type').forEach(sel => sel.onchange = () => { let p = productsData.find(p => p.id == parseInt(sel.dataset.pid)); if (p && p.mediaItems[parseInt(sel.dataset.midx)]) p.mediaItems[parseInt(sel.dataset.midx)].type = sel.value; });
-        document.querySelectorAll('.remove-media').forEach(btn => btn.onclick = () => { let p = productsData.find(p => p.id == parseInt(btn.dataset.pid)); if (p && p.mediaItems.length > 1) { p.mediaItems.splice(parseInt(btn.dataset.midx), 1); renderEditor(); } else alert('至少保留1个'); });
-        
-        document.querySelectorAll('.add-media-btn').forEach(btn => btn.onclick = () => { let pid = parseInt(btn.dataset.id); let url = document.getElementById(`newMediaUrl-${pid}`).value.trim(); if (!url) { alert('输入URL'); return; } let p = productsData.find(p => p.id === pid); if (p) { p.mediaItems.push({ type: document.getElementById(`newMediaType-${pid}`).value, url: url }); renderEditor(); } });
-        
-        document.querySelectorAll('.batch-add-btn').forEach(btn => btn.onclick = () => { showBatchModal(parseInt(btn.dataset.id)); });
-        
-        document.querySelectorAll('.delete-product').forEach(btn => btn.onclick = () => { if (productsData.length > 1) { productsData = productsData.filter(p => p.id !== parseInt(btn.dataset.id)); renderEditor(); } else alert('至少保留一个'); });
-    }
-
-    function showBatchModal(productId) {
-        const modalDiv = document.createElement('div');
-        modalDiv.className = 'modal-mask';
-        modalDiv.innerHTML = `
-            <div class="modal-container">
-                <h3>📋 批量添加媒体链接</h3>
-                <p>每行一个链接（图片或视频URL）</p>
-                <textarea id="batchUrls" placeholder="https://...&#10;https://..."></textarea>
-                <div class="modal-buttons">
-                    <button id="batchCancelBtn">取消</button>
-                    <button id="batchConfirmBtn" style="background:#27ae60;">确认添加</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modalDiv);
-        document.getElementById('batchCancelBtn').onclick = () => modalDiv.remove();
-        document.getElementById('batchConfirmBtn').onclick = () => {
-            const urls = document.getElementById('batchUrls').value.split('\n').filter(u => u.trim().length > 0);
-            if (urls.length === 0) { alert('请至少输入一个链接'); return; }
-            const p = productsData.find(p => p.id === productId);
-            if (p) {
-                for (let url of urls) {
-                    let type = 'image';
-                    if (url.includes('rutube.ru') || url.includes('.mp4')) type = 'video';
-                    p.mediaItems.push({ type: type, url: url.trim() });
-                }
-                renderEditor();
-            }
-            modalDiv.remove();
-        };
-    }
-
-    function addNewProduct() {
-        productsData.push({
-            id: Date.now(),
-            name: "Новый товар",
-            highlight: "✨ Новинка\n🔥 Хит продаж",
-            price: 0,
-            thumb: "https://i.ibb.co/4K7zC2N/sample.jpg",
-            mediaItems: [{ type: "image", url: "https://i.ibb.co/4K7zC2N/sample.jpg" }],
-            description: "Описание товара",
-            accessories: ["Аксессуар 1"]
-        });
-        renderEditor();
-    }
-
-    function generateCustomerHTML() {
-        const dataStr = JSON.stringify(productsData).replace(/<\/script>/g, '<\\/script>');
-        return `<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -248,7 +55,7 @@
 <div id="app"></div>
 <div class="contact-fab" id="contactFab">📞</div>
 <script>
-    const products = ${dataStr};
+    const products = [{"id":1,"name":"产品一\n高端款","highlight":"🔥 防水等级 IP67\n✨ 3种按摩模式","price":3422.23,"thumb":"https://i.ibb.co/4K7zC2N/sample.jpg","mediaItems":[{"type":"video","url":"https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"},{"type":"image","url":"https://i.ibb.co/4K7zC2N/sample.jpg"}],"description":"✅ 视频不会自动播放，点击 ▶ 开始播放。","accessories":["Руководство","Гарантийный талон"]},{"id":2,"name":"产品二\n标准款","highlight":"⭐ 经典设计\n📦 全套配件","price":1899.99,"thumb":"https://i.ibb.co/4K7zC2N/sample.jpg","mediaItems":[{"type":"image","url":"https://i.ibb.co/4K7zC2N/sample.jpg"}],"description":"第二个产品的描述。","accessories":["Аксессуар A","Аксессуар B"]}];
     let currentProductIndex = 0, currentMediaList = [], currentMediaIndex = 0, currentCleanup = null;
     const app = document.getElementById('app');
     const contactBtn = document.getElementById('contactFab');
@@ -259,8 +66,8 @@
     function renderHome() {
         let html = '<div class="app-container"><div class="shop-header"><div class="shop-name">Элитный Магазин</div></div>';
         for (let p of products) {
-            let nameHtml = (p.name || '').replace(/\\n/g, '<br>');
-            let highlightHtml = (p.highlight || '').replace(/\\n/g, '<br>');
+            let nameHtml = (p.name || '').replace(/\n/g, '<br>');
+            let highlightHtml = (p.highlight || '').replace(/\n/g, '<br>');
             html += '<div class="product-card" data-id="' + p.id + '">';
             html += '<img class="thumb-img" src="' + (p.thumb || 'https://i.ibb.co/4K7zC2N/sample.jpg') + '">';
             html += '<div class="product-info">';
@@ -327,7 +134,7 @@
         productThumbHtml += '</div></div>';
         let mediaThumbHtml = '<div class="media-thumb-wrapper"><div class="media-thumb-arrow" id="prevMediaBtn">◀</div><div class="media-thumb-scroll"><div class="media-thumb-strip"></div></div><div class="media-thumb-arrow" id="nextMediaBtn">▶</div></div>';
         let accHtml = '<ul class="accessory-list">' + (product.accessories || []).map(a => '<li>' + a + '</li>').join('') + '</ul>';
-        let nameHtml = (product.name || '').replace(/\\n/g, '<br>');
+        let nameHtml = (product.name || '').replace(/\n/g, '<br>');
         let html = '<div class="detail-page"><div class="back-home-btn" id="backHomeBtn">← На главную</div>' +
             '<div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>' + productThumbHtml + '<div class="product-nav-arrow" id="nextProductBtn">›</div></div>' +
             '<h2>' + nameHtml + '</h2><div id="mainMedia" class="main-media-wrapper"></div>' + mediaThumbHtml +
@@ -342,31 +149,6 @@
         document.getElementById('nextMediaBtn')?.addEventListener('click', () => { if (currentMediaList.length > 1) { currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length; loadMedia(currentMediaIndex); document.querySelectorAll('.media-thumb-item').forEach((t, ti) => t.classList.toggle('active', ti === currentMediaIndex)); document.querySelector('.media-thumb-item.active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } });
     }
     renderHome();
-<\/script>
-</body>
-</html>`;
-    }
-
-    function saveCustomerHTML() {
-        const html = generateCustomerHTML();
-        const blob = new Blob([html], {type: 'text/html'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'product_catalog_final.html';
-        a.click();
-        URL.revokeObjectURL(a.href);
-        alert('✅ 已生成！\n\n新功能：\n- 产品名称支持多行自动换行\n- 亮点项显示在主页产品名称下方\n- 价格大字体 + 卢布 + 可批发/可订购标签');
-    }
-
-    document.getElementById('unlockBtn').addEventListener('click', function() {
-        if (document.getElementById('adminPassword').value === 'admin123') {
-            document.getElementById('lockedMessage').classList.add('hidden');
-            document.getElementById('editorArea').classList.remove('hidden');
-            renderEditor();
-            document.getElementById('addNewProductBtn').onclick = addNewProduct;
-            document.getElementById('saveHtmlBtn').onclick = saveCustomerHTML;
-        } else { alert('密码错误'); }
-    });
 </script>
 </body>
 </html>
