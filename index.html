@@ -1,39 +1,1369 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"><title>Каталог  - Каталог</title><style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:#f5f7fb;padding:16px}.app-container{max-width:600px;margin:0 auto;background:#fff;border-radius:32px;overflow:hidden}
-.shop-header{background:linear-gradient(135deg,#1e3a4d,#2b5f8a);padding:28px 20px;text-align:center}.shop-name{font-size:2rem;font-weight:800;color:#fff}.shop-slogan{font-size:.75rem;color:rgba(255,255,255,0.8);margin-top:6px}
-.category-nav{display:flex;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid #eee;overflow-x:auto}.category-item{padding:6px 16px;background:#f0f2f5;border-radius:30px;font-size:.8rem;font-weight:500;color:#1e3a4d;cursor:pointer;transition:0.2s}.category-item.active{background:#2b5f8a;color:#fff}.category-item:active{transform:scale(0.96)}
-.banner-carousel{position:relative;margin:16px;border-radius:20px;overflow:hidden;background:#e9edf2;aspect-ratio:3/1;cursor:pointer}.banner-image{width:100%;height:100%;object-fit:cover}.banner-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:8px}.banner-dot{width:6px;height:6px;background:rgba(255,255,255,0.5);border-radius:3px;transition:0.2s}.banner-dot.active{width:20px;background:#fff}
-.product-card{cursor:pointer;padding:16px;border-bottom:1px solid #eee;display:flex;gap:16px;align-items:center;background:#fff;transition:0.1s}.product-card:active{background:#f0f0f0;transform:scale(0.99)}.thumb-img{width:100px;height:100px;object-fit:cover;border-radius:16px;background:#e9edf2;flex-shrink:0}.product-info{flex:1}.product-name{font-weight:700;font-size:1rem;line-height:1.3;margin-bottom:6px;color:#1a2c3e;white-space:pre-line}.product-highlight{font-size:.75rem;color:#e67e22;margin-bottom:6px;white-space:pre-line}.product-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-top:6px}.product-price{font-size:1.5rem;font-weight:800;color:#c0392b}.wholesale-badge{background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff;font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:20px}
-.footer-info{background:#f8f9fc;padding:24px 20px;text-align:center;border-top:1px solid #eee;margin-top:20px}.footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px}.footer-link{font-size:.75rem;color:#5a6e7c;text-decoration:none;cursor:pointer;transition:0.1s}.footer-link:active{opacity:0.7}.footer-copyright{font-size:.7rem;color:#9aafc2}
-.detail-page{padding:20px}.back-home-btn{display:inline-block;background:#eef2f9;padding:6px 16px;border-radius:40px;margin-bottom:16px;font-size:14px;cursor:pointer;width:fit-content;transition:0.1s}.back-home-btn:active{transform:scale(0.96)}.detail-header{text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #eef2f9}.detail-header h1{font-size:1.6rem;font-weight:700;color:#1e3a4d;margin-bottom:6px}.detail-header p{font-size:.85rem;color:#5a6e7c}.product-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.product-nav-arrow{font-size:32px;width:44px;height:44px;background:#eef2f9;border-radius:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#2c4e6e;flex-shrink:0;transition:0.1s}.product-nav-arrow:active{transform:scale(0.92)}.product-thumb-container{flex:1;overflow-x:auto;white-space:nowrap;text-align:center;scrollbar-width:thin}.product-thumb-strip{display:inline-flex;gap:12px}.product-thumb-item{width:50px;height:50px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;background:#e9edf2;transition:0.2s}.product-thumb-item.active{border-color:#ff6b35;transform:scale(1.05)}.main-media-wrapper{background:#000;border-radius:20px;min-height:300px;position:relative;display:flex;align-items:center;justify-content:center;margin:10px 0}.video-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(0,0,0,0.7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;cursor:pointer;z-index:10}.video-poster{width:100%;cursor:pointer}.video-iframe{width:100%;height:300px;border:none;display:none}
-.media-thumb-wrapper{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0}.media-thumb-arrow{width:40px;height:40px;background:#eef2f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0;color:#2c4e6e;transition:0.1s}.media-thumb-arrow:active{transform:scale(0.92)}.media-thumb-scroll{flex:1;overflow-x:auto;white-space:nowrap;text-align:center}.media-thumb-strip{display:inline-flex;gap:12px}.media-thumb-item{width:70px;height:70px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid transparent;background:#e9edf2;transition:0.2s}.media-thumb-item.active{border-color:#0077ff;transform:scale(1.02)}
-.info-block{background:#f8f9fc;border-radius:24px;padding:16px;margin-top:16px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}.accessory-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:8px}.accessory-list li{background:#fff;padding:6px 14px;border-radius:30px;font-size:13px;box-shadow:0 1px 2px rgba(0,0,0,0.05)}h2{font-size:1rem;color:#5a6e7c;margin-bottom:8px}
-.contact-chat{position:fixed;bottom:20px;right:20px;background:#1e2f3f;width:52px;height:52px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;cursor:pointer;z-index:99;transition:0.1s;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.15)}.contact-chat:active{transform:scale(0.92)}.page-content-inner{padding:20px;line-height:1.6}.page-content-inner h3{margin-bottom:16px;color:#1e3a4d}.page-content-inner p{margin-bottom:12px;color:#333}.page-content-inner a{color:#2b5f8a;text-decoration:none}
-</style></head>
-<body><div id="app"></div><a id="chatBtn" class="contact-chat" href="#" target="_blank">💬</a><script>
-const siteConfig={"shopName":"Каталог ","shopSlogan":"Качество, забота и безопасность","detailTitle":"Наши товары","detailSubtitle":"Для магазинов. Для бизнеса. Для роста.","contactPhone":"+7 (912) 891-58-82","contactWhatsApp":"https://wa.me/79999123829","contactEmail":"89128915882@mail.ru","contactAddress":"Москва","bannerSpeed":4,"banners":["https://via.placeholder.com/600x200?text=Баннер+1","https://via.placeholder.com/600x200?text=Баннер+2","https://via.placeholder.com/600x200?text=Баннер+3"],"categories":["Все товары","Новинки 🔥","Хиты продаж ⭐","Аксессуары 📦"],"pages":{"about":{"title":"О нас","content":"<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>"},"delivery":{"title":"Доставка","content":"<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>"},"contacts":{"title":"Контакты","content":"<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>"},"privacy":{"title":"Политика","content":"<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>"}},"footerLinks":[],"copyright":"© 2026 Элитный Магазин"};const products=[{"id":1,"name":"Эректор с цифровым дисплеем","highlight":"🔥 防水等级 IP67\n✨ 3种按摩模式","price":3422.23,"categories":["Новинки 🔥"],"thumb":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg","mediaItems":[{"type":"video","url":"https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"},{"type":"image","url":"https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg"}],"description":"","accessories":["Руководство","Гарантийный талон"]},{"id":2,"name":"产品二\n标准款","highlight":"⭐ 经典设计\n📦 全套配件","price":1899.99,"categories":["Хиты продаж ⭐"],"thumb":"https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg","mediaItems":[{"type":"image","url":"https://i.ibb.co/4K7zC2N/sample.jpg"}],"description":"第二个产品的描述。","accessories":["Аксессуар A","Аксессуар B"]}];const pagesContent={"about":{"title":"О нас","content":"<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>"},"delivery":{"title":"Доставка","content":"<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>"},"contacts":{"title":"Контакты","content":"<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>"},"privacy":{"title":"Политика","content":"<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>"}};
-let currentProductIndex=0,currentMediaList=[],currentMediaIndex=0,currentCleanup=null;
-let currentPage=null;let currentCategory=siteConfig.categories[0]||"Все товары";
-const app=document.getElementById('app');const chatBtn=document.getElementById('chatBtn');
-if(chatBtn)chatBtn.href=siteConfig.contactWhatsApp||'https://wa.me/'+siteConfig.contactPhone.replace(/[^0-9]/g,'');
-function formatPrice(p){return (p||0).toFixed(2);}
-function renderHome(){
-let filtered=currentCategory==="Все товары"?products:products.filter(p=>p.categories&&p.categories.includes(currentCategory));
-let categoryHtml='<div class="category-nav">'+siteConfig.categories.map(cat=>'<div class="category-item '+(currentCategory===cat?'active':'')+'" data-cat="'+cat+'">'+cat+'</div>').join('')+'</div>';
-let bannerHtml=siteConfig.banners.length?'<div class="banner-carousel" id="bannerCarousel"><img class="banner-image" id="bannerImage" src="'+siteConfig.banners[0]+'"><div class="banner-dots" id="bannerDots">'+siteConfig.banners.map((_,i)=>'<div class="banner-dot '+(i===0?'active':'')+'"></div>').join('')+'</div></div>':'';
-let productHtml=filtered.map(p=>'<div class="product-card" data-id="'+p.id+'"><img class="thumb-img" src="'+(p.thumb||'https://i.ibb.co/4K7zC2N/sample.jpg')+'"><div class="product-info"><div class="product-name">'+(p.name||'').replace(/\n/g,'<br>')+'</div>'+(p.highlight?'<div class="product-highlight">'+p.highlight.replace(/\n/g,'<br>')+'</div>':'')+'<div class="product-price-row"><span class="product-price">'+formatPrice(p.price)+'</span><span>₽</span><span class="wholesale-badge">📦 Опт / 🛒 Розница</span></div></div></div>').join('');
-let footerHtml='<div class="footer-info"><div class="footer-links"><a class="footer-link" data-page="about">О нас</a><a class="footer-link" data-page="delivery">Доставка</a><a class="footer-link" data-page="contacts">Контакты</a><a class="footer-link" data-page="privacy">Политика</a>'+(siteConfig.footerLinks||[]).map(l=>'<a href="'+l.url+'" class="footer-link">'+l.name+'</a>').join('')+'</div><div class="footer-copyright">'+siteConfig.copyright+'</div></div>';
-app.innerHTML='<div class="app-container"><div class="shop-header"><div class="shop-name">'+siteConfig.shopName+'</div><div class="shop-slogan">'+siteConfig.shopSlogan+'</div></div>'+categoryHtml+bannerHtml+productHtml+footerHtml+'</div>';
-document.querySelectorAll('.product-card').forEach(c=>c.addEventListener('click',()=>{let idx=products.findIndex(p=>p.id===parseInt(c.dataset.id));if(idx!==-1)showDetail(idx);}));
-document.querySelectorAll('.category-item').forEach(cat=>cat.addEventListener('click',()=>{currentCategory=cat.dataset.cat;renderHome();}));
-document.querySelectorAll('.footer-link[data-page]').forEach(link=>link.addEventListener('click',()=>showPage(link.dataset.page)));
-if(siteConfig.banners.length>1){let idx=0,imgs=siteConfig.banners;setInterval(()=>{idx=(idx+1)%imgs.length;if(document.getElementById('bannerImage'))document.getElementById('bannerImage').src=imgs[idx];document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));},siteConfig.bannerSpeed*1000);}}
-function showPage(pageKey){let page=pagesContent[pageKey];if(!page)return;let backBtn='<div style="padding:16px 16px 0 16px;"><div class="back-home-btn" id="backToHomeBtn">← На главную</div></div>';app.innerHTML='<div class="app-container"><div class="shop-header"><div class="shop-name">'+siteConfig.shopName+'</div></div>'+backBtn+'<div class="page-content-inner">'+page.content+'</div><div class="footer-info"><div class="footer-links"><a class="footer-link" data-page="about">О нас</a><a class="footer-link" data-page="delivery">Доставка</a><a class="footer-link" data-page="contacts">Контакты</a><a class="footer-link" data-page="privacy">Политика</a>'+(siteConfig.footerLinks||[]).map(l=>'<a href="'+l.url+'" class="footer-link">'+l.name+'</a>').join('')+'</div><div class="footer-copyright">'+siteConfig.copyright+'</div></div></div>';document.getElementById('backToHomeBtn')?.addEventListener('click',renderHome);document.querySelectorAll('.footer-link[data-page]').forEach(link=>link.addEventListener('click',()=>showPage(link.dataset.page)));}
-function createVideoPlayer(c,s){c.innerHTML='';let p=document.createElement('img');p.className='video-poster';p.src='https://i.ibb.co/4K7zC2N/sample.jpg';p.style.width='100%';let b=document.createElement('div');b.className='video-play-btn';b.innerHTML='▶';let i=document.createElement('iframe');i.className='video-iframe';i.src=s;i.setAttribute('allow','autoplay; fullscreen');i.setAttribute('allowFullScreen',true);c.appendChild(p);c.appendChild(b);c.appendChild(i);let start=()=>{p.style.display='none';b.style.display='none';i.style.display='block';};b.addEventListener('click',start);p.addEventListener('click',start);return()=>{i.style.display='none';p.style.display='block';b.style.display='flex';i.src=s;};}
-function loadMedia(i){let c=document.getElementById('mainMedia');if(!c)return;if(currentCleanup)currentCleanup();let m=currentMediaList[i];if(m.type==='video')currentCleanup=createVideoPlayer(c,m.url);else{c.innerHTML='';let img=document.createElement('img');img.src=m.url;img.style.width='100%';img.style.borderRadius='20px';c.appendChild(img);currentCleanup=null;}}
-function buildMediaThumbnails(active){let c=document.querySelector('.media-thumb-strip');if(!c)return;c.innerHTML='';currentMediaList.forEach((item,i)=>{let src=item.type==='image'?item.url:'https://i.ibb.co/4K7zC2N/sample.jpg';let t=document.createElement('img');t.className='media-thumb-item'+(i===active?' active':'');t.src=src;t.dataset.idx=i;t.addEventListener('click',()=>{currentMediaIndex=parseInt(t.dataset.idx);loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));});c.appendChild(t);});document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
-function showDetail(idx){let p=products[idx];if(!p)return;currentProductIndex=idx;currentMediaList=p.mediaItems||[];currentMediaIndex=0;let thumbHtml='<div class="product-thumb-container"><div class="product-thumb-strip">'+products.map((pp,i)=>'<img class="product-thumb-item '+(i===idx?'active':'')+'" data-pidx="'+i+'" src="'+(pp.thumb||'https://i.ibb.co/4K7zC2N/sample.jpg')+'">').join('')+'</div></div>';let mediaHtml='<div class="media-thumb-wrapper"><div class="media-thumb-arrow" id="prevMediaBtn">◀</div><div class="media-thumb-scroll"><div class="media-thumb-strip"></div></div><div class="media-thumb-arrow" id="nextMediaBtn">▶</div></div>';let accHtml='<ul class="accessory-list">'+(p.accessories||[]).map(a=>'<li>'+a+'</li>').join('')+'</ul>';let nameHtml=(p.name||'').replace(/\n/g,'<br>');let html='<div class="detail-page"><div class="back-home-btn" id="backHomeBtn">← На главную</div><div class="detail-header"><h1>'+(siteConfig.detailTitle||'Наши товары')+'</h1><p>'+(siteConfig.detailSubtitle||'Выберите идеальный вариант для себя')+'</p></div><div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>'+thumbHtml+'<div class="product-nav-arrow" id="nextProductBtn">›</div></div><h2>'+nameHtml+'</h2><div id="mainMedia" class="main-media-wrapper"></div>'+mediaHtml+'<div class="info-block"><div>'+(p.description||'')+'</div><div style="margin-top:12px"><strong>Комплектация:</strong></div>'+accHtml+'</div></div>';app.innerHTML=html;loadMedia(0);buildMediaThumbnails(0);document.getElementById('backHomeBtn')?.addEventListener('click',renderHome);document.getElementById('prevProductBtn')?.addEventListener('click',()=>showDetail((currentProductIndex-1+products.length)%products.length));document.getElementById('nextProductBtn')?.addEventListener('click',()=>showDetail((currentProductIndex+1)%products.length));document.querySelectorAll('.product-thumb-item').forEach(t=>t.addEventListener('click',()=>showDetail(parseInt(t.dataset.pidx))));document.getElementById('prevMediaBtn')?.addEventListener('click',()=>{if(currentMediaList.length>1){currentMediaIndex=(currentMediaIndex-1+currentMediaList.length)%currentMediaList.length;loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}});document.getElementById('nextMediaBtn')?.addEventListener('click',()=>{if(currentMediaList.length>1){currentMediaIndex=(currentMediaIndex+1)%currentMediaList.length;loadMedia(currentMediaIndex);document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));document.querySelector('.media-thumb-item.active')?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}});}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Каталог</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   浅色高端风格 - 与深色产品图片完美搭配
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;min-height:100vh;color:#2c2c2c}
+
+/* ===== APP CONTAINER ===== */
+.app-container{max-width:480px;margin:0 auto;background:#fcfaf8;min-height:100vh;position:relative;overflow:hidden}
+
+/* ===== HEADER ===== */
+.shop-header{background:linear-gradient(165deg,#fcfaf8 0%,#f5f0ea 40%,#ede8e2 100%);padding:32px 24px 28px;text-align:center;border-bottom:1px solid rgba(180,160,140,0.12);position:relative}
+.shop-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,#c9a87c,transparent)}
+.shop-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#2c2c2c;letter-spacing:0.08em}
+.shop-name span{color:#c9a87c}
+.shop-slogan{font-size:0.65rem;font-weight:300;color:rgba(44,44,44,0.35);margin-top:6px;letter-spacing:0.3em;text-transform:uppercase}
+
+/* ===== CATEGORY NAV ===== */
+.category-nav{display:flex;gap:6px;padding:14px 16px;background:#fcfaf8;border-bottom:1px solid rgba(180,160,140,0.08);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.category-nav::-webkit-scrollbar{display:none}
+.category-item{padding:6px 18px;background:#f5f3f0;border-radius:30px;font-size:0.7rem;font-weight:500;color:rgba(44,44,44,0.4);cursor:pointer;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);white-space:nowrap;border:1px solid transparent;letter-spacing:0.02em}
+.category-item.active{background:#c9a87c;color:#fff;border-color:#c9a87c;box-shadow:0 2px 16px rgba(201,168,124,0.2)}
+.category-item:hover{color:#2c2c2c;background:#ece8e4}
+
+/* ===== BANNER ===== */
+.banner-carousel{position:relative;margin:12px 16px 8px;border-radius:16px;overflow:hidden;background:#f0ede8;aspect-ratio:3/1;border:1px solid rgba(180,160,140,0.08)}
+.banner-image{width:100%;height:100%;object-fit:cover;transition:opacity 0.6s}
+.banner-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+.banner-dot{width:5px;height:5px;background:rgba(44,44,44,0.12);border-radius:50%;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
+.banner-dot.active{width:24px;background:#c9a87c;border-radius:4px}
+
+/* ===== SECTION TITLE ===== */
+.section-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:#2c2c2c;padding:20px 20px 8px;letter-spacing:0.04em}
+.section-title small{display:block;font-size:0.65rem;font-weight:300;color:rgba(44,44,44,0.25);font-family:'Inter',sans-serif;letter-spacing:0.15em;margin-top:4px}
+
+/* ===== PRODUCT CARD ===== */
+.product-card{cursor:pointer;padding:14px 16px;margin:0 12px 6px;border-radius:14px;display:flex;gap:14px;align-items:center;background:#fcfaf8;border:1px solid rgba(180,160,140,0.06);transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
+.product-card:hover{background:#fff;border-color:rgba(201,168,124,0.15);box-shadow:0 4px 24px rgba(180,160,140,0.08);transform:translateY(-1px)}
+.product-card:active{transform:scale(0.98)}
+.thumb-img{width:80px;height:80px;object-fit:cover;border-radius:12px;background:#f0ede8;flex-shrink:0;border:1px solid rgba(180,160,140,0.06)}
+.product-info{flex:1;min-width:0}
+.product-name{font-weight:600;font-size:0.9rem;line-height:1.3;margin-bottom:3px;color:#2c2c2c;white-space:pre-line;letter-spacing:-0.01em}
+.product-highlight{font-size:0.65rem;color:#c9a87c;margin-bottom:4px;white-space:pre-line;font-weight:400;letter-spacing:0.02em}
+.product-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;margin-top:4px}
+.product-price{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#c9a87c;letter-spacing:0.02em}
+.wholesale-badge{background:rgba(201,168,124,0.08);color:rgba(44,44,44,0.4);font-size:0.55rem;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid rgba(201,168,124,0.06);letter-spacing:0.05em}
+
+/* ===== FOOTER ===== */
+.footer-info{background:#f5f3f0;padding:28px 20px 24px;text-align:center;border-top:1px solid rgba(180,160,140,0.08);margin-top:8px}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.footer-link{font-size:0.65rem;font-weight:400;color:rgba(44,44,44,0.25);text-decoration:none;cursor:pointer;transition:color 0.3s;letter-spacing:0.08em;text-transform:uppercase}
+.footer-link:hover{color:#c9a87c}
+.footer-copyright{font-size:0.55rem;font-weight:300;color:rgba(44,44,44,0.15);letter-spacing:0.1em}
+
+/* ===== DETAIL PAGE ===== */
+.detail-page{padding:16px 20px 20px}
+.back-home-btn{display:inline-flex;align-items:center;gap:6px;background:#f5f3f0;padding:6px 14px;border-radius:30px;font-size:0.7rem;font-weight:400;cursor:pointer;width:fit-content;transition:all 0.3s;color:rgba(44,44,44,0.4);border:1px solid rgba(180,160,140,0.08)}
+.back-home-btn:hover{color:#2c2c2c;background:#ece8e4}
+.detail-header{text-align:center;margin:8px 0 20px;padding-bottom:16px;border-bottom:1px solid rgba(180,160,140,0.08)}
+.detail-header h1{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:#2c2c2c;letter-spacing:0.04em}
+.detail-header p{font-size:0.7rem;font-weight:300;color:rgba(44,44,44,0.25);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px}
+.detail-page .product-price{font-size:1.8rem}
+
+.product-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 16px}
+.product-nav-arrow{font-size:20px;width:38px;height:38px;background:#f5f3f0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(44,44,44,0.3);flex-shrink:0;transition:all 0.3s;border:1px solid rgba(180,160,140,0.06)}
+.product-nav-arrow:hover{color:#2c2c2c;background:#ece8e4}
+.product-thumb-container{flex:1;overflow-x:auto;white-space:nowrap;text-align:center;scrollbar-width:none}
+.product-thumb-container::-webkit-scrollbar{display:none}
+.product-thumb-strip{display:inline-flex;gap:10px}
+.product-thumb-item{width:44px;height:44px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent;background:#f0ede8;transition:all 0.3s}
+.product-thumb-item.active{border-color:#c9a87c;box-shadow:0 2px 16px rgba(201,168,124,0.15)}
+
+.main-media-wrapper{background:#f0ede8;border-radius:16px;min-height:280px;position:relative;display:flex;align-items:center;justify-content:center;margin:8px 0;border:1px solid rgba(180,160,140,0.06);overflow:hidden}
+.video-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;background:rgba(201,168,124,0.15);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#c9a87c;font-size:24px;cursor:pointer;z-index:10;border:1px solid rgba(201,168,124,0.15);transition:all 0.3s}
+.video-play-btn:hover{background:rgba(201,168,124,0.25);transform:translate(-50%,-50%) scale(1.05)}
+.video-poster{width:100%;cursor:pointer}
+.video-iframe{width:100%;height:280px;border:none;display:none}
+
+.media-thumb-wrapper{display:flex;align-items:center;gap:10px;margin:12px 0}
+.media-thumb-arrow{width:32px;height:32px;background:#f5f3f0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex-shrink:0;color:rgba(44,44,44,0.3);transition:all 0.3s;border:1px solid rgba(180,160,140,0.06)}
+.media-thumb-arrow:hover{color:#2c2c2c}
+.media-thumb-scroll{flex:1;overflow-x:auto;white-space:nowrap;text-align:center;scrollbar-width:none}
+.media-thumb-scroll::-webkit-scrollbar{display:none}
+.media-thumb-strip{display:inline-flex;gap:10px}
+.media-thumb-item{width:60px;height:60px;object-fit:cover;border-radius:10px;cursor:pointer;border:2px solid transparent;background:#f0ede8;transition:all 0.3s}
+.media-thumb-item.active{border-color:#c9a87c}
+
+.info-block{background:#f5f3f0;border-radius:16px;padding:16px;margin-top:12px;border:1px solid rgba(180,160,140,0.06)}
+.info-block h2{font-size:0.7rem;font-weight:400;color:rgba(44,44,44,0.35);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
+.info-block p{font-size:0.85rem;font-weight:300;color:rgba(44,44,44,0.7);line-height:1.6}
+.accessory-list{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin-top:6px}
+.accessory-list li{background:#fff;padding:4px 14px;border-radius:20px;font-size:0.7rem;font-weight:300;color:rgba(44,44,44,0.5);border:1px solid rgba(180,160,140,0.06)}
+
+.page-content-inner{padding:20px;line-height:1.8}
+.page-content-inner h3{font-family:'Playfair Display',serif;font-weight:400;color:#2c2c2c;margin-bottom:12px;font-size:1.3rem}
+.page-content-inner p{font-weight:300;color:rgba(44,44,44,0.6);margin-bottom:12px;font-size:0.9rem}
+.page-content-inner a{color:#c9a87c;text-decoration:none}
+
+/* ===== CHAT BUTTON ===== */
+.contact-chat{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#c9a87c,#b8945e);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;z-index:99;text-decoration:none;box-shadow:0 4px 30px rgba(201,168,124,0.25);transition:all 0.3s}
+.contact-chat:hover{transform:scale(1.05);box-shadow:0 6px 40px rgba(201,168,124,0.35)}
+
+/* ===== ADMIN BUTTON ===== */
+.admin-footer-btn{position:fixed;bottom:82px;right:24px;background:#f5f3f0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(44,44,44,0.2);font-size:14px;cursor:pointer;z-index:98;border:1px solid rgba(180,160,140,0.08);transition:all 0.3s}
+.admin-footer-btn:hover{color:rgba(44,44,44,0.5);background:#ece8e4}
+
+/* ===== PASSWORD OVERLAY ===== */
+.password-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);z-index:1000;justify-content:center;align-items:center}
+.password-overlay.open{display:flex}
+.password-box{background:#fcfaf8;border-radius:24px;padding:44px 36px;max-width:380px;width:90%;text-align:center;border:1px solid rgba(180,160,140,0.08);box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.password-box h2{font-family:'Playfair Display',serif;color:#2c2c2c;font-size:1.4rem;font-weight:400;letter-spacing:0.04em}
+.password-box p{color:rgba(44,44,44,0.3);font-size:0.75rem;font-weight:300;margin-bottom:24px;letter-spacing:0.1em}
+.password-box input{width:100%;padding:14px 18px;background:#f5f3f0;border:1px solid rgba(180,160,140,0.12);border-radius:12px;color:#2c2c2c;font-size:1rem;text-align:center;letter-spacing:6px;font-weight:300;transition:all 0.3s}
+.password-box input:focus{outline:none;border-color:#c9a87c;background:#fff}
+.password-box .btn-group{display:flex;gap:10px;margin-top:20px}
+.password-box .btn{flex:1;padding:12px;border:none;border-radius:12px;font-weight:500;cursor:pointer;font-size:0.85rem;transition:all 0.3s;letter-spacing:0.05em}
+.password-box .btn:active{transform:scale(0.97)}
+.password-box .btn-green{background:#c9a87c;color:#fff}
+.password-box .btn-green:hover{background:#b8945e}
+.password-box .btn-gray{background:#f5f3f0;color:rgba(44,44,44,0.4);border:1px solid rgba(180,160,140,0.08)}
+.password-box .btn-gray:hover{background:#ece8e4;color:#2c2c2c}
+.password-box .error-msg{color:#d9534f;font-size:0.75rem;margin-top:12px;display:none;font-weight:300}
+.password-box .error-msg.show{display:block}
+
+/* ================================================================
+   后台管理样式 - 浅色白底黑字
+   ================================================================ */
+.admin-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:999;justify-content:center;align-items:center;padding:16px}
+.admin-modal.open{display:flex}
+.admin-modal-content{background:#ffffff;border-radius:20px;padding:28px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;color:#1a1a1a;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.admin-modal-content h2{font-weight:600;font-size:1.3rem;color:#1a1a1a;letter-spacing:0.02em}
+.admin-modal-content .sub{color:#888;font-size:0.75rem;font-weight:400;margin-bottom:20px}
+.admin-modal-content .close-modal{position:sticky;top:0;float:right;background:none;border:none;color:#999;font-size:24px;cursor:pointer;transition:color 0.3s}
+.admin-modal-content .close-modal:hover{color:#1a1a1a}
+
+.admin-modal-content label{display:block;font-size:0.7rem;font-weight:600;color:#555;margin-top:12px;margin-bottom:4px;letter-spacing:0.03em}
+.admin-modal-content input,.admin-modal-content textarea,.admin-modal-content select{width:100%;padding:10px 14px;background:#f5f6f8;border:1px solid #e0e2e6;border-radius:10px;color:#1a1a1a;font-size:0.9rem;font-family:inherit;transition:all 0.3s}
+.admin-modal-content input:focus,.admin-modal-content textarea:focus{outline:none;border-color:#c9a87c;background:#fafafb}
+.admin-modal-content textarea{min-height:70px;resize:vertical}
+.admin-modal-content .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-modal-content .btn-group{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.admin-modal-content .btn{padding:10px 20px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:all 0.3s;font-size:0.8rem;letter-spacing:0.02em}
+.admin-modal-content .btn:active{transform:scale(0.97)}
+.btn-green{background:#c9a87c;color:#fff}
+.btn-green:hover{background:#b8945e}
+.btn-blue{background:#4a7fc1;color:#fff}
+.btn-blue:hover{background:#3a6ba8}
+.btn-red{background:#d9534f;color:#fff}
+.btn-red:hover{background:#c9302c}
+.btn-gray{background:#e8eaed;color:#555}
+.btn-gray:hover{background:#d5d8dd}
+.btn-orange{background:#e8a838;color:#fff}
+.btn-orange:hover{background:#d4952e}
+
+.admin-modal-content .tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.admin-modal-content .tag-item{background:#f0f1f3;padding:4px 12px;border-radius:20px;font-size:0.7rem;color:#555;border:1px solid #e0e2e6;display:flex;align-items:center;gap:6px}
+.admin-modal-content .tag-item .del{cursor:pointer;color:#d9534f;font-weight:600;transition:color 0.3s}
+.admin-modal-content .tag-item .del:hover{color:#c9302c}
+.admin-modal-content .tag-input-group{display:flex;gap:6px;flex-wrap:wrap}
+.admin-modal-content .tag-input-group input{flex:1;min-width:100px}
+
+.admin-modal-content .tab-bar{display:flex;gap:2px;margin-bottom:16px;border-bottom:2px solid #f0f1f3;padding-bottom:12px;flex-wrap:wrap}
+.admin-modal-content .tab-bar button{background:none;border:none;color:#999;padding:6px 16px;border-radius:8px;cursor:pointer;font-size:0.75rem;font-weight:500;transition:all 0.3s}
+.admin-modal-content .tab-bar button.active{background:#c9a87c;color:#fff}
+.admin-modal-content .tab-bar button:hover{color:#1a1a1a}
+.admin-modal-content .tab-content{display:none}
+.admin-modal-content .tab-content.active{display:block}
+
+.admin-modal-content .product-list-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #f0f1f3;gap:10px}
+.admin-modal-content .product-list-item .name{font-weight:500;flex:1;font-size:0.85rem;color:#333}
+.admin-modal-content .product-list-item .price{color:#c9a87c;font-weight:600;font-size:0.85rem}
+.admin-modal-content .product-list-item .actions{display:flex;gap:4px}
+.admin-modal-content .product-list-item .actions button{padding:3px 10px;border:none;border-radius:6px;font-size:0.6rem;cursor:pointer;transition:all 0.3s;font-weight:600}
+.admin-modal-content .empty{color:#bbb;text-align:center;padding:20px;font-size:0.8rem}
+
+/* ===== BATCH AREA ===== */
+.batch-area{background:#f8f9fa;border-radius:12px;padding:14px;margin:12px 0;border:1px solid #e8eaed}
+.batch-area .batch-title{color:#333;font-weight:600;margin-bottom:4px;font-size:0.85rem}
+.batch-area .batch-desc{color:#888;font-size:0.7rem;margin-bottom:10px}
+.batch-area .batch-btns{display:flex;gap:8px;flex-wrap:wrap}
+.batch-area .batch-btns .btn{flex:1;min-width:100px;text-align:center;font-size:0.75rem}
+.batch-area .batch-info{color:#999;font-size:0.65rem;margin-top:8px}
+.batch-area .batch-info strong{color:#555}
+
+.import-progress{display:none;margin-top:10px}
+.import-progress.show{display:block}
+.import-progress .bar-bg{background:#e8eaed;border-radius:6px;height:6px;overflow:hidden}
+.import-progress .bar-fill{background:#c9a87c;height:100%;width:0%;border-radius:6px;transition:width 0.3s}
+.import-progress .bar-text{color:#888;font-size:0.65rem;margin-top:4px}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(44,44,44,0.08);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(44,44,44,0.15)}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:420px){
+    .shop-header{padding:24px 16px 20px}
+    .shop-name{font-size:1.4rem}
+    .product-card{padding:10px 12px;margin:0 8px 4px}
+    .thumb-img{width:64px;height:64px}
+    .admin-modal-content{padding:20px}
+    .admin-modal-content .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- 聊天按钮 -->
+<a id="chatBtn" class="contact-chat" href="#" target="_blank">✦</a>
+
+<!-- 后台入口按钮 -->
+<button class="admin-footer-btn" id="adminOpenBtn" title="管理后台">⚙</button>
+
+<!-- ===== 密码验证弹窗 ===== -->
+<div class="password-overlay" id="passwordOverlay">
+    <div class="password-box">
+        <h2>✦ Авторизация</h2>
+        <p>Введите пароль для входа</p>
+        <input type="password" id="passwordInput" placeholder="· · · · · ·" maxlength="20">
+        <div class="error-msg" id="passwordError">❌ Неверный пароль</div>
+        <div class="btn-group">
+            <button class="btn btn-gray" onclick="closePassword()">Отмена</button>
+            <button class="btn btn-green" onclick="verifyPassword()">Войти</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== 后台管理弹窗 ===== -->
+<div class="admin-modal" id="adminModal">
+    <div class="admin-modal-content">
+        <button class="close-modal" id="adminCloseBtn">✕</button>
+        <h2>⚙ 管理后台</h2>
+        <p class="sub">管理商品、页面内容和网站设置</p>
+
+        <div class="tab-bar">
+            <button class="active" data-tab="products">📦 商品管理</button>
+            <button data-tab="pages">📄 页面管理</button>
+            <button data-tab="settings">⚙ 网站设置</button>
+            <button data-tab="banners">🖼 轮播管理</button>
+            <button data-tab="batch">📊 批量导入</button>
+        </div>
+
+        <!-- ===== TAB: 商品管理 ===== -->
+        <div class="tab-content active" id="tabProducts">
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="editProductId">
+                <div class="form-row">
+                    <div>
+                        <label>商品名称 *</label>
+                        <input type="text" id="pName" placeholder="输入商品名称" required>
+                    </div>
+                    <div>
+                        <label>价格 *</label>
+                        <input type="number" id="pPrice" step="0.01" placeholder="1999.99" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>亮点/特点</label>
+                        <input type="text" id="pHighlight" placeholder="🔥 新品\n✨ 3种模式">
+                    </div>
+                    <div>
+                        <label>分类</label>
+                        <select id="pCategory">
+                            <option value="">无分类</option>
+                            <option value="Новинки 🔥">Новинки 🔥</option>
+                            <option value="Хиты продаж ⭐">Хиты продаж ⭐</option>
+                            <option value="Аксессуары 📦">Аксессуары 📦</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label>缩略图 URL *</label>
+                    <input type="url" id="pThumb" placeholder="https://example.com/photo.jpg" required>
+                </div>
+                <div>
+                    <label>描述</label>
+                    <textarea id="pDescription" placeholder="详细描述..."></textarea>
+                </div>
+                <div>
+                    <label>媒体文件（图片/视频）</label>
+                    <div class="tag-input-group">
+                        <input type="url" id="mediaInput" placeholder="https://example.com/media.jpg">
+                        <select id="mediaType">
+                            <option value="image">🖼 图片</option>
+                            <option value="video">🎬 视频</option>
+                        </select>
+                        <button type="button" class="btn btn-gray" onclick="addMediaItem()">➕ 添加</button>
+                    </div>
+                    <div class="tag-list" id="mediaTags"></div>
+                </div>
+                <div>
+                    <label>配件 / комплектация</label>
+                    <div class="tag-input-group">
+                        <input type="text" id="accessoryInput" placeholder="例如: 说明书">
+                        <button type="button" class="btn btn-gray" onclick="addAccessory()">➕ 添加</button>
+                    </div>
+                    <div class="tag-list" id="accessoryTags"></div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-green" id="saveBtn">💾 保存商品</button>
+                    <button type="button" class="btn btn-gray" id="cancelEditBtn" style="display:none" onclick="cancelProductEdit()">✕ 取消</button>
+                </div>
+            </form>
+
+            <div style="margin-top:20px;border-top:1px solid #f0f1f3;padding-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <span style="font-weight:600;font-size:0.85rem;color:#555;">📋 商品列表</span>
+                    <span style="color:#999;font-size:0.7rem;" id="productCount">0 个商品</span>
+                </div>
+                <div id="productList"></div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: 页面管理 ===== -->
+        <div class="tab-content" id="tabPages">
+            <div id="pageList">
+                <div class="product-list-item" onclick="editPage('about')" style="cursor:pointer;">
+                    <span class="name">📄 关于我们</span>
+                    <span style="color:#c9a87c;font-size:0.7rem;">✏️ 编辑</span>
+                </div>
+                <div class="product-list-item" onclick="editPage('delivery')" style="cursor:pointer;">
+                    <span class="name">🚚 配送信息</span>
+                    <span style="color:#c9a87c;font-size:0.7rem;">✏️ 编辑</span>
+                </div>
+                <div class="product-list-item" onclick="editPage('contacts')" style="cursor:pointer;">
+                    <span class="name">📞 联系方式</span>
+                    <span style="color:#c9a87c;font-size:0.7rem;">✏️ 编辑</span>
+                </div>
+                <div class="product-list-item" onclick="editPage('privacy')" style="cursor:pointer;">
+                    <span class="name">🔒 隐私政策</span>
+                    <span style="color:#c9a87c;font-size:0.7rem;">✏️ 编辑</span>
+                </div>
+            </div>
+            <div id="pageEditForm" style="display:none;margin-top:14px;border-top:1px solid #f0f1f3;padding-top:14px;">
+                <h3 style="font-weight:600;font-size:1rem;color:#333;" id="pageEditTitle">✏️ 编辑页面</h3>
+                <form onsubmit="savePageContent(event)">
+                    <input type="hidden" id="editPageKey">
+                    <div>
+                        <label>内容 (支持 HTML)</label>
+                        <textarea id="pageContent" rows="10" placeholder="输入页面内容..."></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-green">💾 保存</button>
+                        <button type="button" class="btn btn-gray" onclick="cancelPageEdit()">✕ 取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== TAB: 网站设置 ===== -->
+        <div class="tab-content" id="tabSettings">
+            <form onsubmit="saveSettings(event)">
+                <div class="form-row">
+                    <div>
+                        <label>商店名称</label>
+                        <input type="text" id="sShopName" value="Каталог ">
+                    </div>
+                    <div>
+                        <label>商店标语</label>
+                        <input type="text" id="sShopSlogan" value="Качество, забота и безопасность">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>详情页标题</label>
+                        <input type="text" id="sDetailTitle" value="Наши товары">
+                    </div>
+                    <div>
+                        <label>详情页副标题</label>
+                        <input type="text" id="sDetailSubtitle" value="Для магазинов. Для бизнеса. Для роста.">
+                    </div>
+                </div>
+                <div>
+                    <label>版权信息</label>
+                    <input type="text" id="sCopyright" value="© 2026 Элитный Магазин">
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>电话</label>
+                        <input type="text" id="sPhone" value="+7 (912) 891-58-82">
+                    </div>
+                    <div>
+                        <label>WhatsApp 链接</label>
+                        <input type="url" id="sWhatsApp" value="https://wa.me/79999123829">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>邮箱</label>
+                        <input type="email" id="sEmail" value="89128915882@mail.ru">
+                    </div>
+                    <div>
+                        <label>地址</label>
+                        <input type="text" id="sAddress" value="Москва">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-green">💾 保存设置</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ===== TAB: 轮播管理 ===== -->
+        <div class="tab-content" id="tabBanners">
+            <div>
+                <label>轮播图 URL（建议 600×200）</label>
+                <div class="tag-input-group">
+                    <input type="url" id="bannerInput" placeholder="https://example.com/banner.jpg">
+                    <button type="button" class="btn btn-green" onclick="addBanner()">➕ 添加</button>
+                </div>
+                <div class="tag-list" id="bannerList"></div>
+            </div>
+            <div style="margin-top:10px;">
+                <label>轮播切换速度（秒）</label>
+                <input type="number" id="bannerSpeed" value="4" style="width:70px;padding:8px 12px;background:#f5f6f8;border:1px solid #e0e2e6;border-radius:8px;color:#333;" onchange="updateBannerSpeed(this.value)">
+            </div>
+            <div style="margin-top:14px;border-top:1px solid #f0f1f3;padding-top:12px;">
+                <div style="display:flex;gap:10px;overflow-x:auto;padding:6px 0;" id="bannerPreview"></div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: 批量导入导出 ===== -->
+        <div class="tab-content" id="tabBatch">
+            <h3 style="font-weight:600;color:#333;margin-bottom:6px;font-size:1rem;">📊 批量导入 / 导出</h3>
+            <p style="color:#888;font-size:0.7rem;margin-bottom:12px;">
+                使用 CSV 文件批量管理商品
+            </p>
+
+            <div class="batch-area">
+                <div class="batch-title">📥 第一步：下载模板</div>
+                <div class="batch-desc">下载 CSV 模板，用 Excel 打开填写</div>
+                <div class="batch-btns">
+                    <button class="btn btn-blue" onclick="downloadTemplate()">📄 下载模板</button>
+                </div>
+            </div>
+
+            <div class="batch-area">
+                <div class="batch-title">📤 第二步：上传数据</div>
+                <div class="batch-desc">选择填写好的 CSV 文件导入</div>
+                <div class="batch-btns">
+                    <button class="btn btn-orange" onclick="document.getElementById('batchFileInput').click()">📤 导入 CSV</button>
+                    <input type="file" id="batchFileInput" accept=".csv" style="display:none">
+                    <button class="btn btn-red" onclick="clearAllProducts()">🗑 清空全部</button>
+                </div>
+                <div class="import-progress" id="importProgress">
+                    <div class="bar-bg"><div class="bar-fill" id="importBarFill"></div></div>
+                    <div class="bar-text" id="importBarText">导入中...</div>
+                </div>
+                <div class="batch-info" id="batchResult"></div>
+            </div>
+
+            <div class="batch-area">
+                <div class="batch-title">📦 第三步：导出数据</div>
+                <div class="batch-desc">将所有商品导出为 CSV 文件</div>
+                <div class="batch-btns">
+                    <button class="btn btn-green" onclick="exportCSV()">💾 导出 CSV</button>
+                </div>
+                <div class="batch-info">
+                    共 <strong id="batchProductCount">0</strong> 个商品
+                </div>
+            </div>
+
+            <div style="margin-top:10px;padding:10px 14px;background:#f8f9fa;border-radius:8px;border-left:3px solid #d9534f;">
+                <p style="color:#999;font-size:0.6rem;">
+                    ⚠️ 导入会 <strong style="color:#d9534f;">替换</strong> 所有现有商品，建议先导出备份
+                </p>
+            </div>
+        </div>
+
+        <!-- 底部工具按钮 -->
+        <div style="margin-top:18px;border-top:1px solid #f0f1f3;padding-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button onclick="exportData()" class="btn btn-gray">💾 导出备份 (JSON)</button>
+            <button onclick="document.getElementById('importFile').click()" class="btn btn-gray">📥 导入备份</button>
+            <input type="file" id="importFile" accept=".json" style="display:none">
+            <button onclick="changePassword()" class="btn btn-gray">🔑 修改密码</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// 密码配置
+// ============================================================
+const ADMIN_PASSWORD = "123456";
+
+// ============================================================
+// 数据存储
+// ============================================================
+const STORAGE_KEY = 'shop_all_data';
+
+let data = {
+    products: [
+        {
+            id: 1,
+            name: "Эректор с цифровым дисплеем",
+            highlight: "🔥 防水等级 IP67\n✨ 3种按摩模式",
+            price: 3422.23,
+            categories: ["Новинки 🔥"],
+            thumb: "https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg",
+            mediaItems: [
+                {type: "video", url: "https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"},
+                {type: "image", url: "https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg"}
+            ],
+            description: "",
+            accessories: ["Руководство", "Гарантийный талон"]
+        },
+        {
+            id: 2,
+            name: "产品二\n标准款",
+            highlight: "⭐ 经典设计\n📦 全套配件",
+            price: 1899.99,
+            categories: ["Хиты продаж ⭐"],
+            thumb: "https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg",
+            mediaItems: [
+                {type: "image", url: "https://i.ibb.co/4K7zC2N/sample.jpg"}
+            ],
+            description: "第二个产品的描述。",
+            accessories: ["Аксессуар A", "Аксессуар B"]
+        }
+    ],
+    pages: {
+        about: { title: "О нас", content: "<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>" },
+        delivery: { title: "Доставка", content: "<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>" },
+        contacts: { title: "Контакты", content: "<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>" },
+        privacy: { title: "Политика", content: "<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>" }
+    },
+    settings: {
+        shopName: "Каталог ",
+        shopSlogan: "Качество, забота и безопасность",
+        detailTitle: "Наши товары",
+        detailSubtitle: "Для магазинов. Для бизнеса. Для роста.",
+        contactPhone: "+7 (912) 891-58-82",
+        contactWhatsApp: "https://wa.me/79999123829",
+        contactEmail: "89128915882@mail.ru",
+        contactAddress: "Москва",
+        copyright: "© 2026 Элитный Магазин",
+        bannerSpeed: 4,
+        categories: ["Все товары", "Новинки 🔥", "Хиты продаж ⭐", "Аксессуары 📦"]
+    },
+    banners: [
+        "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦",
+        "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦",
+        "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦"
+    ]
+};
+
+function loadSavedData() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            data = deepMerge(data, parsed);
+        }
+    } catch(e) {}
+}
+
+function deepMerge(target, source) {
+    const result = { ...target };
+    for (const key in source) {
+        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+            result[key] = deepMerge(target[key] || {}, source[key]);
+        } else {
+            result[key] = source[key];
+        }
+    }
+    return result;
+}
+
+function saveAllData() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch(e) {}
+}
+
+loadSavedData();
+
+// ============================================================
+// 工具函数
+// ============================================================
+function formatPrice(p) { return (p || 0).toFixed(2); }
+
+function getNextId() {
+    let max = 0;
+    data.products.forEach(p => { if (p.id > max) max = p.id; });
+    return max + 1;
+}
+
+// ============================================================
+// 页面渲染 (前台)
+// ============================================================
+let currentCategory = "Все товары";
+let currentProductIndex = 0;
+let currentMediaList = [];
+let currentMediaIndex = 0;
+let currentCleanup = null;
+let tempMediaItems = [];
+let tempAccessories = [];
+
+function renderHome() {
+    const app = document.getElementById('app');
+    const products = data.products;
+    const settings = data.settings;
+    const banners = data.banners;
+
+    let filtered = currentCategory === "Все товары" ? products : products.filter(p => p.categories && p.categories.includes(currentCategory));
+
+    let categoryHtml = '<div class="category-nav">' + 
+        settings.categories.map(cat => 
+            '<div class="category-item ' + (currentCategory === cat ? 'active' : '') + '" data-cat="' + cat + '">' + cat + '</div>'
+        ).join('') + 
+    '</div>';
+
+    let bannerHtml = banners.length ? 
+        '<div class="banner-carousel" id="bannerCarousel"><img class="banner-image" id="bannerImage" src="' + banners[0] + '"><div class="banner-dots" id="bannerDots">' + 
+        banners.map((_, i) => '<div class="banner-dot ' + (i === 0 ? 'active' : '') + '"></div>').join('') + 
+        '</div></div>' : '';
+
+    let productHtml = filtered.map(p => 
+        '<div class="product-card" data-id="' + p.id + '">' +
+            '<img class="thumb-img" src="' + (p.thumb || 'https://via.placeholder.com/80/f5f3f0/c9a87c') + '">' +
+            '<div class="product-info">' +
+                '<div class="product-name">' + (p.name || '').replace(/\n/g, '<br>') + '</div>' +
+                (p.highlight ? '<div class="product-highlight">' + p.highlight.replace(/\n/g, '<br>') + '</div>' : '') +
+                '<div class="product-price-row"><span class="product-price">' + formatPrice(p.price) + '</span><span class="wholesale-badge">Опт / Розница</span></div>' +
+            '</div>' +
+        '</div>'
+    ).join('');
+
+    let footerHtml = '<div class="footer-info">' +
+        '<div class="footer-links">' +
+            '<a class="footer-link" data-page="about">О нас</a>' +
+            '<a class="footer-link" data-page="delivery">Доставка</a>' +
+            '<a class="footer-link" data-page="contacts">Контакты</a>' +
+            '<a class="footer-link" data-page="privacy">Политика</a>' +
+        '</div>' +
+        '<div class="footer-copyright">' + settings.copyright + '</div>' +
+    '</div>';
+
+    app.innerHTML = '<div class="app-container">' +
+        '<div class="shop-header">' +
+            '<div class="shop-name"><span>✦</span> ' + settings.shopName + '</div>' +
+            '<div class="shop-slogan">' + settings.shopSlogan + '</div>' +
+        '</div>' +
+        categoryHtml + 
+        '<div class="section-title">Коллекция <small>— избранные товары</small></div>' +
+        bannerHtml + productHtml + footerHtml +
+    '</div>';
+
+    document.querySelectorAll('.product-card').forEach(c => {
+        c.addEventListener('click', () => {
+            let idx = products.findIndex(p => p.id === parseInt(c.dataset.id));
+            if (idx !== -1) showDetail(idx);
+        });
+    });
+
+    document.querySelectorAll('.category-item').forEach(cat => {
+        cat.addEventListener('click', () => {
+            currentCategory = cat.dataset.cat;
+            renderHome();
+        });
+    });
+
+    document.querySelectorAll('.footer-link[data-page]').forEach(link => {
+        link.addEventListener('click', () => showPage(link.dataset.page));
+    });
+
+    if (banners.length > 1) {
+        let idx = 0;
+        setInterval(() => {
+            idx = (idx + 1) % banners.length;
+            const img = document.getElementById('bannerImage');
+            if (img) img.src = banners[idx];
+            document.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+        }, (settings.bannerSpeed || 4) * 1000);
+    }
+
+    const chatBtn = document.getElementById('chatBtn');
+    if (chatBtn) chatBtn.href = settings.contactWhatsApp || 'https://wa.me/' + settings.contactPhone.replace(/[^0-9]/g, '');
+}
+
+function showPage(key) {
+    const app = document.getElementById('app');
+    const page = data.pages[key];
+    if (!page) return;
+
+    app.innerHTML = '<div class="app-container">' +
+        '<div class="shop-header"><div class="shop-name"><span>✦</span> ' + data.settings.shopName + '</div></div>' +
+        '<div style="padding:16px 16px 0 16px;"><div class="back-home-btn" id="backToHomeBtn">← На главную</div></div>' +
+        '<div class="page-content-inner">' + page.content + '</div>' +
+        '<div class="footer-info"><div class="footer-copyright">' + data.settings.copyright + '</div></div>' +
+    '</div>';
+
+    document.getElementById('backToHomeBtn')?.addEventListener('click', renderHome);
+}
+
+function createVideoPlayer(container, src) {
+    container.innerHTML = '';
+    let poster = document.createElement('img');
+    poster.className = 'video-poster';
+    poster.src = 'https://i.ibb.co/4K7zC2N/sample.jpg';
+    poster.style.width = '100%';
+    let btn = document.createElement('div');
+    btn.className = 'video-play-btn';
+    btn.innerHTML = '▶';
+    let iframe = document.createElement('iframe');
+    iframe.className = 'video-iframe';
+    iframe.src = src;
+    iframe.setAttribute('allow', 'autoplay; fullscreen');
+    iframe.setAttribute('allowFullScreen', true);
+    container.appendChild(poster);
+    container.appendChild(btn);
+    container.appendChild(iframe);
+    let start = () => { poster.style.display = 'none'; btn.style.display = 'none'; iframe.style.display = 'block'; };
+    btn.addEventListener('click', start);
+    poster.addEventListener('click', start);
+    return () => { iframe.style.display = 'none'; poster.style.display = 'block'; btn.style.display = 'flex'; iframe.src = src; };
+}
+
+function loadMedia(index) {
+    const container = document.getElementById('mainMedia');
+    if (!container) return;
+    if (currentCleanup) currentCleanup();
+    const item = currentMediaList[index];
+    if (item.type === 'video') {
+        currentCleanup = createVideoPlayer(container, item.url);
+    } else {
+        container.innerHTML = '';
+        let img = document.createElement('img');
+        img.src = item.url;
+        img.style.width = '100%';
+        img.style.borderRadius = '16px';
+        container.appendChild(img);
+        currentCleanup = null;
+    }
+}
+
+function showDetail(idx) {
+    const p = data.products[idx];
+    if (!p) return;
+    currentProductIndex = idx;
+    currentMediaList = p.mediaItems || [];
+    currentMediaIndex = 0;
+
+    const app = document.getElementById('app');
+
+    let thumbHtml = '<div class="product-thumb-container"><div class="product-thumb-strip">' +
+        data.products.map((pp, i) =>
+            '<img class="product-thumb-item ' + (i === idx ? 'active' : '') + '" data-pidx="' + i + '" src="' + (pp.thumb || 'https://via.placeholder.com/44/f5f3f0/c9a87c') + '">'
+        ).join('') +
+    '</div></div>';
+
+    let mediaHtml = '<div class="media-thumb-wrapper">' +
+        '<div class="media-thumb-arrow" id="prevMediaBtn">‹</div>' +
+        '<div class="media-thumb-scroll"><div class="media-thumb-strip"></div></div>' +
+        '<div class="media-thumb-arrow" id="nextMediaBtn">›</div>' +
+    '</div>';
+
+    let accHtml = '<ul class="accessory-list">' + (p.accessories || []).map(a => '<li>' + a + '</li>').join('') + '</ul>';
+    let nameHtml = (p.name || '').replace(/\n/g, '<br>');
+
+    app.innerHTML = '<div class="detail-page">' +
+        '<div class="back-home-btn" id="backHomeBtn">← На главную</div>' +
+        '<div class="detail-header"><h1>' + data.settings.detailTitle + '</h1><p>' + data.settings.detailSubtitle + '</p></div>' +
+        '<div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>' + thumbHtml + '<div class="product-nav-arrow" id="nextProductBtn">›</div></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0 8px;">' +
+            '<h2 style="font-family:\'Playfair Display\',serif;font-weight:400;font-size:1.1rem;color:#2c2c2c;">' + nameHtml + '</h2>' +
+            '<span class="product-price" style="font-size:1.3rem;">' + formatPrice(p.price) + ' ₽</span>' +
+        '</div>' +
+        '<div id="mainMedia" class="main-media-wrapper"></div>' +
+        mediaHtml +
+        '<div class="info-block">' +
+            '<h2>Описание</h2>' +
+            '<p>' + (p.description || '') + '</p>' +
+            '<h2 style="margin-top:12px;">Комплектация</h2>' +
+            accHtml +
+        '</div>' +
+    '</div>';
+
+    loadMedia(0);
+
+    const strip = document.querySelector('.media-thumb-strip');
+    if (strip) {
+        strip.innerHTML = '';
+        currentMediaList.forEach((item, i) => {
+            let src = item.type === 'image' ? item.url : 'https://i.ibb.co/4K7zC2N/sample.jpg';
+            let t = document.createElement('img');
+            t.className = 'media-thumb-item' + (i === 0 ? ' active' : '');
+            t.src = src;
+            t.dataset.idx = i;
+            t.addEventListener('click', () => {
+                currentMediaIndex = parseInt(t.dataset.idx);
+                loadMedia(currentMediaIndex);
+                document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
+            });
+            strip.appendChild(t);
+        });
+    }
+
+    document.getElementById('backHomeBtn')?.addEventListener('click', renderHome);
+    document.getElementById('prevProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex - 1 + data.products.length) % data.products.length));
+    document.getElementById('nextProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex + 1) % data.products.length));
+    document.querySelectorAll('.product-thumb-item').forEach(t => t.addEventListener('click', () => showDetail(parseInt(t.dataset.pidx))));
+
+    document.getElementById('prevMediaBtn')?.addEventListener('click', () => {
+        if (currentMediaList.length > 1) {
+            currentMediaIndex = (currentMediaIndex - 1 + currentMediaList.length) % currentMediaList.length;
+            loadMedia(currentMediaIndex);
+            document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
+        }
+    });
+    document.getElementById('nextMediaBtn')?.addEventListener('click', () => {
+        if (currentMediaList.length > 1) {
+            currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length;
+            loadMedia(currentMediaIndex);
+            document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
+        }
+    });
+}
+
+// ============================================================
+// 密码验证
+// ============================================================
+let currentPassword = ADMIN_PASSWORD;
+
+try {
+    const savedPass = localStorage.getItem('admin_password');
+    if (savedPass) currentPassword = savedPass;
+} catch(e) {}
+
+function openPassword() {
+    document.getElementById('passwordOverlay').classList.add('open');
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordError').classList.remove('show');
+    document.getElementById('passwordInput').focus();
+}
+
+function closePassword() {
+    document.getElementById('passwordOverlay').classList.remove('open');
+}
+
+function verifyPassword() {
+    const input = document.getElementById('passwordInput').value;
+    if (input === currentPassword) {
+        closePassword();
+        openAdmin();
+    } else {
+        document.getElementById('passwordError').classList.add('show');
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('passwordInput').focus();
+    }
+}
+
+document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') verifyPassword();
+});
+
+document.getElementById('adminOpenBtn').addEventListener('click', openPassword);
+
+// ============================================================
+// 后台管理
+// ============================================================
+function openAdmin() {
+    document.getElementById('adminModal').classList.add('open');
+    refreshProductList();
+    refreshBannerList();
+    updateBatchCount();
+    const s = data.settings;
+    document.getElementById('sShopName').value = s.shopName || '';
+    document.getElementById('sShopSlogan').value = s.shopSlogan || '';
+    document.getElementById('sDetailTitle').value = s.detailTitle || '';
+    document.getElementById('sDetailSubtitle').value = s.detailSubtitle || '';
+    document.getElementById('sCopyright').value = s.copyright || '';
+    document.getElementById('sPhone').value = s.contactPhone || '';
+    document.getElementById('sWhatsApp').value = s.contactWhatsApp || '';
+    document.getElementById('sEmail').value = s.contactEmail || '';
+    document.getElementById('sAddress').value = s.contactAddress || '';
+    document.getElementById('bannerSpeed').value = s.bannerSpeed || 4;
+}
+
+document.getElementById('adminCloseBtn').addEventListener('click', () => {
+    document.getElementById('adminModal').classList.remove('open');
+});
+document.getElementById('adminModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) document.getElementById('adminModal').classList.remove('open');
+});
+
+document.querySelectorAll('.tab-bar button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        const tabId = 'tab' + btn.dataset.tab.charAt(0).toUpperCase() + btn.dataset.tab.slice(1);
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
+function changePassword() {
+    const newPass = prompt('请输入新密码（至少4个字符）：');
+    if (newPass === null) return;
+    if (newPass.trim().length < 4) {
+        alert('密码至少需要4个字符');
+        return;
+    }
+    currentPassword = newPass;
+    try {
+        localStorage.setItem('admin_password', newPass);
+        alert('✅ 密码已修改！新密码：' + newPass);
+    } catch(e) {
+        alert('⚠️ 密码已修改（未保存到本地）');
+    }
+}
+
+// ---------- 商品管理 ----------
+function refreshProductList() {
+    const container = document.getElementById('productList');
+    const count = document.getElementById('productCount');
+    if (data.products.length === 0) {
+        container.innerHTML = '<div class="empty">📭 暂无商品</div>';
+        count.textContent = '0 个商品';
+        return;
+    }
+    container.innerHTML = data.products.map(p =>
+        '<div class="product-list-item">' +
+            '<span class="name">' + (p.name || '').replace(/\n/g, ' ') + '</span>' +
+            '<span class="price">' + formatPrice(p.price) + ' ₽</span>' +
+            '<div class="actions">' +
+                '<button style="background:#c9a87c;color:#fff;border:none;border-radius:6px;padding:3px 10px;cursor:pointer;font-weight:600;" onclick="editProduct(' + p.id + ')">✏️</button>' +
+                '<button style="background:#d9534f;color:#fff;border:none;border-radius:6px;padding:3px 10px;cursor:pointer;font-weight:600;" onclick="deleteProduct(' + p.id + ')">🗑</button>' +
+            '</div>' +
+        '</div>'
+    ).join('');
+    count.textContent = data.products.length + ' 个商品';
+    updateBatchCount();
+}
+
+function updateBatchCount() {
+    const el = document.getElementById('batchProductCount');
+    if (el) el.textContent = data.products.length;
+}
+
+function resetProductForm() {
+    document.getElementById('editProductId').value = '';
+    document.getElementById('pName').value = '';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pHighlight').value = '';
+    document.getElementById('pCategory').value = '';
+    document.getElementById('pThumb').value = '';
+    document.getElementById('pDescription').value = '';
+    tempMediaItems = [];
+    tempAccessories = [];
+    renderMediaTags();
+    renderAccessoryTags();
+    document.getElementById('saveBtn').textContent = '💾 保存商品';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+}
+
+function editProduct(id) {
+    const p = data.products.find(item => item.id === id);
+    if (!p) return;
+    document.getElementById('editProductId').value = id;
+    document.getElementById('pName').value = p.name || '';
+    document.getElementById('pPrice').value = p.price || '';
+    document.getElementById('pHighlight').value = p.highlight || '';
+    document.getElementById('pCategory').value = (p.categories && p.categories.length > 0) ? p.categories[0] : '';
+    document.getElementById('pThumb').value = p.thumb || '';
+    document.getElementById('pDescription').value = p.description || '';
+    tempMediaItems = JSON.parse(JSON.stringify(p.mediaItems || []));
+    tempAccessories = JSON.parse(JSON.stringify(p.accessories || []));
+    renderMediaTags();
+    renderAccessoryTags();
+    document.getElementById('saveBtn').textContent = '💾 更新商品';
+    document.getElementById('cancelEditBtn').style.display = 'inline-block';
+    document.getElementById('tabProducts').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelProductEdit() { resetProductForm(); }
+
+function saveProduct(e) {
+    e.preventDefault();
+    const name = document.getElementById('pName').value.trim();
+    const price = parseFloat(document.getElementById('pPrice').value);
+    const thumb = document.getElementById('pThumb').value.trim();
+    const highlight = document.getElementById('pHighlight').value.trim();
+    const category = document.getElementById('pCategory').value;
+    const description = document.getElementById('pDescription').value.trim();
+    const editId = document.getElementById('editProductId').value;
+
+    if (!name) { alert('请输入商品名称'); return; }
+    if (isNaN(price) || price <= 0) { alert('请输入有效价格'); return; }
+    if (!thumb) { alert('请输入缩略图 URL'); return; }
+
+    const productData = {
+        name, highlight: highlight || '', price,
+        categories: category ? [category] : [],
+        thumb, mediaItems: tempMediaItems.slice(),
+        description, accessories: tempAccessories.slice()
+    };
+
+    if (editId) {
+        const id = parseInt(editId);
+        const index = data.products.findIndex(p => p.id === id);
+        if (index !== -1) data.products[index] = { ...data.products[index], ...productData, id };
+        alert('✅ 商品已更新');
+    } else {
+        productData.id = getNextId();
+        data.products.push(productData);
+        alert('✅ 商品已添加');
+    }
+
+    saveAllData();
+    resetProductForm();
+    refreshProductList();
+    renderHome();
+}
+
+function deleteProduct(id) {
+    if (!confirm('确定删除该商品吗？')) return;
+    data.products = data.products.filter(p => p.id !== id);
+    saveAllData();
+    refreshProductList();
+    renderHome();
+}
+
+function renderMediaTags() {
+    const container = document.getElementById('mediaTags');
+    container.innerHTML = tempMediaItems.map((item, i) =>
+        '<span class="tag-item">' + (item.type === 'video' ? '🎬' : '🖼') + ' ' +
+        item.url.substring(0, 20) + (item.url.length > 20 ? '…' : '') +
+        ' <span class="del" onclick="removeMediaItem(' + i + ')">✕</span></span>'
+    ).join('');
+}
+
+function addMediaItem() {
+    const url = document.getElementById('mediaInput').value.trim();
+    const type = document.getElementById('mediaType').value;
+    if (!url) { alert('请输入媒体 URL'); return; }
+    tempMediaItems.push({ type, url });
+    document.getElementById('mediaInput').value = '';
+    renderMediaTags();
+}
+
+function removeMediaItem(index) { tempMediaItems.splice(index, 1); renderMediaTags(); }
+
+function renderAccessoryTags() {
+    const container = document.getElementById('accessoryTags');
+    container.innerHTML = tempAccessories.map((acc, i) =>
+        '<span class="tag-item">' + acc + ' <span class="del" onclick="removeAccessory(' + i + ')">✕</span></span>'
+    ).join('');
+}
+
+function addAccessory() {
+    const acc = document.getElementById('accessoryInput').value.trim();
+    if (!acc) { alert('请输入配件名称'); return; }
+    tempAccessories.push(acc);
+    document.getElementById('accessoryInput').value = '';
+    renderAccessoryTags();
+}
+
+function removeAccessory(index) { tempAccessories.splice(index, 1); renderAccessoryTags(); }
+
+// ---------- 页面管理 ----------
+let editingPageKey = null;
+
+function editPage(key) {
+    editingPageKey = key;
+    const page = data.pages[key];
+    document.getElementById('editPageKey').value = key;
+    document.getElementById('pageContent').value = page ? page.content : '';
+    document.getElementById('pageEditTitle').textContent = '✏️ 编辑: ' + key;
+    document.getElementById('pageEditForm').style.display = 'block';
+    document.getElementById('pageEditForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelPageEdit() { document.getElementById('pageEditForm').style.display = 'none'; editingPageKey = null; }
+
+function savePageContent(e) {
+    e.preventDefault();
+    const key = document.getElementById('editPageKey').value;
+    const content = document.getElementById('pageContent').value.trim();
+    if (!key || !content) { alert('请输入内容'); return; }
+    data.pages[key] = { title: key, content };
+    saveAllData();
+    alert('✅ 页面已更新');
+    document.getElementById('pageEditForm').style.display = 'none';
+    renderHome();
+}
+
+// ---------- 设置管理 ----------
+function saveSettings(e) {
+    e.preventDefault();
+    const s = data.settings;
+    s.shopName = document.getElementById('sShopName').value.trim();
+    s.shopSlogan = document.getElementById('sShopSlogan').value.trim();
+    s.detailTitle = document.getElementById('sDetailTitle').value.trim();
+    s.detailSubtitle = document.getElementById('sDetailSubtitle').value.trim();
+    s.copyright = document.getElementById('sCopyright').value.trim();
+    s.contactPhone = document.getElementById('sPhone').value.trim();
+    s.contactWhatsApp = document.getElementById('sWhatsApp').value.trim();
+    s.contactEmail = document.getElementById('sEmail').value.trim();
+    s.contactAddress = document.getElementById('sAddress').value.trim();
+    saveAllData();
+    alert('✅ 设置已保存');
+    renderHome();
+}
+
+// ---------- 轮播管理 ----------
+function refreshBannerList() {
+    const container = document.getElementById('bannerList');
+    const preview = document.getElementById('bannerPreview');
+    const banners = data.banners || [];
+    if (banners.length === 0) {
+        container.innerHTML = '<div class="empty">暂无轮播图</div>';
+        preview.innerHTML = '';
+        return;
+    }
+    container.innerHTML = banners.map((url, i) =>
+        '<span class="tag-item">🖼 ' + url.substring(0, 25) + (url.length > 25 ? '…' : '') +
+        ' <span class="del" onclick="removeBanner(' + i + ')">✕</span></span>'
+    ).join('');
+    preview.innerHTML = banners.map(url =>
+        '<img src="' + url + '" style="height:50px;border-radius:8px;object-fit:cover;border:1px solid #e0e2e6;">'
+    ).join('');
+}
+
+function addBanner() {
+    const url = document.getElementById('bannerInput').value.trim();
+    if (!url) { alert('请输入图片 URL'); return; }
+    data.banners.push(url);
+    document.getElementById('bannerInput').value = '';
+    saveAllData();
+    refreshBannerList();
+    renderHome();
+}
+
+function removeBanner(index) {
+    data.banners.splice(index, 1);
+    saveAllData();
+    refreshBannerList();
+    renderHome();
+}
+
+function updateBannerSpeed(value) {
+    data.settings.bannerSpeed = parseFloat(value) || 4;
+    saveAllData();
+}
+
+// ============================================================
+// 批量导入导出 (CSV)
+// ============================================================
+
+function downloadTemplate() {
+    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用|分隔)', '媒体URL(用|分隔)', '媒体类型(用|分隔)'];
+    const sample = [
+        'Эректор с цифровым дисплеем', '3422.23', '🔥 防水等级 IP67\n✨ 3种按摩模式', 'Новинки 🔥',
+        'https://example.com/photo.jpg',
+        'Описание товара',
+        'Руководство|Гарантийный талон',
+        'https://rutube.ru/play/embed/xxx|https://example.com/photo.jpg',
+        'video|image'
+    ];
+    let csv = headers.join(',') + '\n';
+    csv += sample.join(',') + '\n';
+    csv += ', , , , , , , , \n';
+    csv += ', , , , , , , , \n';
+    downloadCSV(csv, 'product_template.csv');
+    alert('✅ 模板已下载！');
+}
+
+function exportCSV() {
+    if (data.products.length === 0) {
+        alert('⚠️ 没有商品可导出');
+        return;
+    }
+    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用|分隔)', '媒体URL(用|分隔)', '媒体类型(用|分隔)'];
+    let csv = headers.join(',') + '\n';
+    data.products.forEach(p => {
+        const row = [
+            escapeCSV(p.name || ''),
+            p.price || 0,
+            escapeCSV(p.highlight || ''),
+            (p.categories && p.categories.length > 0) ? p.categories[0] : '',
+            p.thumb || '',
+            escapeCSV(p.description || ''),
+            (p.accessories || []).join('|'),
+            (p.mediaItems || []).map(m => m.url).join('|'),
+            (p.mediaItems || []).map(m => m.type).join('|')
+        ];
+        csv += row.join(',') + '\n';
+    });
+    downloadCSV(csv, 'products_export_' + new Date().toISOString().slice(0,10) + '.csv');
+    alert('✅ 已导出 ' + data.products.length + ' 个商品');
+}
+
+document.getElementById('batchFileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        try {
+            const text = ev.target.result;
+            const lines = text.split('\n').filter(line => line.trim());
+            if (lines.length < 2) {
+                alert('❌ 文件为空或格式错误');
+                return;
+            }
+            const headers = parseCSVLine(lines[0]);
+            const nameIdx = headers.findIndex(h => h.includes('名称') || h.includes('name'));
+            const priceIdx = headers.findIndex(h => h.includes('价格') || h.includes('price'));
+            const thumbIdx = headers.findIndex(h => h.includes('缩略图') || h.includes('thumb'));
+            if (nameIdx === -1 || priceIdx === -1 || thumbIdx === -1) {
+                alert('❌ 格式错误！请下载模板');
+                return;
+            }
+            const progress = document.getElementById('importProgress');
+            const barFill = document.getElementById('importBarFill');
+            const barText = document.getElementById('importBarText');
+            progress.classList.add('show');
+            const totalLines = lines.length - 1;
+            const newProducts = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (!values[nameIdx] && !values[priceIdx]) continue;
+                const name = values[nameIdx] || 'Товар';
+                const price = parseFloat(values[priceIdx]) || 0;
+                const highlight = values[headers.findIndex(h => h.includes('亮点'))] || '';
+                const category = values[headers.findIndex(h => h.includes('分类'))] || '';
+                const thumb = values[thumbIdx] || 'https://via.placeholder.com/80/f5f3f0/c9a87c';
+                const description = values[headers.findIndex(h => h.includes('描述'))] || '';
+                const accIdx = headers.findIndex(h => h.includes('配件'));
+                const accessories = accIdx !== -1 && values[accIdx] ? values[accIdx].split('|').filter(a => a.trim()) : [];
+                const urlIdx = headers.findIndex(h => h.includes('媒体URL'));
+                const typeIdx = headers.findIndex(h => h.includes('媒体类型'));
+                const mediaItems = [];
+                if (urlIdx !== -1 && values[urlIdx]) {
+                    const urls = values[urlIdx].split('|').filter(u => u.trim());
+                    const types = typeIdx !== -1 && values[typeIdx] ? values[typeIdx].split('|') : [];
+                    urls.forEach((url, j) => {
+                        mediaItems.push({
+                            url: url.trim(),
+                            type: (types[j] && types[j].trim() === 'video') ? 'video' : 'image'
+                        });
+                    });
+                }
+                newProducts.push({
+                    id: getNextId() + i,
+                    name, price, highlight,
+                    categories: category ? [category] : [],
+                    thumb, description, accessories, mediaItems
+                });
+                const progressPct = Math.round(((i) / totalLines) * 100);
+                barFill.style.width = Math.min(progressPct, 100) + '%';
+                barText.textContent = '导入 ' + i + '/' + totalLines + ' ...';
+            }
+            data.products = newProducts;
+            saveAllData();
+            refreshProductList();
+            renderHome();
+            updateBatchCount();
+            barFill.style.width = '100%';
+            barText.textContent = '✅ 成功导入 ' + newProducts.length + ' 个商品';
+            setTimeout(() => {
+                progress.classList.remove('show');
+                barFill.style.width = '0%';
+            }, 3000);
+            document.getElementById('batchResult').innerHTML = 
+                '<span style="color:#c9a87c;font-weight:600;">✅ 成功导入 ' + newProducts.length + ' 个商品</span>';
+        } catch(err) {
+            alert('❌ 导入失败：' + err.message);
+        }
+    };
+    reader.readAsText(file, 'UTF-8');
+    this.value = '';
+});
+
+function clearAllProducts() {
+    if (!confirm('⚠️ 确定删除所有商品吗？此操作不可撤销！')) return;
+    if (!confirm('再次确认：删除 ' + data.products.length + ' 个商品？')) return;
+    data.products = [];
+    saveAllData();
+    refreshProductList();
+    renderHome();
+    updateBatchCount();
+    document.getElementById('batchResult').innerHTML = '<span style="color:#d9534f;font-weight:600;">🗑 已清空所有商品</span>';
+    alert('🗑 已清空所有商品');
+}
+
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') { inQuotes = !inQuotes; }
+        else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; }
+        else { current += char; }
+    }
+    result.push(current.trim());
+    return result;
+}
+
+function escapeCSV(str) {
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+        return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+}
+
+function downloadCSV(csv, filename) {
+    const BOM = '\uFEFF';
+    const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+// ---------- 数据导入导出 (JSON) ----------
+function exportData() {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'shop_data_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    alert('💾 数据已导出');
+}
+
+document.getElementById('importFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        try {
+            const imported = JSON.parse(ev.target.result);
+            data = deepMerge(data, imported);
+            saveAllData();
+            alert('✅ 数据已导入');
+            refreshProductList();
+            refreshBannerList();
+            renderHome();
+            updateBatchCount();
+        } catch(err) {
+            alert('❌ 文件格式错误');
+        }
+    };
+    reader.readAsText(file);
+    this.value = '';
+});
+
+// ============================================================
+// 启动
+// ============================================================
 renderHome();
-</script></body></html>
+</script>
+</body>
+</html>
