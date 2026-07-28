@@ -319,6 +319,61 @@ img{
     .admin-modal-content{padding:20px}
     .admin-modal-content .form-row{grid-template-columns:1fr}
 }
+
+
+/* ===== PREMIUM 3D UI V2 ===== */
+:root{
+  --gold:#c9a87c;
+  --gold-deep:#a9824d;
+  --ink:#27231f;
+  --paper:#fbf8f3;
+  --paper-2:#eee8df;
+  --shadow-dark:rgba(91,72,50,.16);
+  --shadow-light:rgba(255,255,255,.92);
+}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 100%);}
+.app-container{background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(249,245,239,.96));box-shadow:0 28px 80px rgba(72,55,34,.16);}
+.shop-header{background:linear-gradient(145deg,#fffdfa,#eee7dd);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 12px 34px rgba(102,78,50,.08)}
+.category-item,.back-home-btn,.product-nav-arrow,.media-thumb-arrow{
+  background:linear-gradient(145deg,#fff,#ebe5dc);
+  box-shadow:6px 6px 14px rgba(105,83,58,.12),-6px -6px 14px rgba(255,255,255,.9),inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid rgba(160,130,92,.12)
+}
+.category-item.active{
+  background:linear-gradient(145deg,#d7bb94,#ad8550);
+  box-shadow:inset 3px 3px 7px rgba(100,70,35,.18),inset -3px -3px 7px rgba(255,237,203,.28),0 7px 18px rgba(170,129,78,.24)
+}
+.product-card,.info-block,.banner-carousel,.main-media-wrapper{
+  box-shadow:12px 12px 28px var(--shadow-dark),-10px -10px 24px var(--shadow-light),inset 0 1px 0 rgba(255,255,255,.92);
+  border:1px solid rgba(165,133,94,.12)
+}
+.product-card{background:linear-gradient(145deg,#fffdfa,#f0eae1);transform:translateZ(0);will-change:transform}
+.product-card:hover{transform:translateY(-4px) rotateX(1deg);box-shadow:15px 18px 34px rgba(91,72,50,.18),-10px -10px 25px #fff}
+.thumb-img,.media-thumb-item,.product-thumb-item{box-shadow:4px 5px 12px rgba(70,55,38,.14),-3px -3px 8px rgba(255,255,255,.9)}
+.banner-carousel{background:linear-gradient(145deg,#eee7dd,#fff);transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s}
+.banner-carousel:active{transform:scale(.992)}
+.banner-image{transition:opacity .42s ease,transform .8s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+.banner-carousel:hover .banner-image{transform:scale(1.025)}
+.main-product-image{transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .25s ease}
+.back-home-btn{color:#3d342b;font-weight:600;background:linear-gradient(145deg,#fff,#e8dfd4);border-color:rgba(169,130,80,.2);box-shadow:5px 6px 14px rgba(83,65,44,.14),-5px -5px 12px rgba(255,255,255,.94)}
+.back-home-btn:hover{color:#17120e;background:linear-gradient(145deg,#fff9ef,#e4d8c8)}
+.page-bottom-nav{padding:24px 18px 34px;display:flex;gap:10px;justify-content:center}
+.page-bottom-nav .bottom-back-btn{min-width:150px;justify-content:center;padding:11px 20px;font-size:.78rem}
+.contact-chat{bottom:72px;background:linear-gradient(145deg,#d8b98e,#a77c45);box-shadow:8px 10px 24px rgba(119,84,42,.3),-5px -5px 18px rgba(255,255,255,.85),inset 0 1px 0 rgba(255,255,255,.45)}
+.contact-chat:active{transform:scale(.92);box-shadow:inset 4px 4px 9px rgba(76,52,24,.22),inset -3px -3px 7px rgba(255,236,198,.28)}
+.admin-footer-btn{bottom:28px;right:33px;opacity:.27;background:rgba(234,228,219,.62);color:rgba(56,49,42,.28);box-shadow:none}
+.admin-footer-btn:hover{opacity:.65}
+.scroll-top-btn{position:fixed;right:25px;bottom:132px;width:42px;height:42px;border:0;border-radius:50%;z-index:97;display:flex;align-items:center;justify-content:center;font-size:21px;color:#5c4934;background:linear-gradient(145deg,#fff,#e8dfd3);box-shadow:7px 8px 18px rgba(87,67,44,.18),-5px -5px 14px rgba(255,255,255,.9);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:.3s cubic-bezier(.22,1,.36,1);cursor:pointer}
+.scroll-top-btn.show{opacity:.92;visibility:visible;transform:translateY(0) scale(1)}
+.scroll-top-btn:active{transform:scale(.9);box-shadow:inset 3px 3px 7px rgba(90,67,42,.18)}
+.media-thumb-scroll,.product-thumb-container{scroll-behavior:smooth;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.media-thumb-item,.product-thumb-item{scroll-snap-align:center}
+@media(max-width:420px){
+ .product-card,.info-block,.banner-carousel,.main-media-wrapper{box-shadow:8px 9px 20px rgba(91,72,50,.13),-6px -6px 16px rgba(255,255,255,.85)}
+ .scroll-top-btn{right:25px;bottom:127px;width:39px;height:39px}
+}
+
 </style>
 </head>
 <body>
@@ -337,7 +392,9 @@ img{
 
 
 <!-- 聊天按钮 -->
-<a id="chatBtn" class="contact-chat" href="#" target="_blank">✦</a>
+<a id="chatBtn" class="contact-chat" href="tel:+79128915882" aria-label="Позвонить" title="Позвонить: +7 912 891-58-82">☎</a>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Наверх" title="Наверх">↑</button>
 
 <!-- 后台入口按钮 -->
 <button class="admin-footer-btn" id="adminOpenBtn" title="管理后台">⚙</button>
@@ -520,8 +577,8 @@ img{
                         <input type="text" id="sPhone" value="+7 (912) 891-58-82">
                     </div>
                     <div>
-                        <label>WhatsApp 链接</label>
-                        <input type="url" id="sWhatsApp" value="https://wa.me/79999123829">
+                        <label>手机按钮链接</label>
+                        <input type="text" id="sWhatsApp" value="tel:+79128915882" placeholder="tel:+79128915882">
                     </div>
                 </div>
                 <div class="form-row">
@@ -543,11 +600,12 @@ img{
         <!-- ===== TAB: 轮播管理 ===== -->
         <div class="tab-content" id="tabBanners">
             <div>
-                <label>轮播图 URL（建议 600×200）</label>
-                <div class="tag-input-group">
-                    <input type="url" id="bannerInput" placeholder="https://example.com/banner.jpg">
-                    <button type="button" class="btn btn-green" onclick="addBanner()">➕ 添加</button>
+                <label>轮播图 URL（推荐 1600×700，比例 16:7）</label>
+                <div class="tag-input-group" style="align-items:flex-start;">
+                    <textarea id="bannerInput" rows="5" placeholder="可一次粘贴多个图片链接；每行一个，或使用 | 分隔"></textarea>
+                    <button type="button" class="btn btn-green" onclick="addBanner()">➕ 批量添加</button>
                 </div>
+                <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">支持换行、竖线 | 或空格分隔。建议所有轮播图保持 16:7 横图比例。</div>
                 <div class="tag-list" id="bannerList"></div>
             </div>
             <div style="margin-top:10px;">
@@ -1000,7 +1058,19 @@ function renderHome() {
             idx = (idx + 1) % banners.length;
             const img = document.getElementById('bannerImage');
             const carousel = document.getElementById('bannerCarousel');
-            if (img) img.src = safeImageUrl(banners[idx], data.updatedAt || 1);
+            if (img) {
+                const nextSrc = safeImageUrl(banners[idx], data.updatedAt || 1);
+                const pre = new Image();
+                pre.onload = () => {
+                    img.style.opacity = '0';
+                    img.style.transform = 'scale(1.035)';
+                    setTimeout(() => {
+                        img.src = nextSrc;
+                        requestAnimationFrame(() => { img.style.opacity = '1'; img.style.transform = 'scale(1)'; });
+                    }, 150);
+                };
+                pre.src = nextSrc;
+            }
             if (carousel) carousel.dataset.bannerIndex = idx;
             document.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
         }, (settings.bannerSpeed || 4) * 1000);
@@ -1018,7 +1088,10 @@ function renderHome() {
     products.slice(0, 4).forEach(p => preloadImage(getPrimaryImage(p), p.updatedAt || data.updatedAt || 1));
 
     const chatBtn = document.getElementById('chatBtn');
-    if (chatBtn) chatBtn.href = settings.contactWhatsApp || 'https://wa.me/' + settings.contactPhone.replace(/[^0-9]/g, '');
+    if (chatBtn) {
+        chatBtn.href = 'tel:+79128915882';
+        chatBtn.title = 'Позвонить: +7 912 891-58-82';
+    }
 }
 
 function showPage(key) {
@@ -1030,10 +1103,12 @@ function showPage(key) {
         '<div class="shop-header"><div class="shop-name"><span>✦</span> ' + data.settings.shopName + '</div></div>' +
         '<div style="padding:16px 16px 0 16px;"><div class="back-home-btn" id="backToHomeBtn">← На главную</div></div>' +
         '<div class="page-content-inner">' + page.content + '</div>' +
+        '<div class="page-bottom-nav"><div class="back-home-btn bottom-back-btn" id="bottomBackBtn">← Назад</div></div>' +
         '<div class="footer-info"><div class="footer-copyright">' + data.settings.copyright + '</div></div>' +
     '</div>';
 
     document.getElementById('backToHomeBtn')?.addEventListener('click', renderHome);
+    document.getElementById('bottomBackBtn')?.addEventListener('click', () => history.length > 1 ? history.back() : renderHome());
 }
 
 function createVideoPlayer(container, src) {
@@ -1134,6 +1209,7 @@ function showDetail(idx) {
             '<h2 style="margin-top:12px;">Комплектация</h2>' +
             accHtml +
         '</div>' +
+        '<div class="page-bottom-nav"><div class="back-home-btn bottom-back-btn" id="detailBottomBackBtn">← Назад</div></div>' +
     '</div>';
 
     loadMedia(0);
@@ -1162,6 +1238,7 @@ function showDetail(idx) {
     }
 
     document.getElementById('backHomeBtn')?.addEventListener('click', renderHome);
+    document.getElementById('detailBottomBackBtn')?.addEventListener('click', () => history.length > 1 ? history.back() : renderHome());
     document.getElementById('prevProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex - 1 + data.products.length) % data.products.length));
     document.getElementById('nextProductBtn')?.addEventListener('click', () => showDetail((currentProductIndex + 1) % data.products.length));
     document.querySelectorAll('.product-thumb-item').forEach(t => t.addEventListener('click', () => showDetail(parseInt(t.dataset.pidx))));
@@ -1527,13 +1604,20 @@ function refreshBannerList() {
 }
 
 function addBanner() {
-    const url = document.getElementById('bannerInput').value.trim();
-    if (!url) { alert('请输入图片 URL'); return; }
-    data.banners.push(url);
-    document.getElementById('bannerInput').value = '';
+    const input = document.getElementById('bannerInput');
+    const raw = input.value.trim();
+    if (!raw) { alert('请输入一个或多个图片 URL'); return; }
+    const urls = raw.split(/[|\n\r\t ]+/).map(v => v.trim()).filter(Boolean);
+    const valid = urls.filter(v => /^https?:\/\//i.test(v));
+    const existing = new Set(data.banners || []);
+    const unique = valid.filter(v => !existing.has(v));
+    if (!unique.length) { alert('没有可添加的新链接，请检查格式或重复链接。'); return; }
+    data.banners.push(...unique);
+    input.value = '';
     saveAllData();
     refreshBannerList();
     renderHome();
+    alert('✅ 已添加 ' + unique.length + ' 张轮播图');
 }
 
 function removeBanner(index) {
@@ -1760,6 +1844,18 @@ document.getElementById('importFile').addEventListener('change', function(e) {
     reader.readAsText(file);
     this.value = '';
 });
+
+// ---------- 返回顶部 ----------
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+function updateScrollTopButton() {
+    if (!scrollTopBtn) return;
+    const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 220;
+    const scrolled = window.scrollY > 420;
+    scrollTopBtn.classList.toggle('show', nearBottom || scrolled);
+}
+window.addEventListener('scroll', updateScrollTopButton, { passive:true });
+scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+updateScrollTopButton();
 
 // ============================================================
 // 启动
