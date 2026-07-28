@@ -233,6 +233,13 @@ img{
     cursor:zoom-in;
     user-select:none;
 }
+
+.detail-swipe-track{display:flex;width:300%;height:100%;transform:translate3d(-33.333333%,0,0);transition:transform .4s cubic-bezier(.22,.72,.18,1);will-change:transform}
+.detail-swipe-track.dragging{transition:none}
+.detail-swipe-slide{width:33.333333%;flex:0 0 33.333333%;display:flex;align-items:center;justify-content:center;padding:0}
+.detail-swipe-slide img{width:100%;max-height:72vh;object-fit:contain;border-radius:16px;user-select:none;-webkit-user-drag:none}
+.main-media-wrapper.swiping{overflow:hidden;touch-action:pan-y}
+
 .image-quality-note{
     padding:8px 12px;
     margin-top:8px;
@@ -390,6 +397,8 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
 .page-bottom-nav .bottom-back-btn{min-width:150px;justify-content:center;padding:11px 20px;font-size:.78rem}
 .contact-chat{bottom:72px;background:linear-gradient(145deg,#d8b98e,#a77c45);box-shadow:8px 10px 24px rgba(119,84,42,.3),-5px -5px 18px rgba(255,255,255,.85),inset 0 1px 0 rgba(255,255,255,.45)}
 .contact-chat:active{transform:scale(.92);box-shadow:inset 4px 4px 9px rgba(76,52,24,.22),inset -3px -3px 7px rgba(255,236,198,.28)}
+.contact-chat svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.contact-chat{font-size:0}
 .admin-footer-btn{bottom:28px;right:33px;opacity:.27;background:rgba(234,228,219,.62);color:rgba(56,49,42,.28);box-shadow:none}
 .admin-footer-btn:hover{opacity:.65}
 .scroll-top-btn{position:fixed;right:25px;bottom:132px;width:42px;height:42px;border:0;border-radius:50%;z-index:97;display:flex;align-items:center;justify-content:center;font-size:21px;color:#5c4934;background:linear-gradient(145deg,#fff,#e8dfd3);box-shadow:7px 8px 18px rgba(87,67,44,.18),-5px -5px 14px rgba(255,255,255,.9);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:.3s cubic-bezier(.22,1,.36,1);cursor:pointer}
@@ -465,12 +474,12 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
     </div>
     <button class="lightbox-nav next" id="lightboxNextBtn" aria-label="Следующее изображение">›</button>
     <div class="lightbox-counter" id="lightboxCounter"></div>
-    <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь изображения для увеличения · Листайте влево и вправо</div>
+    <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь для увеличения · Перемещайте увеличенное изображение пальцем · Листайте влево и вправо</div>
 </div>
 
 
 <!-- 聊天按钮 -->
-<a id="chatBtn" class="contact-chat" href="tel:+79128915882" aria-label="Позвонить" title="Позвонить: +7 912 891-58-82">☎</a>
+<a id="chatBtn" class="contact-chat" href="tel:+79128915882" aria-label="Позвонить" title="Позвонить: +7 912 891-58-82"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg></a>
 
 <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Наверх" title="Наверх">↑</button>
 
@@ -934,6 +943,12 @@ let lightboxStartDistance = 0;
 let lightboxStartScale = 1;
 let lightboxDragging = false;
 let lightboxAnimating = false;
+let lightboxPanX = 0;
+let lightboxPanY = 0;
+let lightboxStartPanX = 0;
+let lightboxStartPanY = 0;
+let lightboxPinchCenterX = 0;
+let lightboxPinchCenterY = 0;
 
 function getLightboxItem(offset) {
     if (!lightboxImages.length) return {src:'', alt:''};
@@ -947,6 +962,23 @@ function setLightboxTrack(x, animate = true) {
     track.style.transform = `translate3d(calc(-100vw + ${x}px),0,0)`;
 }
 
+function clampLightboxPan() {
+    const img = document.getElementById('lightboxImage');
+    if (!img || lightboxScale <= 1) { lightboxPanX = 0; lightboxPanY = 0; return; }
+    const maxX = Math.max(0, (img.clientWidth * lightboxScale - window.innerWidth) / 2 + 24);
+    const maxY = Math.max(0, (img.clientHeight * lightboxScale - window.innerHeight) / 2 + 24);
+    lightboxPanX = Math.max(-maxX, Math.min(maxX, lightboxPanX));
+    lightboxPanY = Math.max(-maxY, Math.min(maxY, lightboxPanY));
+}
+
+function applyLightboxTransform(animate = false) {
+    const img = document.getElementById('lightboxImage');
+    if (!img) return;
+    clampLightboxPan();
+    img.style.transition = animate ? 'transform .22s cubic-bezier(.22,.72,.18,1)' : 'none';
+    img.style.transform = `translate3d(${lightboxPanX}px,${lightboxPanY}px,0) scale(${lightboxScale})`;
+}
+
 function renderLightboxSlides() {
     if (!lightboxImages.length) return;
     const prev = getLightboxItem(-1);
@@ -958,7 +990,8 @@ function renderLightboxSlides() {
     const counter = document.getElementById('lightboxCounter');
 
     lightboxScale = 1;
-    [prevImg, img, nextImg].forEach(el => el.style.transform = 'scale(1)');
+    lightboxPanX = 0; lightboxPanY = 0;
+    [prevImg, img, nextImg].forEach(el => { el.style.transition='none'; el.style.transform = 'translate3d(0,0,0) scale(1)'; });
     prevImg.src = prev.src; prevImg.alt = prev.alt || 'Предыдущее изображение';
     img.src = current.src; img.alt = current.alt || 'Просмотр изображения';
     nextImg.src = next.src; nextImg.alt = next.alt || 'Следующее изображение';
@@ -1007,9 +1040,9 @@ function animateLightbox(step) {
 function changeLightboxImage(step) { animateLightbox(step); }
 
 function toggleLightboxZoom() {
-    const img = document.getElementById('lightboxImage');
     lightboxScale = lightboxScale > 1 ? 1 : 2.2;
-    img.style.transform = `scale(${lightboxScale})`;
+    if (lightboxScale === 1) { lightboxPanX = 0; lightboxPanY = 0; }
+    applyLightboxTransform(true);
 }
 
 function touchDistance(touches) {
@@ -1035,10 +1068,16 @@ document.getElementById('imageLightbox').addEventListener('touchstart', function
     if (e.touches.length === 2) {
         lightboxStartDistance = touchDistance(e.touches);
         lightboxStartScale = lightboxScale;
+        lightboxStartPanX = lightboxPanX;
+        lightboxStartPanY = lightboxPanY;
+        lightboxPinchCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        lightboxPinchCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
         return;
     }
     lightboxTouchStartX = e.touches[0].clientX;
     lightboxTouchStartY = e.touches[0].clientY;
+    lightboxStartPanX = lightboxPanX;
+    lightboxStartPanY = lightboxPanY;
     lightboxCurrentX = 0;
     lightboxDragging = true;
 }, {passive:true});
@@ -1047,13 +1086,25 @@ document.getElementById('imageLightbox').addEventListener('touchmove', function(
     if (e.touches.length === 2 && lightboxStartDistance) {
         e.preventDefault();
         const ratio = touchDistance(e.touches) / lightboxStartDistance;
-        lightboxScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
-        document.getElementById('lightboxImage').style.transform = `scale(${lightboxScale})`;
+        const newScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
+        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        lightboxPanX = lightboxStartPanX + (centerX - lightboxPinchCenterX);
+        lightboxPanY = lightboxStartPanY + (centerY - lightboxPinchCenterY);
+        lightboxScale = newScale;
+        applyLightboxTransform(false);
         return;
     }
-    if (!lightboxDragging || lightboxScale > 1 || e.touches.length !== 1) return;
+    if (!lightboxDragging || e.touches.length !== 1) return;
     const dx = e.touches[0].clientX - lightboxTouchStartX;
     const dy = e.touches[0].clientY - lightboxTouchStartY;
+    if (lightboxScale > 1) {
+        e.preventDefault();
+        lightboxPanX = lightboxStartPanX + dx;
+        lightboxPanY = lightboxStartPanY + dy;
+        applyLightboxTransform(false);
+        return;
+    }
     if (Math.abs(dx) > Math.abs(dy)) {
         e.preventDefault();
         lightboxCurrentX = dx;
@@ -1069,6 +1120,11 @@ document.getElementById('imageLightbox').addEventListener('touchend', function(e
     const dx = touch.clientX - lightboxTouchStartX;
     const dy = touch.clientY - lightboxTouchStartY;
     lightboxDragging = false;
+
+    if (lightboxScale > 1) {
+        applyLightboxTransform(true);
+        return;
+    }
 
     if (lightboxScale === 1 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.1 && lightboxImages.length > 1) {
         animateLightbox(dx < 0 ? 1 : -1);
@@ -1381,6 +1437,70 @@ function loadMedia(index) {
     }
 }
 
+function bindDetailMediaSwipe() {
+    const container = document.getElementById('mainMedia');
+    if (!container) return;
+    let startX = 0, startY = 0, dx = 0, dragging = false, moved = false;
+
+    const imageIndexes = () => currentMediaList.map((m,i)=>m.type === 'image' ? i : -1).filter(i=>i >= 0);
+    const adjacentIndex = step => {
+        const imgs = imageIndexes();
+        if (imgs.length < 2) return currentMediaIndex;
+        let pos = imgs.indexOf(currentMediaIndex);
+        if (pos < 0) pos = 0;
+        return imgs[(pos + step + imgs.length) % imgs.length];
+    };
+    const makeTrack = () => {
+        const product = data.products[currentProductIndex] || {};
+        const prevIndex = adjacentIndex(-1), nextIndex = adjacentIndex(1);
+        const indexes = [prevIndex, currentMediaIndex, nextIndex];
+        const track = document.createElement('div');
+        track.className = 'detail-swipe-track dragging';
+        indexes.forEach(i => {
+            const slide = document.createElement('div'); slide.className='detail-swipe-slide';
+            const img = document.createElement('img');
+            img.src = safeImageUrl(currentMediaList[i].url, product.updatedAt || data.updatedAt || 1);
+            img.alt = product.name || 'Изображение товара'; img.draggable=false;
+            slide.appendChild(img); track.appendChild(slide);
+        });
+        container.innerHTML=''; container.appendChild(track); container.classList.add('swiping');
+        return track;
+    };
+    const updateActive = () => document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));
+
+    container.addEventListener('touchstart', e => {
+        if (e.touches.length !== 1 || currentMediaList[currentMediaIndex]?.type !== 'image' || imageIndexes().length < 2) return;
+        startX=e.touches[0].clientX; startY=e.touches[0].clientY; dx=0; moved=false; dragging=true;
+    }, {passive:true});
+    container.addEventListener('touchmove', e => {
+        if (!dragging || e.touches.length !== 1) return;
+        dx=e.touches[0].clientX-startX; const dy=e.touches[0].clientY-startY;
+        if (Math.abs(dx)>8) moved=true;
+        if (Math.abs(dx)>Math.abs(dy)) {
+            e.preventDefault();
+            let track=container.querySelector('.detail-swipe-track') || makeTrack();
+            track.style.transform=`translate3d(calc(-33.333333% + ${dx}px),0,0)`;
+        }
+    }, {passive:false});
+    container.addEventListener('touchend', e => {
+        if (!dragging) return; dragging=false;
+        const threshold=Math.min(70,container.clientWidth*.18);
+        const track=container.querySelector('.detail-swipe-track');
+        if (track && Math.abs(dx)>threshold) {
+            const step=dx<0?1:-1;
+            track.classList.remove('dragging');
+            track.style.transform=`translate3d(${step>0?'-66.666666%':'0%'},0,0)`;
+            setTimeout(()=>{ currentMediaIndex=adjacentIndex(step); loadMedia(currentMediaIndex); updateActive(); bindDetailMediaSwipe(); },400);
+        } else if (track) {
+            track.classList.remove('dragging'); track.style.transform='translate3d(-33.333333%,0,0)';
+            setTimeout(()=>{ loadMedia(currentMediaIndex); bindDetailMediaSwipe(); },400);
+        }
+        setTimeout(()=>{ moved=false; },450);
+    }, {passive:true});
+    container.addEventListener('touchcancel', ()=>{ dragging=false; loadMedia(currentMediaIndex); bindDetailMediaSwipe(); }, {passive:true});
+    container.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+}
+
 function showDetail(idx) {
     const p = data.products[idx];
     if (!p) return;
@@ -1425,6 +1545,7 @@ function showDetail(idx) {
     '</div>';
 
     loadMedia(0);
+    bindDetailMediaSwipe();
 
     const strip = document.querySelector('.media-thumb-strip');
     if (strip) {
@@ -1443,6 +1564,7 @@ function showDetail(idx) {
             t.addEventListener('click', () => {
                 currentMediaIndex = parseInt(t.dataset.idx);
                 loadMedia(currentMediaIndex);
+                bindDetailMediaSwipe();
                 document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
             });
             strip.appendChild(t);
@@ -1459,6 +1581,7 @@ function showDetail(idx) {
         if (currentMediaList.length > 1) {
             currentMediaIndex = (currentMediaIndex - 1 + currentMediaList.length) % currentMediaList.length;
             loadMedia(currentMediaIndex);
+            bindDetailMediaSwipe();
             document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
         }
     });
@@ -1466,6 +1589,7 @@ function showDetail(idx) {
         if (currentMediaList.length > 1) {
             currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length;
             loadMedia(currentMediaIndex);
+            bindDetailMediaSwipe();
             document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
         }
     });
