@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <title>Каталог — обновлённая версия</title>
+<link rel="preconnect" href="https://i.ibb.co" crossorigin>
+<link rel="dns-prefetch" href="//i.ibb.co">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -32,8 +34,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;m
 .category-item:hover{color:#2c2c2c;background:#ece8e4}
 
 /* ===== BANNER ===== */
-.banner-carousel{position:relative;margin:12px 16px 8px;border-radius:16px;overflow:hidden;background:#f0ede8;aspect-ratio:3/1;border:1px solid rgba(180,160,140,0.08)}
-.banner-image{width:100%;height:100%;object-fit:cover;transition:opacity 0.6s}
+.banner-carousel{position:relative;margin:12px 16px 8px;border-radius:16px;overflow:hidden;background:#f0ede8;aspect-ratio:16/7;border:1px solid rgba(180,160,140,0.08);cursor:pointer;box-shadow:0 6px 24px rgba(44,44,44,.06)}
+.banner-image{width:100%;height:100%;object-fit:cover;object-position:center 42%;transition:opacity 0.35s;display:block}
 .banner-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
 .banner-dot{width:5px;height:5px;background:rgba(44,44,44,0.12);border-radius:50%;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
 .banner-dot.active{width:24px;background:#c9a87c;border-radius:4px}
@@ -106,12 +108,12 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;m
 .page-content-inner a{color:#c9a87c;text-decoration:none}
 
 /* ===== CHAT BUTTON ===== */
-.contact-chat{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#c9a87c,#b8945e);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;z-index:99;text-decoration:none;box-shadow:0 4px 30px rgba(201,168,124,0.25);transition:all 0.3s}
+.contact-chat{position:fixed;bottom:58px;right:24px;background:linear-gradient(135deg,#c9a87c,#b8945e);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;z-index:99;text-decoration:none;box-shadow:0 4px 30px rgba(201,168,124,0.25);transition:all 0.3s}
 .contact-chat:hover{transform:scale(1.05);box-shadow:0 6px 40px rgba(201,168,124,0.35)}
 
 /* ===== ADMIN BUTTON ===== */
-.admin-footer-btn{position:fixed;bottom:82px;right:24px;background:#f5f3f0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(44,44,44,0.2);font-size:14px;cursor:pointer;z-index:98;border:1px solid rgba(180,160,140,0.08);transition:all 0.3s}
-.admin-footer-btn:hover{color:rgba(44,44,44,0.5);background:#ece8e4}
+.admin-footer-btn{position:fixed;bottom:18px;right:31px;background:rgba(245,243,240,.72);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(44,44,44,.12);font-size:11px;cursor:pointer;z-index:98;border:1px solid rgba(180,160,140,.05);transition:all .3s;opacity:.55;backdrop-filter:blur(8px)}
+.admin-footer-btn:hover{color:rgba(44,44,44,.38);background:rgba(236,232,228,.9);opacity:.9}
 
 /* ===== PASSWORD OVERLAY ===== */
 .password-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);z-index:1000;justify-content:center;align-items:center}
@@ -249,7 +251,7 @@ img{
     align-items:center;
     justify-content:center;
     padding:18px;
-    touch-action:pan-x pan-y;
+    touch-action:none;
 }
 .image-lightbox.open{display:flex}
 .image-lightbox img{
@@ -262,6 +264,7 @@ img{
     box-shadow:0 20px 80px rgba(0,0,0,.45);
     transform-origin:center center;
     transition:transform .18s ease;
+    will-change:transform;
 }
 .lightbox-close{
     position:fixed;
@@ -277,6 +280,12 @@ img{
     cursor:pointer;
     z-index:5001;
 }
+
+.lightbox-nav{position:fixed;top:50%;transform:translateY(-50%);width:44px;height:56px;border:0;border-radius:14px;background:rgba(255,255,255,.10);color:#fff;font-size:34px;z-index:5001;cursor:pointer;backdrop-filter:blur(8px)}
+.lightbox-nav.prev{left:10px}.lightbox-nav.next{right:10px}
+.lightbox-counter{position:fixed;top:18px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.8);font-size:.72rem;z-index:5001;background:rgba(0,0,0,.25);padding:5px 10px;border-radius:20px}
+@media(max-width:600px){.lightbox-nav{display:none}.lightbox-hint{font-size:.64rem;bottom:14px}}
+
 .lightbox-hint{
     position:fixed;
     left:50%;
@@ -318,9 +327,12 @@ img{
 
 <!-- ===== 图片放大预览 ===== -->
 <div class="image-lightbox" id="imageLightbox" aria-hidden="true">
-    <button class="lightbox-close" id="lightboxCloseBtn" aria-label="关闭">×</button>
-    <img id="lightboxImage" alt="高清图片预览">
-    <div class="lightbox-hint">点击空白处关闭 · 双击图片缩放</div>
+    <button class="lightbox-close" id="lightboxCloseBtn" aria-label="Закрыть">×</button>
+    <button class="lightbox-nav prev" id="lightboxPrevBtn" aria-label="Предыдущее изображение">‹</button>
+    <img id="lightboxImage" alt="Просмотр изображения">
+    <button class="lightbox-nav next" id="lightboxNextBtn" aria-label="Следующее изображение">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+    <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь изображения для увеличения · Листайте влево и вправо</div>
 </div>
 
 
@@ -597,8 +609,7 @@ img{
 
         <!-- 底部工具按钮 -->
         <div style="margin-top:18px;border-top:1px solid #f0f1f3;padding-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-            <button onclick="exportProductsJson()" class="btn btn-green">🚀 导出 products.json（发布）</button>
-            <button onclick="exportData()" class="btn btn-gray">💾 导出备份 JSON</button>
+            <button onclick="exportData()" class="btn btn-green">💾 导出 products.json（发布 / 备份）</button>
             <button onclick="document.getElementById('importFile').click()" class="btn btn-gray">📥 导入 JSON</button>
             <input type="file" id="importFile" accept=".json,application/json" style="display:none">
             <div style="width:100%;font-size:.65rem;color:#888;line-height:1.5;margin-top:4px;">修改后先导出 <strong>products.json</strong>，再上传到 GitHub 仓库并替换同名文件。网页会自动读取它。</div>
@@ -745,6 +756,25 @@ function safeImageUrl(url, version) {
     return addVersionToUrl(url || '', version || 1);
 }
 
+function getPrimaryImage(product) {
+    if (!product) return '';
+    const rawThumb = String(product.thumb || '').trim();
+    if (rawThumb) {
+        const first = rawThumb.split(/[|\n\r\s]+/).find(Boolean);
+        if (first) return first;
+    }
+    const firstImage = (product.mediaItems || []).find(item => item && item.type === 'image' && item.url);
+    return firstImage ? firstImage.url : '';
+}
+
+function preloadImage(url, version) {
+    if (!url) return;
+    const img = new Image();
+    img.decoding = 'async';
+    img.referrerPolicy = 'no-referrer';
+    img.src = safeImageUrl(url, version || 1);
+}
+
 function applyImageDefaults(img) {
     if (!img) return img;
     img.loading = 'lazy';
@@ -758,15 +788,35 @@ function applyImageDefaults(img) {
 }
 
 let lightboxScale = 1;
+let lightboxImages = [];
+let lightboxIndex = 0;
+let lightboxTouchStartX = 0;
+let lightboxTouchStartY = 0;
+let lightboxLastTap = 0;
+let lightboxStartDistance = 0;
+let lightboxStartScale = 1;
 
-function openImageLightbox(src, alt) {
-    if (!src) return;
-    const box = document.getElementById('imageLightbox');
+function updateLightboxImage() {
     const img = document.getElementById('lightboxImage');
+    const counter = document.getElementById('lightboxCounter');
+    if (!lightboxImages.length) return;
+    const item = lightboxImages[lightboxIndex];
     lightboxScale = 1;
     img.style.transform = 'scale(1)';
-    img.src = src;
-    img.alt = alt || '高清图片预览';
+    img.src = item.src;
+    img.alt = item.alt || 'Просмотр изображения';
+    counter.textContent = lightboxImages.length > 1 ? (lightboxIndex + 1) + ' / ' + lightboxImages.length : '';
+    const next = lightboxImages[(lightboxIndex + 1) % lightboxImages.length];
+    if (next) preloadImage(next.src, 1);
+}
+
+function openImageLightbox(src, alt, gallery, selectedIndex) {
+    if (!src) return;
+    lightboxImages = Array.isArray(gallery) && gallery.length ? gallery : [{src, alt}];
+    lightboxIndex = Number.isInteger(selectedIndex) ? Math.max(0, Math.min(selectedIndex, lightboxImages.length - 1)) : Math.max(0, lightboxImages.findIndex(x => x.src === src));
+    if (lightboxIndex < 0) lightboxIndex = 0;
+    updateLightboxImage();
+    const box = document.getElementById('imageLightbox');
     box.classList.add('open');
     box.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -779,17 +829,83 @@ function closeImageLightbox() {
     document.body.style.overflow = '';
 }
 
+function changeLightboxImage(step) {
+    if (lightboxImages.length < 2) return;
+    lightboxIndex = (lightboxIndex + step + lightboxImages.length) % lightboxImages.length;
+    updateLightboxImage();
+}
+
+function toggleLightboxZoom() {
+    const img = document.getElementById('lightboxImage');
+    lightboxScale = lightboxScale > 1 ? 1 : 2.2;
+    img.style.transform = 'scale(' + lightboxScale + ')';
+}
+
+function touchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.hypot(dx, dy);
+}
+
 document.getElementById('lightboxCloseBtn').addEventListener('click', closeImageLightbox);
+document.getElementById('lightboxPrevBtn').addEventListener('click', () => changeLightboxImage(-1));
+document.getElementById('lightboxNextBtn').addEventListener('click', () => changeLightboxImage(1));
 document.getElementById('imageLightbox').addEventListener('click', function(e) {
     if (e.target === this) closeImageLightbox();
 });
 document.getElementById('lightboxImage').addEventListener('dblclick', function(e) {
+    e.preventDefault();
     e.stopPropagation();
-    lightboxScale = lightboxScale === 1 ? 2 : 1;
-    this.style.transform = 'scale(' + lightboxScale + ')';
+    toggleLightboxZoom();
 });
+
+document.getElementById('imageLightbox').addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+        lightboxStartDistance = touchDistance(e.touches);
+        lightboxStartScale = lightboxScale;
+        return;
+    }
+    lightboxTouchStartX = e.touches[0].clientX;
+    lightboxTouchStartY = e.touches[0].clientY;
+}, {passive:true});
+
+document.getElementById('imageLightbox').addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2 && lightboxStartDistance) {
+        e.preventDefault();
+        const ratio = touchDistance(e.touches) / lightboxStartDistance;
+        lightboxScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
+        document.getElementById('lightboxImage').style.transform = 'scale(' + lightboxScale + ')';
+    }
+}, {passive:false});
+
+document.getElementById('imageLightbox').addEventListener('touchend', function(e) {
+    if (e.touches.length) return;
+    lightboxStartDistance = 0;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - lightboxTouchStartX;
+    const dy = touch.clientY - lightboxTouchStartY;
+    if (lightboxScale === 1 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        changeLightboxImage(dx < 0 ? 1 : -1);
+        return;
+    }
+    if (Math.abs(dx) < 15 && Math.abs(dy) < 15) {
+        const now = Date.now();
+        if (now - lightboxLastTap < 320) {
+            e.preventDefault();
+            toggleLightboxZoom();
+            lightboxLastTap = 0;
+        } else {
+            lightboxLastTap = now;
+        }
+    }
+}, {passive:false});
+
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeImageLightbox();
+    if (document.getElementById('imageLightbox').classList.contains('open')) {
+        if (e.key === 'ArrowLeft') changeLightboxImage(-1);
+        if (e.key === 'ArrowRight') changeLightboxImage(1);
+    }
 });
 
 
@@ -825,13 +941,13 @@ function renderHome() {
     '</div>';
 
     let bannerHtml = banners.length ? 
-        '<div class="banner-carousel" id="bannerCarousel"><img class="banner-image" id="bannerImage" loading="eager" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl(banners[0], data.updatedAt || 1) + '"><div class="banner-dots" id="bannerDots">' + 
+        '<div class="banner-carousel" id="bannerCarousel" data-banner-index="0" title="Открыть товар"><img class="banner-image" id="bannerImage" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl(banners[0], data.updatedAt || 1) + '"><div class="banner-dots" id="bannerDots">' + 
         banners.map((_, i) => '<div class="banner-dot ' + (i === 0 ? 'active' : '') + '"></div>').join('') + 
         '</div></div>' : '';
 
     let productHtml = filtered.map(p => 
         '<div class="product-card" data-id="' + p.id + '">' +
-            '<img class="thumb-img" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl((p.thumb || 'https://via.placeholder.com/80/f5f3f0/c9a87c'), p.updatedAt || data.updatedAt || 1) + '" alt="' + (p.name || '商品图片').replace(/"/g, '&quot;') + '">' +
+            '<img class="thumb-img" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl((getPrimaryImage(p) || 'https://via.placeholder.com/80/f5f3f0/c9a87c'), p.updatedAt || data.updatedAt || 1) + '" alt="' + (p.name || '商品图片').replace(/"/g, '&quot;') + '">' +
             '<div class="product-info">' +
                 '<div class="product-name">' + (p.name || '').replace(/\n/g, '<br>') + '</div>' +
                 (p.highlight ? '<div class="product-highlight">' + p.highlight.replace(/\n/g, '<br>') + '</div>' : '') +
@@ -883,10 +999,23 @@ function renderHome() {
         setInterval(() => {
             idx = (idx + 1) % banners.length;
             const img = document.getElementById('bannerImage');
+            const carousel = document.getElementById('bannerCarousel');
             if (img) img.src = safeImageUrl(banners[idx], data.updatedAt || 1);
+            if (carousel) carousel.dataset.bannerIndex = idx;
             document.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
         }, (settings.bannerSpeed || 4) * 1000);
     }
+
+    const bannerCarousel = document.getElementById('bannerCarousel');
+    bannerCarousel?.addEventListener('click', () => {
+        const bannerIndex = parseInt(bannerCarousel.dataset.bannerIndex || '0');
+        const bannerUrl = banners[bannerIndex] || '';
+        let productIndex = products.findIndex(p => (p.mediaItems || []).some(m => m.type === 'image' && m.url === bannerUrl));
+        if (productIndex < 0 && products.length) productIndex = bannerIndex % products.length;
+        if (productIndex >= 0) showDetail(productIndex);
+    });
+
+    products.slice(0, 4).forEach(p => preloadImage(getPrimaryImage(p), p.updatedAt || data.updatedAt || 1));
 
     const chatBtn = document.getElementById('chatBtn');
     if (chatBtn) chatBtn.href = settings.contactWhatsApp || 'https://wa.me/' + settings.contactPhone.replace(/[^0-9]/g, '');
@@ -935,6 +1064,7 @@ function loadMedia(index) {
     if (!container) return;
     if (currentCleanup) currentCleanup();
     const item = currentMediaList[index];
+    if (!item) { container.innerHTML = '<div style="padding:30px;color:#999">Нет изображений</div>'; return; }
     if (item.type === 'video') {
         currentCleanup = createVideoPlayer(container, item.url);
     } else {
@@ -948,11 +1078,18 @@ function loadMedia(index) {
         img.loading = 'eager';
         img.decoding = 'async';
         img.referrerPolicy = 'no-referrer';
-        img.addEventListener('click', () => openImageLightbox(fullSrc, img.alt));
+        const imageGallery = currentMediaList.filter(m => m.type === 'image').map(m => ({
+            src: safeImageUrl(m.url, product.updatedAt || data.updatedAt || 1),
+            alt: product.name || 'Изображение товара'
+        }));
+        const galleryIndex = Math.max(0, currentMediaList.filter((m, i) => i <= index && m.type === 'image').length - 1);
+        img.addEventListener('click', () => openImageLightbox(fullSrc, img.alt, imageGallery, galleryIndex));
         img.addEventListener('error', function() {
-            container.innerHTML = '<div style="padding:30px;text-align:center;color:#999;font-size:.8rem;line-height:1.6;">图片加载失败。<br>请检查 URL 是否公开、是否允许外链，以及图片地址是否为 HTTPS。</div>';
+            container.innerHTML = '<div style="padding:30px;text-align:center;color:#999;font-size:.8rem;line-height:1.6;">Не удалось загрузить изображение.<br>Проверьте доступность ссылки и формат HTTPS.</div>';
         }, { once:true });
         container.appendChild(img);
+        const nextImage = currentMediaList.slice(index + 1).find(m => m.type === 'image') || currentMediaList.find(m => m.type === 'image');
+        if (nextImage) preloadImage(nextImage.url, product.updatedAt || data.updatedAt || 1);
         currentCleanup = null;
     }
 }
@@ -968,7 +1105,7 @@ function showDetail(idx) {
 
     let thumbHtml = '<div class="product-thumb-container"><div class="product-thumb-strip">' +
         data.products.map((pp, i) =>
-            '<img class="product-thumb-item ' + (i === idx ? 'active' : '') + '" data-pidx="' + i + '" src="' + safeImageUrl((pp.thumb || 'https://via.placeholder.com/44/f5f3f0/c9a87c'), pp.updatedAt || data.updatedAt || 1) + '" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
+            '<img class="product-thumb-item ' + (i === idx ? 'active' : '') + '" data-pidx="' + i + '" src="' + safeImageUrl((getPrimaryImage(pp) || 'https://via.placeholder.com/44/f5f3f0/c9a87c'), pp.updatedAt || data.updatedAt || 1) + '" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
         ).join('') +
     '</div></div>';
 
@@ -1594,22 +1731,13 @@ function downloadJsonFile(payload, filename) {
     URL.revokeObjectURL(a.href);
 }
 
-function exportProductsJson() {
+function exportData() {
     data.updatedAt = Date.now();
     saveAllData();
     downloadJsonFile(data, 'products.json');
-    alert('✅ products.json 已生成。请上传到 GitHub 仓库并替换原文件。');
+    alert('✅ products.json 已生成。该文件既可作为备份，也可直接上传到 GitHub 发布。');
 }
 
-function exportData() {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'shop_data_backup_' + new Date().toISOString().slice(0, 10) + '.json';
-    a.click();
-    URL.revokeObjectURL(a.href);
-    alert('💾 数据已导出');
-}
 
 document.getElementById('importFile').addEventListener('change', function(e) {
     const file = e.target.files[0];
