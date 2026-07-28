@@ -1,0 +1,91 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Эректор с цифровым дисплеем",
+      "highlight": "🔥 防水等级 IP67\n✨ 3种按摩模式",
+      "price": 3422.23,
+      "categories": [
+        "Новинки 🔥"
+      ],
+      "thumb": "https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg",
+      "mediaItems": [
+        {
+          "type": "video",
+          "url": "https://rutube.ru/play/embed/78cb50740b2a99b51bbc5b16196a6d89/?p=3tUrlmgtBemLNFoeEU03Dg"
+        },
+        {
+          "type": "image",
+          "url": "https://s.snappable.media/72b0a1bab31f40d07c4d8d7699eeefd0.jpg"
+        }
+      ],
+      "description": "",
+      "accessories": [
+        "Руководство",
+        "Гарантийный талон"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "产品二\n标准款",
+      "highlight": "⭐ 经典设计\n📦 全套配件",
+      "price": 1899.99,
+      "categories": [
+        "Хиты продаж ⭐"
+      ],
+      "thumb": "https://s.snappable.media/5e968853a8c5c1130c89f9783e3ec63b.jpg",
+      "mediaItems": [
+        {
+          "type": "image",
+          "url": "https://i.ibb.co/4K7zC2N/sample.jpg"
+        }
+      ],
+      "description": "第二个产品的描述。",
+      "accessories": [
+        "Аксессуар A",
+        "Аксессуар B"
+      ]
+    }
+  ],
+  "pages": {
+    "about": {
+      "title": "О нас",
+      "content": "<h3>О нас</h3><p>Мы — Элитный Магазин, лидер в области качественных товаров. Наша миссия — предоставить клиентам лучшие продукты по доступным ценам.</p><p>С 2010 года мы радуем наших покупателей отличным сервисом и гарантией качества.</p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>📞 Телефон: +7 (999) 912-38-29</p><p>✉️ Email: info@example.ru</p>"
+    },
+    "delivery": {
+      "title": "Доставка",
+      "content": "<h3>Условия доставки</h3><p>🚚 Бесплатная доставка по Москве при заказе от 5000 ₽</p><p>📦 Доставка по России от 300 ₽</p><p>⏱ Срок доставки: 2-5 рабочих дней</p><p>📮 Самовывоз: г. Москва, ул. Тверская, д. 1 (ежедневно 10:00-20:00)</p>"
+    },
+    "contacts": {
+      "title": "Контакты",
+      "content": "<h3>Наши контакты</h3><p>📞 Телефон: <a href='tel:+79999123829'>+7 (999) 912-38-29</a></p><p>✉️ Email: <a href='mailto:info@example.ru'>info@example.ru</a></p><p>📍 Адрес: Москва, ул. Тверская, д. 1</p><p>🕒 Режим работы: Пн-Пт 10:00-20:00, Сб-Вс 11:00-18:00</p><p>📱 WhatsApp: <a href='https://wa.me/79999123829'>+7 (999) 912-38-29</a></p>"
+    },
+    "privacy": {
+      "title": "Политика",
+      "content": "<h3>Политика конфиденциальности</h3><p>Мы уважаем вашу конфиденциальность. Ваши личные данные используются только для обработки заказов и не передаются третьим лицам.</p><p>Используя наш сайт, вы соглашаетесь с условиями обработки данных.</p><p>📧 По вопросам конфиденциальности: privacy@example.ru</p>"
+    }
+  },
+  "settings": {
+    "shopName": "Каталог ",
+    "shopSlogan": "Качество, забота и безопасность",
+    "detailTitle": "Наши товары",
+    "detailSubtitle": "Для магазинов. Для бизнеса. Для роста.",
+    "contactPhone": "+7 (912) 891-58-82",
+    "contactWhatsApp": "https://wa.me/79999123829",
+    "contactEmail": "89128915882@mail.ru",
+    "contactAddress": "Москва",
+    "copyright": "© 2026 Элитный Магазин",
+    "bannerSpeed": 4,
+    "categories": [
+      "Все товары",
+      "Новинки 🔥",
+      "Хиты продаж ⭐",
+      "Аксессуары 📦"
+    ]
+  },
+  "banners": [
+    "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦",
+    "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦",
+    "https://via.placeholder.com/600x200/f5f3f0/c9a87c?text=✦"
+  ]
+}
