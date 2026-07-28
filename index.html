@@ -1438,67 +1438,8 @@ function loadMedia(index) {
 }
 
 function bindDetailMediaSwipe() {
-    const container = document.getElementById('mainMedia');
-    if (!container) return;
-    let startX = 0, startY = 0, dx = 0, dragging = false, moved = false;
-
-    const imageIndexes = () => currentMediaList.map((m,i)=>m.type === 'image' ? i : -1).filter(i=>i >= 0);
-    const adjacentIndex = step => {
-        const imgs = imageIndexes();
-        if (imgs.length < 2) return currentMediaIndex;
-        let pos = imgs.indexOf(currentMediaIndex);
-        if (pos < 0) pos = 0;
-        return imgs[(pos + step + imgs.length) % imgs.length];
-    };
-    const makeTrack = () => {
-        const product = data.products[currentProductIndex] || {};
-        const prevIndex = adjacentIndex(-1), nextIndex = adjacentIndex(1);
-        const indexes = [prevIndex, currentMediaIndex, nextIndex];
-        const track = document.createElement('div');
-        track.className = 'detail-swipe-track dragging';
-        indexes.forEach(i => {
-            const slide = document.createElement('div'); slide.className='detail-swipe-slide';
-            const img = document.createElement('img');
-            img.src = safeImageUrl(currentMediaList[i].url, product.updatedAt || data.updatedAt || 1);
-            img.alt = product.name || 'Изображение товара'; img.draggable=false;
-            slide.appendChild(img); track.appendChild(slide);
-        });
-        container.innerHTML=''; container.appendChild(track); container.classList.add('swiping');
-        return track;
-    };
-    const updateActive = () => document.querySelectorAll('.media-thumb-item').forEach((tt,ti)=>tt.classList.toggle('active',ti===currentMediaIndex));
-
-    container.addEventListener('touchstart', e => {
-        if (e.touches.length !== 1 || currentMediaList[currentMediaIndex]?.type !== 'image' || imageIndexes().length < 2) return;
-        startX=e.touches[0].clientX; startY=e.touches[0].clientY; dx=0; moved=false; dragging=true;
-    }, {passive:true});
-    container.addEventListener('touchmove', e => {
-        if (!dragging || e.touches.length !== 1) return;
-        dx=e.touches[0].clientX-startX; const dy=e.touches[0].clientY-startY;
-        if (Math.abs(dx)>8) moved=true;
-        if (Math.abs(dx)>Math.abs(dy)) {
-            e.preventDefault();
-            let track=container.querySelector('.detail-swipe-track') || makeTrack();
-            track.style.transform=`translate3d(calc(-33.333333% + ${dx}px),0,0)`;
-        }
-    }, {passive:false});
-    container.addEventListener('touchend', e => {
-        if (!dragging) return; dragging=false;
-        const threshold=Math.min(70,container.clientWidth*.18);
-        const track=container.querySelector('.detail-swipe-track');
-        if (track && Math.abs(dx)>threshold) {
-            const step=dx<0?1:-1;
-            track.classList.remove('dragging');
-            track.style.transform=`translate3d(${step>0?'-66.666666%':'0%'},0,0)`;
-            setTimeout(()=>{ currentMediaIndex=adjacentIndex(step); loadMedia(currentMediaIndex); updateActive(); bindDetailMediaSwipe(); },400);
-        } else if (track) {
-            track.classList.remove('dragging'); track.style.transform='translate3d(-33.333333%,0,0)';
-            setTimeout(()=>{ loadMedia(currentMediaIndex); bindDetailMediaSwipe(); },400);
-        }
-        setTimeout(()=>{ moved=false; },450);
-    }, {passive:true});
-    container.addEventListener('touchcancel', ()=>{ dragging=false; loadMedia(currentMediaIndex); bindDetailMediaSwipe(); }, {passive:true});
-    container.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+    // 商品页恢复为稳定的原始切换方式：缩略图和左右按钮切换。
+    // 连续滑动仅保留在全屏图片查看器中。
 }
 
 function showDetail(idx) {
