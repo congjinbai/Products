@@ -24,7 +24,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;m
 .shop-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,#c9a87c,transparent)}
 .shop-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#2c2c2c;letter-spacing:0.08em}
 .shop-name span{color:#c9a87c}
-.shop-slogan{font-size:0.65rem;font-weight:300;color:rgba(44,44,44,0.35);margin-top:6px;letter-spacing:0.3em;text-transform:uppercase}
+.shop-slogan{font-size:0.65rem;font-weight:600;color:rgba(44,44,44,0.35);margin-top:6px;letter-spacing:0.3em;text-transform:uppercase}
 
 /* ===== CATEGORY NAV ===== */
 .category-nav{display:flex;gap:6px;padding:14px 16px;background:#fcfaf8;border-bottom:1px solid rgba(180,160,140,0.08);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -47,13 +47,13 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;m
 /* ===== PRODUCT CARD ===== */
 .product-card{cursor:pointer;padding:14px 16px;margin:0 12px 6px;border-radius:14px;display:flex;gap:14px;align-items:center;background:#fcfaf8;border:1px solid rgba(180,160,140,0.06);transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
 .product-card:hover{background:#fff;border-color:rgba(201,168,124,0.15);box-shadow:0 4px 24px rgba(180,160,140,0.08);transform:translateY(-1px)}
-.product-card:active{transform:scale(0.98)}
+.product-card:active,.product-card.is-pressed{transform:translateY(5px) scale(.985);background:linear-gradient(145deg,#f7f2eb,#fffaf4);border-color:rgba(201,168,124,.24);box-shadow:inset 6px 7px 14px rgba(91,72,50,.14),inset -6px -6px 14px rgba(255,255,255,.92),0 3px 8px rgba(91,72,50,.10)}
 .thumb-img{width:80px;height:80px;object-fit:cover;border-radius:12px;background:#f0ede8;flex-shrink:0;border:1px solid rgba(180,160,140,0.06)}
 .product-info{flex:1;min-width:0}
 .product-name{font-weight:600;font-size:0.9rem;line-height:1.3;margin-bottom:3px;color:#2c2c2c;white-space:pre-line;letter-spacing:-0.01em}
-.product-highlight{font-size:0.65rem;color:#c9a87c;margin-bottom:4px;white-space:pre-line;font-weight:400;letter-spacing:0.02em}
+.product-highlight{font-size:0.65rem;color:#c9a87c;margin-bottom:4px;white-space:pre-line;font-weight:400;letter-spacing:0.02em;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .product-price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;margin-top:4px}
-.product-price{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#c9a87c;letter-spacing:0.02em}
+.product-price{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#c9a87c;letter-spacing:0.02em;white-space:nowrap;display:inline-flex;align-items:baseline;flex-shrink:0}
 .wholesale-badge{background:rgba(201,168,124,0.08);color:rgba(44,44,44,0.4);font-size:0.55rem;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid rgba(201,168,124,0.06);letter-spacing:0.05em}
 
 /* ===== FOOTER ===== */
@@ -438,6 +438,14 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
  .admin-modal-content .product-list-item.sortable-row.banner-sort-row .row-thumb{width:62px;height:40px;flex-basis:62px}
 }
 
+
+/* 连续滑动轮播 */
+.banner-carousel{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.banner-track{display:flex;width:100%;height:100%;transform:translate3d(0,0,0);transition:transform .48s cubic-bezier(.22,1,.36,1);will-change:transform}
+.banner-track.dragging{transition:none}
+.banner-slide{flex:0 0 100%;width:100%;height:100%;overflow:hidden}
+.banner-slide img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;pointer-events:none;transform:scale(1.001)}
+
 </style>
 </head>
 <body>
@@ -545,14 +553,14 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
                 <div>
                     <label>媒体文件（支持批量图片 / 批量视频）</label>
                     <div class="tag-input-group" style="align-items:flex-start;">
-                        <textarea id="mediaInput" rows="4" placeholder="粘贴一个或多个链接，用 | 或换行分隔，例如：&#10;https://example.com/1.webp|https://example.com/2.webp"></textarea>
+                        <textarea id="mediaInput" rows="4" placeholder="粘贴一个或多个链接，每行一个，例如：&#10;https://example.com/1.webp&#10;https://example.com/2.webp"></textarea>
                         <select id="mediaType" style="max-width:120px;">
                             <option value="image">🖼 图片</option>
                             <option value="video">🎬 视频</option>
                         </select>
                         <button type="button" class="btn btn-gray" onclick="addMediaItem()">➕ 批量添加</button>
                     </div>
-                    <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">可使用竖线 |、换行或空格分隔多个 URL；当前选择的类型将应用于本次全部链接。</div>
+                    <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">每行填写一个 URL；当前选择的类型将应用于本次全部链接。</div>
                     <div class="tag-list" id="mediaTags"></div>
                 </div>
                 <div>
@@ -672,11 +680,11 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
             <div>
                 <label>轮播图 URL（推荐 1600×700，比例 16:7）</label>
                 <div class="tag-input-group" style="align-items:flex-start;">
-                    <textarea id="bannerInput" rows="5" placeholder="可一次粘贴多个图片链接；每行一个，或使用 | 分隔"></textarea>
+                    <textarea id="bannerInput" rows="5" placeholder="可一次粘贴多个图片链接，每行一个"></textarea>
                     <button type="button" class="btn btn-green" onclick="addBanner()">➕ 批量添加</button>
                 </div>
-                <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">支持换行、竖线 | 或空格分隔。建议所有轮播图保持 16:7 横图比例。</div>
-                <div style="font-size:.65rem;color:#999;margin-top:8px;">添加后可使用 ↑ ↓ 调整轮播顺序；第 1 张将最先显示。</div><div class="tag-list" id="bannerList" style="display:block;"></div>
+                <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">每行填写一个图片链接。建议所有轮播图保持 16:7 横图比例。前台长按轮播图可打开对应商品的第一张图片。</div>
+                <div style="font-size:.65rem;color:#999;margin-top:8px;">添加后可按住拖动调整轮播顺序；第 1 张将最先显示。</div><div class="tag-list" id="bannerList" style="display:block;"></div>
             </div>
             <div style="margin-top:10px;">
                 <label>轮播切换速度（秒）</label>
@@ -1118,10 +1126,13 @@ function renderHome() {
         ).join('') + 
     '</div>';
 
-    let bannerHtml = banners.length ? 
-        '<div class="banner-carousel" id="bannerCarousel" data-banner-index="0" title="Открыть товар"><img class="banner-image" id="bannerImage" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl(banners[0], data.updatedAt || 1) + '"><div class="banner-dots" id="bannerDots">' + 
-        banners.map((_, i) => '<div class="banner-dot ' + (i === 0 ? 'active' : '') + '"></div>').join('') + 
-        '</div></div>' : '';
+    let bannerHtml = banners.length ?
+        '<div class="banner-carousel" id="bannerCarousel" data-banner-index="0" title="Открыть товар">' +
+            '<div class="banner-track" id="bannerTrack">' +
+                banners.map((url, i) => '<div class="banner-slide"><img loading="' + (i === 0 ? 'eager' : 'lazy') + '" fetchpriority="' + (i === 0 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" src="' + safeImageUrl(url, data.updatedAt || 1) + '" alt="Коллекция ' + (i + 1) + '"></div>').join('') +
+            '</div>' +
+            '<div class="banner-dots" id="bannerDots">' + banners.map((_, i) => '<div class="banner-dot ' + (i === 0 ? 'active' : '') + '"></div>').join('') + '</div>' +
+        '</div>' : '';
 
     let productHtml = filtered.map(p => 
         '<div class="product-card" data-id="' + p.id + '">' +
@@ -1155,7 +1166,13 @@ function renderHome() {
     '</div>';
 
     document.querySelectorAll('.product-card').forEach(c => {
+        const releasePress = () => c.classList.remove('is-pressed');
+        c.addEventListener('pointerdown', () => c.classList.add('is-pressed'));
+        c.addEventListener('pointerup', releasePress);
+        c.addEventListener('pointercancel', releasePress);
+        c.addEventListener('pointerleave', releasePress);
         c.addEventListener('click', () => {
+            releasePress();
             let idx = products.findIndex(p => p.id === parseInt(c.dataset.id));
             if (idx !== -1) showDetail(idx);
         });
@@ -1172,38 +1189,113 @@ function renderHome() {
         link.addEventListener('click', () => showPage(link.dataset.page));
     });
 
-    if (banners.length > 1) {
-        let idx = 0;
-        setInterval(() => {
-            idx = (idx + 1) % banners.length;
-            const img = document.getElementById('bannerImage');
-            const carousel = document.getElementById('bannerCarousel');
-            if (img) {
-                const nextSrc = safeImageUrl(banners[idx], data.updatedAt || 1);
-                const pre = new Image();
-                pre.onload = () => {
-                    img.style.opacity = '0';
-                    img.style.transform = 'scale(1.035)';
-                    setTimeout(() => {
-                        img.src = nextSrc;
-                        requestAnimationFrame(() => { img.style.opacity = '1'; img.style.transform = 'scale(1)'; });
-                    }, 150);
-                };
-                pre.src = nextSrc;
-            }
-            if (carousel) carousel.dataset.bannerIndex = idx;
-            document.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-        }, (settings.bannerSpeed || 4) * 1000);
-    }
-
     const bannerCarousel = document.getElementById('bannerCarousel');
-    bannerCarousel?.addEventListener('click', () => {
-        const bannerIndex = parseInt(bannerCarousel.dataset.bannerIndex || '0');
-        const bannerUrl = banners[bannerIndex] || '';
-        let productIndex = products.findIndex(p => (p.mediaItems || []).some(m => m.type === 'image' && m.url === bannerUrl));
-        if (productIndex < 0 && products.length) productIndex = bannerIndex % products.length;
-        if (productIndex >= 0) showDetail(productIndex);
-    });
+    const bannerTrack = document.getElementById('bannerTrack');
+    if (bannerCarousel && bannerTrack && banners.length) {
+        let idx = 0;
+        let startX = 0;
+        let startY = 0;
+        let deltaX = 0;
+        let dragging = false;
+        let moved = false;
+        let longPressTimer = null;
+        let longPressed = false;
+        let autoTimer = null;
+
+        const setBannerIndex = (next, animate = true) => {
+            idx = (next + banners.length) % banners.length;
+            bannerTrack.classList.toggle('dragging', !animate);
+            bannerTrack.style.transform = `translate3d(${-idx * 100}%,0,0)`;
+            bannerCarousel.dataset.bannerIndex = String(idx);
+            document.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+            const following = banners[(idx + 1) % banners.length];
+            const previous = banners[(idx - 1 + banners.length) % banners.length];
+            preloadImage(following, data.updatedAt || 1);
+            preloadImage(previous, data.updatedAt || 1);
+        };
+
+        const findProductIndexForBanner = () => {
+            const bannerUrl = banners[idx] || '';
+            let productIndex = products.findIndex(p => getPrimaryImage(p) === bannerUrl || (p.mediaItems || []).some(m => m.type === 'image' && m.url === bannerUrl));
+            if (productIndex < 0 && products.length) productIndex = idx % products.length;
+            return productIndex;
+        };
+
+        const openProductGalleryFromFirstImage = () => {
+            const productIndex = findProductIndexForBanner();
+            if (productIndex < 0) return;
+            const product = products[productIndex];
+            const gallery = (product.mediaItems || [])
+                .filter(m => m.type === 'image' && m.url)
+                .map(m => ({src: safeImageUrl(m.url, product.updatedAt || data.updatedAt || 1), alt: product.name || 'Изображение товара'}));
+            const primary = getPrimaryImage(product);
+            if (primary && !gallery.some(g => g.src.includes(primary))) gallery.unshift({src: safeImageUrl(primary, product.updatedAt || data.updatedAt || 1), alt: product.name || 'Изображение товара'});
+            if (gallery.length) openImageLightbox(gallery[0].src, gallery[0].alt, gallery, 0);
+        };
+
+        const restartAuto = () => {
+            clearInterval(autoTimer);
+            if (banners.length > 1) autoTimer = setInterval(() => setBannerIndex(idx + 1, true), (settings.bannerSpeed || 4) * 1000);
+        };
+
+        bannerCarousel.addEventListener('touchstart', e => {
+            if (!e.touches.length) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            deltaX = 0;
+            moved = false;
+            dragging = true;
+            longPressed = false;
+            bannerTrack.classList.add('dragging');
+            clearInterval(autoTimer);
+            clearTimeout(longPressTimer);
+            longPressTimer = setTimeout(() => {
+                if (!moved) {
+                    longPressed = true;
+                    dragging = false;
+                    if (navigator.vibrate) navigator.vibrate(25);
+                    openProductGalleryFromFirstImage();
+                }
+            }, 550);
+        }, {passive:true});
+
+        bannerCarousel.addEventListener('touchmove', e => {
+            if (!dragging || !e.touches.length || longPressed) return;
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+            deltaX = x - startX;
+            const dy = y - startY;
+            if (Math.abs(deltaX) > 8) { moved = true; clearTimeout(longPressTimer); }
+            if (Math.abs(deltaX) > Math.abs(dy)) {
+                e.preventDefault();
+                const px = -idx * bannerCarousel.clientWidth + deltaX;
+                bannerTrack.style.transform = `translate3d(${px}px,0,0)`;
+            }
+        }, {passive:false});
+
+        const finishSwipe = () => {
+            clearTimeout(longPressTimer);
+            if (longPressed) { restartAuto(); return; }
+            if (!dragging) { restartAuto(); return; }
+            dragging = false;
+            const threshold = Math.min(70, bannerCarousel.clientWidth * .18);
+            if (Math.abs(deltaX) > threshold && banners.length > 1) setBannerIndex(idx + (deltaX < 0 ? 1 : -1), true);
+            else setBannerIndex(idx, true);
+            setTimeout(() => { moved = false; }, 80);
+            restartAuto();
+        };
+        bannerCarousel.addEventListener('touchend', finishSwipe, {passive:true});
+        bannerCarousel.addEventListener('touchcancel', finishSwipe, {passive:true});
+
+        bannerCarousel.addEventListener('click', e => {
+            if (moved || longPressed) { e.preventDefault(); return; }
+            const productIndex = findProductIndexForBanner();
+            if (productIndex >= 0) showDetail(productIndex);
+        });
+
+        setBannerIndex(0, false);
+        restartAuto();
+    }
 
     products.slice(0, 4).forEach(p => preloadImage(getPrimaryImage(p), p.updatedAt || data.updatedAt || 1));
 
@@ -1317,9 +1409,9 @@ function showDetail(idx) {
         '<div class="back-home-btn" id="backHomeBtn">← На главную</div>' +
         '<div class="detail-header"><h1>' + data.settings.detailTitle + '</h1><p>' + data.settings.detailSubtitle + '</p></div>' +
         '<div class="product-nav"><div class="product-nav-arrow" id="prevProductBtn">‹</div>' + thumbHtml + '<div class="product-nav-arrow" id="nextProductBtn">›</div></div>' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0 8px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:4px 0 8px;">' +
             '<h2 style="font-family:\'Playfair Display\',serif;font-weight:400;font-size:1.1rem;color:#2c2c2c;">' + nameHtml + '</h2>' +
-            '<span class="product-price" style="font-size:1.3rem;">' + formatPrice(p.price) + ' ₽</span>' +
+            '<span class="product-price" style="font-size:1.3rem;white-space:nowrap;">' + formatPrice(p.price) + '&nbsp;₽</span>' +
         '</div>' +
         '<div id="mainMedia" class="main-media-wrapper"></div>' +
         mediaHtml +
@@ -1692,7 +1784,7 @@ function addMediaItem() {
     if (!raw) { alert('请输入一个或多个媒体 URL'); return; }
 
     const urls = raw
-        .split(/[|\n\r\t ]+/)
+        .split(/\r?\n/)
         .map(url => url.trim())
         .filter(Boolean);
 
@@ -1824,7 +1916,7 @@ function addBanner() {
     const input = document.getElementById('bannerInput');
     const raw = input.value.trim();
     if (!raw) { alert('请输入一个或多个图片 URL'); return; }
-    const urls = raw.split(/[|\n\r\t ]+/).map(v => v.trim()).filter(Boolean);
+    const urls = raw.split(/\r?\n/).map(v => v.trim()).filter(Boolean);
     const valid = urls.filter(v => /^https?:\/\//i.test(v));
     const existing = new Set(data.banners || []);
     const unique = valid.filter(v => !existing.has(v));
@@ -1865,14 +1957,14 @@ function updateBannerSpeed(value) {
 // ============================================================
 
 function downloadTemplate() {
-    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用|分隔)', '媒体URL(用|分隔)', '媒体类型(用|分隔)'];
+    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用分号分隔)', '媒体URL(用分号分隔)', '媒体类型(用分号分隔)'];
     const sample = [
         'Эректор с цифровым дисплеем', '3422.23', '🔥 防水等级 IP67\n✨ 3种按摩模式', 'Новинки 🔥',
         'https://example.com/photo.jpg',
         'Описание товара',
-        'Руководство|Гарантийный талон',
-        'https://rutube.ru/play/embed/xxx|https://example.com/photo.jpg',
-        'video|image'
+        'Руководство;Гарантийный талон',
+        'https://rutube.ru/play/embed/xxx;https://example.com/photo.jpg',
+        'video;image'
     ];
     let csv = headers.join(',') + '\n';
     csv += sample.join(',') + '\n';
@@ -1887,7 +1979,7 @@ function exportCSV() {
         alert('⚠️ 没有商品可导出');
         return;
     }
-    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用|分隔)', '媒体URL(用|分隔)', '媒体类型(用|分隔)'];
+    const headers = ['名称', '价格', '亮点', '分类', '缩略图URL', '描述', '配件(用分号分隔)', '媒体URL(用分号分隔)', '媒体类型(用分号分隔)'];
     let csv = headers.join(',') + '\n';
     data.products.forEach(p => {
         const row = [
@@ -1897,9 +1989,9 @@ function exportCSV() {
             (p.categories && p.categories.length > 0) ? p.categories[0] : '',
             p.thumb || '',
             escapeCSV(p.description || ''),
-            (p.accessories || []).join('|'),
-            (p.mediaItems || []).map(m => m.url).join('|'),
-            (p.mediaItems || []).map(m => m.type).join('|')
+            (p.accessories || []).join(';'),
+            (p.mediaItems || []).map(m => m.url).join(';'),
+            (p.mediaItems || []).map(m => m.type).join(';')
         ];
         csv += row.join(',') + '\n';
     });
@@ -1943,13 +2035,13 @@ document.getElementById('batchFileInput').addEventListener('change', function(e)
                 const thumb = values[thumbIdx] || 'https://via.placeholder.com/80/f5f3f0/c9a87c';
                 const description = values[headers.findIndex(h => h.includes('描述'))] || '';
                 const accIdx = headers.findIndex(h => h.includes('配件'));
-                const accessories = accIdx !== -1 && values[accIdx] ? values[accIdx].split('|').filter(a => a.trim()) : [];
+                const accessories = accIdx !== -1 && values[accIdx] ? values[accIdx].split(/[;；]/).filter(a => a.trim()) : [];
                 const urlIdx = headers.findIndex(h => h.includes('媒体URL'));
                 const typeIdx = headers.findIndex(h => h.includes('媒体类型'));
                 const mediaItems = [];
                 if (urlIdx !== -1 && values[urlIdx]) {
-                    const urls = values[urlIdx].split('|').filter(u => u.trim());
-                    const types = typeIdx !== -1 && values[typeIdx] ? values[typeIdx].split('|') : [];
+                    const urls = values[urlIdx].split(/[;；]/).filter(u => u.trim());
+                    const types = typeIdx !== -1 && values[typeIdx] ? values[typeIdx].split(/[;；]/) : [];
                     urls.forEach((url, j) => {
                         mediaItems.push({
                             url: url.trim(),
