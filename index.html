@@ -254,6 +254,31 @@ img{
     touch-action:none;
 }
 .image-lightbox.open{display:flex}
+.lightbox-viewport{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+}
+.lightbox-track{
+    display:flex;
+    width:300vw;
+    height:100%;
+    transform:translate3d(-100vw,0,0);
+    transition:transform .42s cubic-bezier(.22,.72,.18,1);
+    will-change:transform;
+}
+.lightbox-track.dragging{transition:none}
+.lightbox-slide{
+    width:100vw;
+    height:100%;
+    flex:0 0 100vw;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
 .image-lightbox img{
     max-width:96vw;
     max-height:92vh;
@@ -265,7 +290,10 @@ img{
     transform-origin:center center;
     transition:transform .18s ease;
     will-change:transform;
+    user-select:none;
+    -webkit-user-drag:none;
 }
+.lightbox-slide:not(:nth-child(2)) img{opacity:.72;transform:scale(.94)}
 .lightbox-close{
     position:fixed;
     top:14px;
@@ -384,7 +412,13 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
 <div class="image-lightbox" id="imageLightbox" aria-hidden="true">
     <button class="lightbox-close" id="lightboxCloseBtn" aria-label="Закрыть">×</button>
     <button class="lightbox-nav prev" id="lightboxPrevBtn" aria-label="Предыдущее изображение">‹</button>
-    <img id="lightboxImage" alt="Просмотр изображения">
+    <div class="lightbox-viewport" id="lightboxViewport">
+        <div class="lightbox-track" id="lightboxTrack">
+            <div class="lightbox-slide"><img id="lightboxPrevImage" alt="Предыдущее изображение"></div>
+            <div class="lightbox-slide"><img id="lightboxImage" alt="Просмотр изображения"></div>
+            <div class="lightbox-slide"><img id="lightboxNextImage" alt="Следующее изображение"></div>
+        </div>
+    </div>
     <button class="lightbox-nav next" id="lightboxNextBtn" aria-label="Следующее изображение">›</button>
     <div class="lightbox-counter" id="lightboxCounter"></div>
     <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь изображения для увеличения · Листайте влево и вправо</div>
@@ -501,7 +535,7 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
 
             <div style="margin-top:20px;border-top:1px solid #f0f1f3;padding-top:16px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                    <span style="font-weight:600;font-size:0.85rem;color:#555;">📋 商品列表</span>
+                    <span style="font-weight:600;font-size:0.85rem;color:#555;">📋 商品列表 <small style="font-weight:400;color:#aaa;">（用 ↑ ↓ 调整顺序）</small></span>
                     <span style="color:#999;font-size:0.7rem;" id="productCount">0 个商品</span>
                 </div>
                 <div id="productList"></div>
@@ -606,7 +640,7 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
                     <button type="button" class="btn btn-green" onclick="addBanner()">➕ 批量添加</button>
                 </div>
                 <div style="font-size:.65rem;color:#999;margin-top:5px;line-height:1.5;">支持换行、竖线 | 或空格分隔。建议所有轮播图保持 16:7 横图比例。</div>
-                <div class="tag-list" id="bannerList"></div>
+                <div style="font-size:.65rem;color:#999;margin-top:8px;">添加后可使用 ↑ ↓ 调整轮播顺序；第 1 张将最先显示。</div><div class="tag-list" id="bannerList" style="display:block;"></div>
             </div>
             <div style="margin-top:10px;">
                 <label>轮播切换速度（秒）</label>
@@ -850,30 +884,54 @@ let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTouchStartX = 0;
 let lightboxTouchStartY = 0;
+let lightboxCurrentX = 0;
 let lightboxLastTap = 0;
 let lightboxStartDistance = 0;
 let lightboxStartScale = 1;
+let lightboxDragging = false;
+let lightboxAnimating = false;
 
-function updateLightboxImage() {
-    const img = document.getElementById('lightboxImage');
-    const counter = document.getElementById('lightboxCounter');
+function getLightboxItem(offset) {
+    if (!lightboxImages.length) return {src:'', alt:''};
+    const i = (lightboxIndex + offset + lightboxImages.length) % lightboxImages.length;
+    return lightboxImages[i];
+}
+
+function setLightboxTrack(x, animate = true) {
+    const track = document.getElementById('lightboxTrack');
+    track.classList.toggle('dragging', !animate);
+    track.style.transform = `translate3d(calc(-100vw + ${x}px),0,0)`;
+}
+
+function renderLightboxSlides() {
     if (!lightboxImages.length) return;
-    const item = lightboxImages[lightboxIndex];
+    const prev = getLightboxItem(-1);
+    const current = getLightboxItem(0);
+    const next = getLightboxItem(1);
+    const prevImg = document.getElementById('lightboxPrevImage');
+    const img = document.getElementById('lightboxImage');
+    const nextImg = document.getElementById('lightboxNextImage');
+    const counter = document.getElementById('lightboxCounter');
+
     lightboxScale = 1;
-    img.style.transform = 'scale(1)';
-    img.src = item.src;
-    img.alt = item.alt || 'Просмотр изображения';
-    counter.textContent = lightboxImages.length > 1 ? (lightboxIndex + 1) + ' / ' + lightboxImages.length : '';
-    const next = lightboxImages[(lightboxIndex + 1) % lightboxImages.length];
-    if (next) preloadImage(next.src, 1);
+    [prevImg, img, nextImg].forEach(el => el.style.transform = 'scale(1)');
+    prevImg.src = prev.src; prevImg.alt = prev.alt || 'Предыдущее изображение';
+    img.src = current.src; img.alt = current.alt || 'Просмотр изображения';
+    nextImg.src = next.src; nextImg.alt = next.alt || 'Следующее изображение';
+    counter.textContent = lightboxImages.length > 1 ? `${lightboxIndex + 1} / ${lightboxImages.length}` : '';
+    preloadImage(next.src, 1);
+    preloadImage(prev.src, 1);
+    setLightboxTrack(0, false);
 }
 
 function openImageLightbox(src, alt, gallery, selectedIndex) {
     if (!src) return;
     lightboxImages = Array.isArray(gallery) && gallery.length ? gallery : [{src, alt}];
-    lightboxIndex = Number.isInteger(selectedIndex) ? Math.max(0, Math.min(selectedIndex, lightboxImages.length - 1)) : Math.max(0, lightboxImages.findIndex(x => x.src === src));
+    lightboxIndex = Number.isInteger(selectedIndex)
+        ? Math.max(0, Math.min(selectedIndex, lightboxImages.length - 1))
+        : Math.max(0, lightboxImages.findIndex(x => x.src === src));
     if (lightboxIndex < 0) lightboxIndex = 0;
-    updateLightboxImage();
+    renderLightboxSlides();
     const box = document.getElementById('imageLightbox');
     box.classList.add('open');
     box.setAttribute('aria-hidden', 'false');
@@ -887,16 +945,27 @@ function closeImageLightbox() {
     document.body.style.overflow = '';
 }
 
-function changeLightboxImage(step) {
-    if (lightboxImages.length < 2) return;
-    lightboxIndex = (lightboxIndex + step + lightboxImages.length) % lightboxImages.length;
-    updateLightboxImage();
+function animateLightbox(step) {
+    if (lightboxImages.length < 2 || lightboxAnimating) return;
+    lightboxAnimating = true;
+    const direction = step > 0 ? -window.innerWidth : window.innerWidth;
+    setLightboxTrack(direction, true);
+    setTimeout(() => {
+        lightboxIndex = (lightboxIndex + step + lightboxImages.length) % lightboxImages.length;
+        renderLightboxSlides();
+        requestAnimationFrame(() => {
+            setLightboxTrack(0, false);
+            lightboxAnimating = false;
+        });
+    }, 430);
 }
+
+function changeLightboxImage(step) { animateLightbox(step); }
 
 function toggleLightboxZoom() {
     const img = document.getElementById('lightboxImage');
     lightboxScale = lightboxScale > 1 ? 1 : 2.2;
-    img.style.transform = 'scale(' + lightboxScale + ')';
+    img.style.transform = `scale(${lightboxScale})`;
 }
 
 function touchDistance(touches) {
@@ -918,6 +987,7 @@ document.getElementById('lightboxImage').addEventListener('dblclick', function(e
 });
 
 document.getElementById('imageLightbox').addEventListener('touchstart', function(e) {
+    if (lightboxAnimating) return;
     if (e.touches.length === 2) {
         lightboxStartDistance = touchDistance(e.touches);
         lightboxStartScale = lightboxScale;
@@ -925,6 +995,8 @@ document.getElementById('imageLightbox').addEventListener('touchstart', function
     }
     lightboxTouchStartX = e.touches[0].clientX;
     lightboxTouchStartY = e.touches[0].clientY;
+    lightboxCurrentX = 0;
+    lightboxDragging = true;
 }, {passive:true});
 
 document.getElementById('imageLightbox').addEventListener('touchmove', function(e) {
@@ -932,7 +1004,17 @@ document.getElementById('imageLightbox').addEventListener('touchmove', function(
         e.preventDefault();
         const ratio = touchDistance(e.touches) / lightboxStartDistance;
         lightboxScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
-        document.getElementById('lightboxImage').style.transform = 'scale(' + lightboxScale + ')';
+        document.getElementById('lightboxImage').style.transform = `scale(${lightboxScale})`;
+        return;
+    }
+    if (!lightboxDragging || lightboxScale > 1 || e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - lightboxTouchStartX;
+    const dy = e.touches[0].clientY - lightboxTouchStartY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+        lightboxCurrentX = dx;
+        const resistance = lightboxImages.length < 2 ? .22 : 1;
+        setLightboxTrack(dx * resistance, false);
     }
 }, {passive:false});
 
@@ -942,10 +1024,13 @@ document.getElementById('imageLightbox').addEventListener('touchend', function(e
     const touch = e.changedTouches[0];
     const dx = touch.clientX - lightboxTouchStartX;
     const dy = touch.clientY - lightboxTouchStartY;
-    if (lightboxScale === 1 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-        changeLightboxImage(dx < 0 ? 1 : -1);
+    lightboxDragging = false;
+
+    if (lightboxScale === 1 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.1 && lightboxImages.length > 1) {
+        animateLightbox(dx < 0 ? 1 : -1);
         return;
     }
+    setLightboxTrack(0, true);
     if (Math.abs(dx) < 15 && Math.abs(dy) < 15) {
         const now = Date.now();
         if (now - lightboxLastTap < 320) {
@@ -965,7 +1050,6 @@ document.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowRight') changeLightboxImage(1);
     }
 });
-
 
 function getNextId() {
     let max = 0;
@@ -1361,11 +1445,14 @@ function refreshProductList() {
         count.textContent = '0 个商品';
         return;
     }
-    container.innerHTML = data.products.map(p =>
+    container.innerHTML = data.products.map((p, i) =>
         '<div class="product-list-item">' +
+            '<span style="min-width:26px;color:#aaa;font-size:.7rem;text-align:center;">' + (i + 1) + '</span>' +
             '<span class="name">' + (p.name || '').replace(/\n/g, ' ') + '</span>' +
             '<span class="price">' + formatPrice(p.price) + ' ₽</span>' +
             '<div class="actions">' +
+                '<button title="向上移动" ' + (i === 0 ? 'disabled' : '') + ' style="background:#eef0f3;color:#555;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:700;opacity:' + (i === 0 ? '.35' : '1') + ';" onclick="moveProduct(' + i + ',-1)">↑</button>' +
+                '<button title="向下移动" ' + (i === data.products.length - 1 ? 'disabled' : '') + ' style="background:#eef0f3;color:#555;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:700;opacity:' + (i === data.products.length - 1 ? '.35' : '1') + ';" onclick="moveProduct(' + i + ',1)">↓</button>' +
                 '<button style="background:#c9a87c;color:#fff;border:none;border-radius:6px;padding:3px 10px;cursor:pointer;font-weight:600;" onclick="editProduct(' + p.id + ')">✏️</button>' +
                 '<button style="background:#d9534f;color:#fff;border:none;border-radius:6px;padding:3px 10px;cursor:pointer;font-weight:600;" onclick="deleteProduct(' + p.id + ')">🗑</button>' +
             '</div>' +
@@ -1378,6 +1465,17 @@ function refreshProductList() {
 function updateBatchCount() {
     const el = document.getElementById('batchProductCount');
     if (el) el.textContent = data.products.length;
+}
+
+
+function moveProduct(index, direction) {
+    const target = index + direction;
+    if (target < 0 || target >= data.products.length) return;
+    [data.products[index], data.products[target]] = [data.products[target], data.products[index]];
+    data.updatedAt = Date.now();
+    saveAllData();
+    refreshProductList();
+    renderHome();
 }
 
 function resetProductForm() {
@@ -1595,11 +1693,19 @@ function refreshBannerList() {
         return;
     }
     container.innerHTML = banners.map((url, i) =>
-        '<span class="tag-item">🖼 ' + url.substring(0, 25) + (url.length > 25 ? '…' : '') +
-        ' <span class="del" onclick="removeBanner(' + i + ')">✕</span></span>'
+        '<div class="product-list-item" style="padding:8px 6px;">' +
+            '<span style="min-width:26px;color:#aaa;font-size:.7rem;text-align:center;">' + (i + 1) + '</span>' +
+            '<img src="' + url + '" style="width:58px;height:34px;border-radius:7px;object-fit:cover;border:1px solid #e0e2e6;flex-shrink:0;">' +
+            '<span class="name" style="font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + url + '</span>' +
+            '<div class="actions">' +
+                '<button title="向上移动" ' + (i === 0 ? 'disabled' : '') + ' style="background:#eef0f3;color:#555;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:700;opacity:' + (i === 0 ? '.35' : '1') + ';" onclick="moveBanner(' + i + ',-1)">↑</button>' +
+                '<button title="向下移动" ' + (i === banners.length - 1 ? 'disabled' : '') + ' style="background:#eef0f3;color:#555;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:700;opacity:' + (i === banners.length - 1 ? '.35' : '1') + ';" onclick="moveBanner(' + i + ',1)">↓</button>' +
+                '<button title="删除" style="background:#d9534f;color:#fff;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:700;" onclick="removeBanner(' + i + ')">✕</button>' +
+            '</div>' +
+        '</div>'
     ).join('');
-    preview.innerHTML = banners.map(url =>
-        '<img src="' + url + '" style="height:50px;border-radius:8px;object-fit:cover;border:1px solid #e0e2e6;">'
+    preview.innerHTML = banners.map((url, i) =>
+        '<div style="text-align:center;flex-shrink:0;"><img src="' + url + '" style="height:50px;width:114px;border-radius:8px;object-fit:cover;border:1px solid #e0e2e6;"><div style="font-size:.6rem;color:#999;margin-top:3px;">' + (i + 1) + '</div></div>'
     ).join('');
 }
 
@@ -1622,6 +1728,17 @@ function addBanner() {
 
 function removeBanner(index) {
     data.banners.splice(index, 1);
+    saveAllData();
+    refreshBannerList();
+    renderHome();
+}
+
+
+function moveBanner(index, direction) {
+    const target = index + direction;
+    if (target < 0 || target >= data.banners.length) return;
+    [data.banners[index], data.banners[target]] = [data.banners[target], data.banners[index]];
+    data.updatedAt = Date.now();
     saveAllData();
     refreshBannerList();
     renderHome();
