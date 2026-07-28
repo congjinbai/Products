@@ -110,6 +110,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#f5f3f0;padding:0;m
 /* ===== CHAT BUTTON ===== */
 .contact-chat{position:fixed;bottom:58px;right:24px;background:linear-gradient(135deg,#c9a87c,#b8945e);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;z-index:99;text-decoration:none;box-shadow:0 4px 30px rgba(201,168,124,0.25);transition:all 0.3s}
 .contact-chat:hover{transform:scale(1.05);box-shadow:0 6px 40px rgba(201,168,124,0.35)}
+.phone-outline-icon{width:25px;height:25px;display:block;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 
 /* ===== ADMIN BUTTON ===== */
 .admin-footer-btn{position:fixed;bottom:18px;right:31px;background:rgba(245,243,240,.72);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(44,44,44,.12);font-size:11px;cursor:pointer;z-index:98;border:1px solid rgba(180,160,140,.05);transition:all .3s;opacity:.55;backdrop-filter:blur(8px)}
@@ -233,13 +234,6 @@ img{
     cursor:zoom-in;
     user-select:none;
 }
-
-.detail-swipe-track{display:flex;width:300%;height:100%;transform:translate3d(-33.333333%,0,0);transition:transform .4s cubic-bezier(.22,.72,.18,1);will-change:transform}
-.detail-swipe-track.dragging{transition:none}
-.detail-swipe-slide{width:33.333333%;flex:0 0 33.333333%;display:flex;align-items:center;justify-content:center;padding:0}
-.detail-swipe-slide img{width:100%;max-height:72vh;object-fit:contain;border-radius:16px;user-select:none;-webkit-user-drag:none}
-.main-media-wrapper.swiping{overflow:hidden;touch-action:pan-y}
-
 .image-quality-note{
     padding:8px 12px;
     margin-top:8px;
@@ -397,8 +391,6 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
 .page-bottom-nav .bottom-back-btn{min-width:150px;justify-content:center;padding:11px 20px;font-size:.78rem}
 .contact-chat{bottom:72px;background:linear-gradient(145deg,#d8b98e,#a77c45);box-shadow:8px 10px 24px rgba(119,84,42,.3),-5px -5px 18px rgba(255,255,255,.85),inset 0 1px 0 rgba(255,255,255,.45)}
 .contact-chat:active{transform:scale(.92);box-shadow:inset 4px 4px 9px rgba(76,52,24,.22),inset -3px -3px 7px rgba(255,236,198,.28)}
-.contact-chat svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.contact-chat{font-size:0}
 .admin-footer-btn{bottom:28px;right:33px;opacity:.27;background:rgba(234,228,219,.62);color:rgba(56,49,42,.28);box-shadow:none}
 .admin-footer-btn:hover{opacity:.65}
 .scroll-top-btn{position:fixed;right:25px;bottom:132px;width:42px;height:42px;border:0;border-radius:50%;z-index:97;display:flex;align-items:center;justify-content:center;font-size:21px;color:#5c4934;background:linear-gradient(145deg,#fff,#e8dfd3);box-shadow:7px 8px 18px rgba(87,67,44,.18),-5px -5px 14px rgba(255,255,255,.9);opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:.3s cubic-bezier(.22,1,.36,1);cursor:pointer}
@@ -474,12 +466,16 @@ body{background:radial-gradient(circle at 50% -10%,#fff 0,#f5f0e9 42%,#ebe4da 10
     </div>
     <button class="lightbox-nav next" id="lightboxNextBtn" aria-label="Следующее изображение">›</button>
     <div class="lightbox-counter" id="lightboxCounter"></div>
-    <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь для увеличения · Перемещайте увеличенное изображение пальцем · Листайте влево и вправо</div>
+    <div class="lightbox-hint">Нажмите на пустое место, чтобы закрыть · Дважды коснитесь изображения для увеличения · Листайте влево и вправо</div>
 </div>
 
 
 <!-- 聊天按钮 -->
-<a id="chatBtn" class="contact-chat" href="tel:+79128915882" aria-label="Позвонить" title="Позвонить: +7 912 891-58-82"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg></a>
+<a id="chatBtn" class="contact-chat" href="tel:+79128915882" aria-label="Позвонить" title="Позвонить: +7 912 891-58-82">
+    <svg class="phone-outline-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.7 3.5h3.1l1.2 4.2-2.1 1.7a15.1 15.1 0 0 0 5.7 5.7l1.7-2.1 4.2 1.2v3.1c0 1-.8 1.8-1.8 1.8C10.9 19.1 4.9 13.1 4.9 5.3c0-1 .8-1.8 1.8-1.8Z"/>
+    </svg>
+</a>
 
 <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Наверх" title="Наверх">↑</button>
 
@@ -947,8 +943,8 @@ let lightboxPanX = 0;
 let lightboxPanY = 0;
 let lightboxStartPanX = 0;
 let lightboxStartPanY = 0;
-let lightboxPinchCenterX = 0;
-let lightboxPinchCenterY = 0;
+let lightboxStartMidX = 0;
+let lightboxStartMidY = 0;
 
 function getLightboxItem(offset) {
     if (!lightboxImages.length) return {src:'', alt:''};
@@ -962,21 +958,43 @@ function setLightboxTrack(x, animate = true) {
     track.style.transform = `translate3d(calc(-100vw + ${x}px),0,0)`;
 }
 
-function clampLightboxPan() {
+function getPanLimits() {
     const img = document.getElementById('lightboxImage');
-    if (!img || lightboxScale <= 1) { lightboxPanX = 0; lightboxPanY = 0; return; }
-    const maxX = Math.max(0, (img.clientWidth * lightboxScale - window.innerWidth) / 2 + 24);
-    const maxY = Math.max(0, (img.clientHeight * lightboxScale - window.innerHeight) / 2 + 24);
-    lightboxPanX = Math.max(-maxX, Math.min(maxX, lightboxPanX));
-    lightboxPanY = Math.max(-maxY, Math.min(maxY, lightboxPanY));
+    const rect = img.getBoundingClientRect();
+    const naturalRatio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+    const baseW = rect.width / Math.max(lightboxScale, 1);
+    const baseH = baseW / naturalRatio;
+    const scaledW = baseW * lightboxScale;
+    const scaledH = baseH * lightboxScale;
+    return {
+        x: Math.max(0, (scaledW - window.innerWidth) / 2 + 18),
+        y: Math.max(0, (scaledH - window.innerHeight) / 2 + 18)
+    };
+}
+
+function clampLightboxPan() {
+    if (lightboxScale <= 1) {
+        lightboxPanX = 0;
+        lightboxPanY = 0;
+        return;
+    }
+    const limits = getPanLimits();
+    lightboxPanX = Math.max(-limits.x, Math.min(limits.x, lightboxPanX));
+    lightboxPanY = Math.max(-limits.y, Math.min(limits.y, lightboxPanY));
 }
 
 function applyLightboxTransform(animate = false) {
     const img = document.getElementById('lightboxImage');
-    if (!img) return;
     clampLightboxPan();
-    img.style.transition = animate ? 'transform .22s cubic-bezier(.22,.72,.18,1)' : 'none';
+    img.style.transition = animate ? 'transform .22s ease' : 'none';
     img.style.transform = `translate3d(${lightboxPanX}px,${lightboxPanY}px,0) scale(${lightboxScale})`;
+}
+
+function resetLightboxTransform(animate = false) {
+    lightboxScale = 1;
+    lightboxPanX = 0;
+    lightboxPanY = 0;
+    applyLightboxTransform(animate);
 }
 
 function renderLightboxSlides() {
@@ -989,9 +1007,9 @@ function renderLightboxSlides() {
     const nextImg = document.getElementById('lightboxNextImage');
     const counter = document.getElementById('lightboxCounter');
 
-    lightboxScale = 1;
-    lightboxPanX = 0; lightboxPanY = 0;
-    [prevImg, img, nextImg].forEach(el => { el.style.transition='none'; el.style.transform = 'translate3d(0,0,0) scale(1)'; });
+    resetLightboxTransform(false);
+    prevImg.style.transform = 'scale(1)';
+    nextImg.style.transform = 'scale(1)';
     prevImg.src = prev.src; prevImg.alt = prev.alt || 'Предыдущее изображение';
     img.src = current.src; img.alt = current.alt || 'Просмотр изображения';
     nextImg.src = next.src; nextImg.alt = next.alt || 'Следующее изображение';
@@ -1020,10 +1038,11 @@ function closeImageLightbox() {
     box.classList.remove('open');
     box.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    resetLightboxTransform(false);
 }
 
 function animateLightbox(step) {
-    if (lightboxImages.length < 2 || lightboxAnimating) return;
+    if (lightboxImages.length < 2 || lightboxAnimating || lightboxScale > 1) return;
     lightboxAnimating = true;
     const direction = step > 0 ? -window.innerWidth : window.innerWidth;
     setLightboxTrack(direction, true);
@@ -1040,15 +1059,27 @@ function animateLightbox(step) {
 function changeLightboxImage(step) { animateLightbox(step); }
 
 function toggleLightboxZoom() {
-    lightboxScale = lightboxScale > 1 ? 1 : 2.2;
-    if (lightboxScale === 1) { lightboxPanX = 0; lightboxPanY = 0; }
-    applyLightboxTransform(true);
+    if (lightboxScale > 1) {
+        resetLightboxTransform(true);
+    } else {
+        lightboxScale = 2.2;
+        lightboxPanX = 0;
+        lightboxPanY = 0;
+        applyLightboxTransform(true);
+    }
 }
 
 function touchDistance(touches) {
     const dx = touches[0].clientX - touches[1].clientX;
     const dy = touches[0].clientY - touches[1].clientY;
     return Math.hypot(dx, dy);
+}
+
+function touchMidpoint(touches) {
+    return {
+        x:(touches[0].clientX + touches[1].clientX) / 2,
+        y:(touches[0].clientY + touches[1].clientY) / 2
+    };
 }
 
 document.getElementById('lightboxCloseBtn').addEventListener('click', closeImageLightbox);
@@ -1066,12 +1097,15 @@ document.getElementById('lightboxImage').addEventListener('dblclick', function(e
 document.getElementById('imageLightbox').addEventListener('touchstart', function(e) {
     if (lightboxAnimating) return;
     if (e.touches.length === 2) {
+        e.preventDefault();
+        const mid = touchMidpoint(e.touches);
         lightboxStartDistance = touchDistance(e.touches);
         lightboxStartScale = lightboxScale;
         lightboxStartPanX = lightboxPanX;
         lightboxStartPanY = lightboxPanY;
-        lightboxPinchCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        lightboxPinchCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        lightboxStartMidX = mid.x;
+        lightboxStartMidY = mid.y;
+        lightboxDragging = false;
         return;
     }
     lightboxTouchStartX = e.touches[0].clientX;
@@ -1080,24 +1114,23 @@ document.getElementById('imageLightbox').addEventListener('touchstart', function
     lightboxStartPanY = lightboxPanY;
     lightboxCurrentX = 0;
     lightboxDragging = true;
-}, {passive:true});
+}, {passive:false});
 
 document.getElementById('imageLightbox').addEventListener('touchmove', function(e) {
     if (e.touches.length === 2 && lightboxStartDistance) {
         e.preventDefault();
+        const mid = touchMidpoint(e.touches);
         const ratio = touchDistance(e.touches) / lightboxStartDistance;
-        const newScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
-        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        lightboxPanX = lightboxStartPanX + (centerX - lightboxPinchCenterX);
-        lightboxPanY = lightboxStartPanY + (centerY - lightboxPinchCenterY);
-        lightboxScale = newScale;
+        lightboxScale = Math.max(1, Math.min(4, lightboxStartScale * ratio));
+        lightboxPanX = lightboxStartPanX + (mid.x - lightboxStartMidX);
+        lightboxPanY = lightboxStartPanY + (mid.y - lightboxStartMidY);
         applyLightboxTransform(false);
         return;
     }
     if (!lightboxDragging || e.touches.length !== 1) return;
     const dx = e.touches[0].clientX - lightboxTouchStartX;
     const dy = e.touches[0].clientY - lightboxTouchStartY;
+
     if (lightboxScale > 1) {
         e.preventDefault();
         lightboxPanX = lightboxStartPanX + dx;
@@ -1105,6 +1138,7 @@ document.getElementById('imageLightbox').addEventListener('touchmove', function(
         applyLightboxTransform(false);
         return;
     }
+
     if (Math.abs(dx) > Math.abs(dy)) {
         e.preventDefault();
         lightboxCurrentX = dx;
@@ -1114,6 +1148,15 @@ document.getElementById('imageLightbox').addEventListener('touchmove', function(
 }, {passive:false});
 
 document.getElementById('imageLightbox').addEventListener('touchend', function(e) {
+    if (e.touches.length === 1 && lightboxStartDistance) {
+        lightboxStartDistance = 0;
+        lightboxTouchStartX = e.touches[0].clientX;
+        lightboxTouchStartY = e.touches[0].clientY;
+        lightboxStartPanX = lightboxPanX;
+        lightboxStartPanY = lightboxPanY;
+        lightboxDragging = true;
+        return;
+    }
     if (e.touches.length) return;
     lightboxStartDistance = 0;
     const touch = e.changedTouches[0];
@@ -1126,7 +1169,7 @@ document.getElementById('imageLightbox').addEventListener('touchend', function(e
         return;
     }
 
-    if (lightboxScale === 1 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.1 && lightboxImages.length > 1) {
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.1 && lightboxImages.length > 1) {
         animateLightbox(dx < 0 ? 1 : -1);
         return;
     }
@@ -1437,11 +1480,6 @@ function loadMedia(index) {
     }
 }
 
-function bindDetailMediaSwipe() {
-    // 商品页恢复为稳定的原始切换方式：缩略图和左右按钮切换。
-    // 连续滑动仅保留在全屏图片查看器中。
-}
-
 function showDetail(idx) {
     const p = data.products[idx];
     if (!p) return;
@@ -1486,7 +1524,6 @@ function showDetail(idx) {
     '</div>';
 
     loadMedia(0);
-    bindDetailMediaSwipe();
 
     const strip = document.querySelector('.media-thumb-strip');
     if (strip) {
@@ -1505,7 +1542,6 @@ function showDetail(idx) {
             t.addEventListener('click', () => {
                 currentMediaIndex = parseInt(t.dataset.idx);
                 loadMedia(currentMediaIndex);
-                bindDetailMediaSwipe();
                 document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
             });
             strip.appendChild(t);
@@ -1522,7 +1558,6 @@ function showDetail(idx) {
         if (currentMediaList.length > 1) {
             currentMediaIndex = (currentMediaIndex - 1 + currentMediaList.length) % currentMediaList.length;
             loadMedia(currentMediaIndex);
-            bindDetailMediaSwipe();
             document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
         }
     });
@@ -1530,7 +1565,6 @@ function showDetail(idx) {
         if (currentMediaList.length > 1) {
             currentMediaIndex = (currentMediaIndex + 1) % currentMediaList.length;
             loadMedia(currentMediaIndex);
-            bindDetailMediaSwipe();
             document.querySelectorAll('.media-thumb-item').forEach((tt, ti) => tt.classList.toggle('active', ti === currentMediaIndex));
         }
     });
